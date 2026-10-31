@@ -41,3 +41,29 @@ Ninguna a la fecha de este registro.
 El error tipo I simulado de C1 queda calibrado: 0,049 con alfa 0,05 e `I = 48`.
 El de cartera frente a Tabu prolongado sube a 0,082 con `I = 48`. Por tanto, una
 potencia simulada para esa comparación debe leerse como optimista.
+
+## Notas posteriores a la ejecución
+
+Estas notas se agregaron al terminar el estudio de congestión. Ninguna cambia
+hipótesis, semillas, familia de comparaciones ni regla de decisión.
+
+**N1 (2026-10-31). Variabilidad mayor que la supuesta.** La DE de C1 fue 13,214 en
+congestión, frente a 7,034 en el catálogo estándar. La potencia aproximada para
+detectar 0,65 cae a 0,32 con alfa 0,05. El estudio quedó más subdimensionado de lo
+planificado. No se agregaron semillas ni instancias, porque el protocolo prohíbe la
+parada opcional.
+
+**N2 (2026-10-31). Límites del piloto a igual tiempo.** La Tarea 4 usó límites
+derivados de la Tarea 1 para alcanzar unas 3.030 evaluaciones. El equipo corrió más
+rápido y alcanzó cerca de 4.500. La comparación sigue siendo a igual tiempo, pero
+el rendimiento del equipo varió entre sesiones. La causa no se investigó.
+
+**N3 (2026-10-31). Análisis fuera del protocolo.** `experiments/explore_congestion.py`
+calcula UCB1 frente a Tabu uniforme y la potencia realizada. Ese contraste no integra
+la familia C1–C4, no tiene corrección múltiple y se informa solo como exploratorio.
+Confirmarlo requiere semillas nuevas. El rango reservado empieza en 120.
+
+**N4 (2026-10-31). Verificación de la congestión.** El criterio de más de 50 % se
+fijó sobre instancias de desarrollo, donde la celda elegida alcanzó 55 %. En el
+catálogo final alcanza 51,8 %, con 995 de 1.920 soluciones de Tabu uniforme y D-MAB.
+El margen es estrecho: por tamaño va de 45,0 % a 57,5 %.
