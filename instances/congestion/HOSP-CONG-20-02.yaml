@@ -1,0 +1,837 @@
+schema_version: 1
+instance_id: HOSP-CONG-20-02
+family: congestion
+classification: fully synthetic instance
+provenance:
+  kind: public synthetic
+  source: resampled from HOSP-STD-20-02; no patient data
+generation:
+  method: patient resampling with resource scaling
+  version: congestion-v1
+  seed: 802002
+  profile:
+    duration_distributions: standard times times lognormal noise, sigma 0.1
+    dependence: patient rows resampled whole, preserving stage correlation
+    assignment: 3 qualified people drawn per operation
+    room_eligibility: all declared rooms
+    congestion_bands: rho_rooms 1.0, rho_surgeons 0.4, rho_wait 1.0
+    replica_policy: independent generation seed per instance
+dimensions:
+  jobs: 20
+  operations_per_job: 2
+resources:
+  rooms:
+  - OR-1
+  - OR-2
+  - OR-3
+  - OR-4
+  - OR-5
+  - OR-6
+  - OR-7
+  personnel:
+    '1':
+    - AN-1
+    - AN-2
+    - AN-3
+    - AN-4
+    - AN-5
+    - AN-6
+    '2':
+    - SU-1
+    - SU-2
+    - SU-3
+    - SU-4
+jobs:
+- id: 1
+  label: Congestion case 1
+  operations:
+  - id: 1
+    duration: 14.5
+    setup: 2.5
+    transition: 2.5
+    cleanup: 1.0
+    max_wait: 0.0
+    eligible_rooms:
+    - OR-1
+    - OR-2
+    - OR-3
+    - OR-4
+    - OR-5
+    - OR-6
+    - OR-7
+    eligible_personnel:
+    - AN-3
+    - AN-2
+    - AN-6
+  - id: 2
+    duration: 48.0
+    setup: 0.0
+    transition: 0.0
+    cleanup: 6.0
+    max_wait: 30.0
+    eligible_rooms:
+    - OR-1
+    - OR-2
+    - OR-3
+    - OR-4
+    - OR-5
+    - OR-6
+    - OR-7
+    eligible_personnel:
+    - SU-2
+    - SU-3
+    - SU-1
+- id: 2
+  label: Congestion case 2
+  operations:
+  - id: 1
+    duration: 11.0
+    setup: 2.0
+    transition: 2.5
+    cleanup: 0.5
+    max_wait: 0.0
+    eligible_rooms:
+    - OR-1
+    - OR-2
+    - OR-3
+    - OR-4
+    - OR-5
+    - OR-6
+    - OR-7
+    eligible_personnel:
+    - AN-4
+    - AN-6
+    - AN-5
+  - id: 2
+    duration: 32.5
+    setup: 0.0
+    transition: 0.0
+    cleanup: 4.5
+    max_wait: 25.5
+    eligible_rooms:
+    - OR-1
+    - OR-2
+    - OR-3
+    - OR-4
+    - OR-5
+    - OR-6
+    - OR-7
+    eligible_personnel:
+    - SU-4
+    - SU-3
+    - SU-1
+- id: 3
+  label: Congestion case 3
+  operations:
+  - id: 1
+    duration: 19.0
+    setup: 3.0
+    transition: 2.5
+    cleanup: 1.0
+    max_wait: 0.0
+    eligible_rooms:
+    - OR-1
+    - OR-2
+    - OR-3
+    - OR-4
+    - OR-5
+    - OR-6
+    - OR-7
+    eligible_personnel:
+    - AN-3
+    - AN-1
+    - AN-5
+  - id: 2
+    duration: 49.0
+    setup: 0.0
+    transition: 0.0
+    cleanup: 6.0
+    max_wait: 26.5
+    eligible_rooms:
+    - OR-1
+    - OR-2
+    - OR-3
+    - OR-4
+    - OR-5
+    - OR-6
+    - OR-7
+    eligible_personnel:
+    - SU-3
+    - SU-2
+    - SU-4
+- id: 4
+  label: Congestion case 4
+  operations:
+  - id: 1
+    duration: 8.0
+    setup: 1.0
+    transition: 3.5
+    cleanup: 0.5
+    max_wait: 0.0
+    eligible_rooms:
+    - OR-1
+    - OR-2
+    - OR-3
+    - OR-4
+    - OR-5
+    - OR-6
+    - OR-7
+    eligible_personnel:
+    - AN-3
+    - AN-4
+    - AN-1
+  - id: 2
+    duration: 29.5
+    setup: 0.0
+    transition: 0.0
+    cleanup: 3.0
+    max_wait: 19.5
+    eligible_rooms:
+    - OR-1
+    - OR-2
+    - OR-3
+    - OR-4
+    - OR-5
+    - OR-6
+    - OR-7
+    eligible_personnel:
+    - SU-2
+    - SU-4
+    - SU-1
+- id: 5
+  label: Congestion case 5
+  operations:
+  - id: 1
+    duration: 15.0
+    setup: 3.5
+    transition: 1.5
+    cleanup: 1.0
+    max_wait: 0.0
+    eligible_rooms:
+    - OR-1
+    - OR-2
+    - OR-3
+    - OR-4
+    - OR-5
+    - OR-6
+    - OR-7
+    eligible_personnel:
+    - AN-3
+    - AN-2
+    - AN-6
+  - id: 2
+    duration: 49.0
+    setup: 0.0
+    transition: 0.0
+    cleanup: 7.0
+    max_wait: 30.0
+    eligible_rooms:
+    - OR-1
+    - OR-2
+    - OR-3
+    - OR-4
+    - OR-5
+    - OR-6
+    - OR-7
+    eligible_personnel:
+    - SU-3
+    - SU-1
+    - SU-2
+- id: 6
+  label: Congestion case 6
+  operations:
+  - id: 1
+    duration: 8.0
+    setup: 1.5
+    transition: 3.0
+    cleanup: 0.5
+    max_wait: 0.0
+    eligible_rooms:
+    - OR-1
+    - OR-2
+    - OR-3
+    - OR-4
+    - OR-5
+    - OR-6
+    - OR-7
+    eligible_personnel:
+    - AN-3
+    - AN-6
+    - AN-5
+  - id: 2
+    duration: 27.0
+    setup: 0.0
+    transition: 0.0
+    cleanup: 2.5
+    max_wait: 20.0
+    eligible_rooms:
+    - OR-1
+    - OR-2
+    - OR-3
+    - OR-4
+    - OR-5
+    - OR-6
+    - OR-7
+    eligible_personnel:
+    - SU-1
+    - SU-3
+    - SU-2
+- id: 7
+  label: Congestion case 7
+  operations:
+  - id: 1
+    duration: 10.0
+    setup: 2.0
+    transition: 2.5
+    cleanup: 0.5
+    max_wait: 0.0
+    eligible_rooms:
+    - OR-1
+    - OR-2
+    - OR-3
+    - OR-4
+    - OR-5
+    - OR-6
+    - OR-7
+    eligible_personnel:
+    - AN-2
+    - AN-1
+    - AN-6
+  - id: 2
+    duration: 41.0
+    setup: 0.0
+    transition: 0.0
+    cleanup: 4.5
+    max_wait: 22.0
+    eligible_rooms:
+    - OR-1
+    - OR-2
+    - OR-3
+    - OR-4
+    - OR-5
+    - OR-6
+    - OR-7
+    eligible_personnel:
+    - SU-1
+    - SU-3
+    - SU-2
+- id: 8
+  label: Congestion case 8
+  operations:
+  - id: 1
+    duration: 22.0
+    setup: 3.5
+    transition: 2.0
+    cleanup: 1.0
+    max_wait: 0.0
+    eligible_rooms:
+    - OR-1
+    - OR-2
+    - OR-3
+    - OR-4
+    - OR-5
+    - OR-6
+    - OR-7
+    eligible_personnel:
+    - AN-6
+    - AN-3
+    - AN-2
+  - id: 2
+    duration: 66.5
+    setup: 0.0
+    transition: 0.0
+    cleanup: 7.5
+    max_wait: 31.5
+    eligible_rooms:
+    - OR-1
+    - OR-2
+    - OR-3
+    - OR-4
+    - OR-5
+    - OR-6
+    - OR-7
+    eligible_personnel:
+    - SU-1
+    - SU-4
+    - SU-3
+- id: 9
+  label: Congestion case 9
+  operations:
+  - id: 1
+    duration: 9.5
+    setup: 1.5
+    transition: 2.5
+    cleanup: 0.5
+    max_wait: 0.0
+    eligible_rooms:
+    - OR-1
+    - OR-2
+    - OR-3
+    - OR-4
+    - OR-5
+    - OR-6
+    - OR-7
+    eligible_personnel:
+    - AN-1
+    - AN-2
+    - AN-3
+  - id: 2
+    duration: 28.5
+    setup: 0.0
+    transition: 0.0
+    cleanup: 3.5
+    max_wait: 16.5
+    eligible_rooms:
+    - OR-1
+    - OR-2
+    - OR-3
+    - OR-4
+    - OR-5
+    - OR-6
+    - OR-7
+    eligible_personnel:
+    - SU-2
+    - SU-4
+    - SU-3
+- id: 10
+  label: Congestion case 10
+  operations:
+  - id: 1
+    duration: 16.0
+    setup: 4.0
+    transition: 1.5
+    cleanup: 1.0
+    max_wait: 0.0
+    eligible_rooms:
+    - OR-1
+    - OR-2
+    - OR-3
+    - OR-4
+    - OR-5
+    - OR-6
+    - OR-7
+    eligible_personnel:
+    - AN-5
+    - AN-1
+    - AN-2
+  - id: 2
+    duration: 57.5
+    setup: 0.0
+    transition: 0.0
+    cleanup: 7.0
+    max_wait: 26.5
+    eligible_rooms:
+    - OR-1
+    - OR-2
+    - OR-3
+    - OR-4
+    - OR-5
+    - OR-6
+    - OR-7
+    eligible_personnel:
+    - SU-2
+    - SU-1
+    - SU-3
+- id: 11
+  label: Congestion case 11
+  operations:
+  - id: 1
+    duration: 10.5
+    setup: 1.5
+    transition: 3.0
+    cleanup: 0.5
+    max_wait: 0.0
+    eligible_rooms:
+    - OR-1
+    - OR-2
+    - OR-3
+    - OR-4
+    - OR-5
+    - OR-6
+    - OR-7
+    eligible_personnel:
+    - AN-2
+    - AN-6
+    - AN-3
+  - id: 2
+    duration: 34.0
+    setup: 0.0
+    transition: 0.0
+    cleanup: 4.5
+    max_wait: 20.0
+    eligible_rooms:
+    - OR-1
+    - OR-2
+    - OR-3
+    - OR-4
+    - OR-5
+    - OR-6
+    - OR-7
+    eligible_personnel:
+    - SU-4
+    - SU-1
+    - SU-2
+- id: 12
+  label: Congestion case 12
+  operations:
+  - id: 1
+    duration: 18.5
+    setup: 3.5
+    transition: 1.5
+    cleanup: 1.0
+    max_wait: 0.0
+    eligible_rooms:
+    - OR-1
+    - OR-2
+    - OR-3
+    - OR-4
+    - OR-5
+    - OR-6
+    - OR-7
+    eligible_personnel:
+    - AN-4
+    - AN-1
+    - AN-2
+  - id: 2
+    duration: 59.5
+    setup: 0.0
+    transition: 0.0
+    cleanup: 6.5
+    max_wait: 33.0
+    eligible_rooms:
+    - OR-1
+    - OR-2
+    - OR-3
+    - OR-4
+    - OR-5
+    - OR-6
+    - OR-7
+    eligible_personnel:
+    - SU-4
+    - SU-2
+    - SU-1
+- id: 13
+  label: Congestion case 13
+  operations:
+  - id: 1
+    duration: 16.0
+    setup: 3.0
+    transition: 2.0
+    cleanup: 1.0
+    max_wait: 0.0
+    eligible_rooms:
+    - OR-1
+    - OR-2
+    - OR-3
+    - OR-4
+    - OR-5
+    - OR-6
+    - OR-7
+    eligible_personnel:
+    - AN-1
+    - AN-5
+    - AN-2
+  - id: 2
+    duration: 53.5
+    setup: 0.0
+    transition: 0.0
+    cleanup: 6.5
+    max_wait: 30.0
+    eligible_rooms:
+    - OR-1
+    - OR-2
+    - OR-3
+    - OR-4
+    - OR-5
+    - OR-6
+    - OR-7
+    eligible_personnel:
+    - SU-2
+    - SU-1
+    - SU-3
+- id: 14
+  label: Congestion case 14
+  operations:
+  - id: 1
+    duration: 7.5
+    setup: 1.0
+    transition: 3.0
+    cleanup: 0.5
+    max_wait: 0.0
+    eligible_rooms:
+    - OR-1
+    - OR-2
+    - OR-3
+    - OR-4
+    - OR-5
+    - OR-6
+    - OR-7
+    eligible_personnel:
+    - AN-5
+    - AN-3
+    - AN-2
+  - id: 2
+    duration: 24.0
+    setup: 0.0
+    transition: 0.0
+    cleanup: 3.0
+    max_wait: 19.5
+    eligible_rooms:
+    - OR-1
+    - OR-2
+    - OR-3
+    - OR-4
+    - OR-5
+    - OR-6
+    - OR-7
+    eligible_personnel:
+    - SU-1
+    - SU-3
+    - SU-4
+- id: 15
+  label: Congestion case 15
+  operations:
+  - id: 1
+    duration: 9.0
+    setup: 2.0
+    transition: 2.5
+    cleanup: 0.5
+    max_wait: 0.0
+    eligible_rooms:
+    - OR-1
+    - OR-2
+    - OR-3
+    - OR-4
+    - OR-5
+    - OR-6
+    - OR-7
+    eligible_personnel:
+    - AN-5
+    - AN-2
+    - AN-6
+  - id: 2
+    duration: 39.5
+    setup: 0.0
+    transition: 0.0
+    cleanup: 4.0
+    max_wait: 20.0
+    eligible_rooms:
+    - OR-1
+    - OR-2
+    - OR-3
+    - OR-4
+    - OR-5
+    - OR-6
+    - OR-7
+    eligible_personnel:
+    - SU-3
+    - SU-4
+    - SU-1
+- id: 16
+  label: Congestion case 16
+  operations:
+  - id: 1
+    duration: 18.0
+    setup: 3.5
+    transition: 2.5
+    cleanup: 1.0
+    max_wait: 0.0
+    eligible_rooms:
+    - OR-1
+    - OR-2
+    - OR-3
+    - OR-4
+    - OR-5
+    - OR-6
+    - OR-7
+    eligible_personnel:
+    - AN-4
+    - AN-3
+    - AN-6
+  - id: 2
+    duration: 50.0
+    setup: 0.0
+    transition: 0.0
+    cleanup: 6.5
+    max_wait: 32.5
+    eligible_rooms:
+    - OR-1
+    - OR-2
+    - OR-3
+    - OR-4
+    - OR-5
+    - OR-6
+    - OR-7
+    eligible_personnel:
+    - SU-1
+    - SU-3
+    - SU-4
+- id: 17
+  label: Congestion case 17
+  operations:
+  - id: 1
+    duration: 8.5
+    setup: 1.0
+    transition: 3.0
+    cleanup: 0.5
+    max_wait: 0.0
+    eligible_rooms:
+    - OR-1
+    - OR-2
+    - OR-3
+    - OR-4
+    - OR-5
+    - OR-6
+    - OR-7
+    eligible_personnel:
+    - AN-5
+    - AN-2
+    - AN-4
+  - id: 2
+    duration: 35.5
+    setup: 0.0
+    transition: 0.0
+    cleanup: 4.0
+    max_wait: 19.5
+    eligible_rooms:
+    - OR-1
+    - OR-2
+    - OR-3
+    - OR-4
+    - OR-5
+    - OR-6
+    - OR-7
+    eligible_personnel:
+    - SU-4
+    - SU-3
+    - SU-1
+- id: 18
+  label: Congestion case 18
+  operations:
+  - id: 1
+    duration: 14.5
+    setup: 2.5
+    transition: 1.5
+    cleanup: 1.0
+    max_wait: 0.0
+    eligible_rooms:
+    - OR-1
+    - OR-2
+    - OR-3
+    - OR-4
+    - OR-5
+    - OR-6
+    - OR-7
+    eligible_personnel:
+    - AN-6
+    - AN-5
+    - AN-3
+  - id: 2
+    duration: 53.5
+    setup: 0.0
+    transition: 0.0
+    cleanup: 6.0
+    max_wait: 24.0
+    eligible_rooms:
+    - OR-1
+    - OR-2
+    - OR-3
+    - OR-4
+    - OR-5
+    - OR-6
+    - OR-7
+    eligible_personnel:
+    - SU-1
+    - SU-3
+    - SU-2
+- id: 19
+  label: Congestion case 19
+  operations:
+  - id: 1
+    duration: 10.5
+    setup: 1.5
+    transition: 3.0
+    cleanup: 0.5
+    max_wait: 0.0
+    eligible_rooms:
+    - OR-1
+    - OR-2
+    - OR-3
+    - OR-4
+    - OR-5
+    - OR-6
+    - OR-7
+    eligible_personnel:
+    - AN-5
+    - AN-1
+    - AN-3
+  - id: 2
+    duration: 33.0
+    setup: 0.0
+    transition: 0.0
+    cleanup: 3.5
+    max_wait: 20.5
+    eligible_rooms:
+    - OR-1
+    - OR-2
+    - OR-3
+    - OR-4
+    - OR-5
+    - OR-6
+    - OR-7
+    eligible_personnel:
+    - SU-4
+    - SU-2
+    - SU-1
+- id: 20
+  label: Congestion case 20
+  operations:
+  - id: 1
+    duration: 9.0
+    setup: 1.5
+    transition: 2.5
+    cleanup: 0.5
+    max_wait: 0.0
+    eligible_rooms:
+    - OR-1
+    - OR-2
+    - OR-3
+    - OR-4
+    - OR-5
+    - OR-6
+    - OR-7
+    eligible_personnel:
+    - AN-4
+    - AN-2
+    - AN-5
+  - id: 2
+    duration: 35.5
+    setup: 0.0
+    transition: 0.0
+    cleanup: 4.0
+    max_wait: 23.5
+    eligible_rooms:
+    - OR-1
+    - OR-2
+    - OR-3
+    - OR-4
+    - OR-5
+    - OR-6
+    - OR-7
+    eligible_personnel:
+    - SU-2
+    - SU-4
+    - SU-1
+bounds:
+  status: pending
+  method_version: none
+validation:
+  method: schema and constructive feasibility check
+  version: congestion-v1
+  outcome: passed
+  evidence:
+    rule_objectives:
+      fifo: 346.854456
+      spt: 385.6033285
+      lpt: 337.5067045
+digest: 14657362033cbc355ec207bbdac7d45de3a11adc916e58e0772cf3c35935a337
