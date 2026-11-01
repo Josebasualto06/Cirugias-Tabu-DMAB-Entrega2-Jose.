@@ -1,3 +1,5 @@
+> **Protocolo histórico sustituido.** La versión vigente es [entrega2_v2](../entrega2_v2/README.md), centrada en TS-U frente a TS-DMAB completo. Esta versión se conserva como especificación anterior; su campaña no se ejecutó.
+
 # Protocolo experimental de la segunda entrega
 
 Versión 1.0.0, 1 de noviembre de 2026. El diseño se fija antes de ejecutar su

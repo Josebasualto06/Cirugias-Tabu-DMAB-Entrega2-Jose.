@@ -1,6 +1,7 @@
 {
   "fecha": "2026-11-01",
   "documento": "Entrega_2_Tabu_DMAB.pdf",
+  "protocolo": "OII464-E2-v2",
   "paginas_totales": 10,
   "paginas_fisicas_configuracion_experimental": [
     6,
@@ -10,26 +11,32 @@
   "extension_seccion_paginas": 3,
   "formato_carta": true,
   "estilo_e_imagen_institucional_sin_cambios": true,
-  "secciones_preservadas": {
-    "resumen": {
-      "identico": true,
-      "sha256": "805d03bed70c2959a7aedd61fa4f3dbe2cf98bc14332d5fd851c5d0817c05695"
-    },
-    "introduccion": {
-      "identico": true,
-      "sha256": "e7f34c5150899b7796a0f48a87c26c3e6d1ba11a3b29825e99aa8f0f074baf3b"
-    },
-    "conclusion": {
-      "identico": true,
-      "sha256": "49371817a4007f5a198ebf69f32b164908b6079cad25354d8309cc6c17cd6f32"
-    }
-  },
+  "secciones_actualizadas": [
+    "resumen",
+    "introduccion",
+    "propuesta_metodologica",
+    "configuracion_experimental",
+    "conclusion"
+  ],
+  "palabras_resumen": 177,
+  "palabras_conclusion": 163,
+  "conclusion_dos_parrafos_menos_media_pagina": true,
+  "siglas_en_tabla": [
+    "TS-U",
+    "TS-DMAB"
+  ],
+  "evaluaciones_por_metodo": 6060,
   "instancias_validadas_por_sha256": 12,
-  "registros_configuracion_planificados": 2160,
-  "trayectorias_planificadas": 2880,
-  "evaluaciones_candidatos_planificadas": 9817200,
-  "registros_temporales_planificados": 1080,
+  "repeticiones_por_metodo_instancia": 30,
+  "registros_configuracion_planificados": 720,
+  "trayectorias_planificadas": 720,
+  "evaluaciones_candidatos_planificadas": 4363200,
+  "registros_temporales_planificados": 720,
   "efecto_minimo_relevante_porcentaje": 1,
+  "page_hinkley_integrado": true,
+  "cartera_en_propuesta_vigente": false,
+  "contrastes_globales_principales": 1,
+  "contrastes_exploratorios_por_instancia": 12,
   "estado_campanas": "pendientes_de_ejecucion",
   "revision_visual_paginas": [
     1,
@@ -44,8 +51,11 @@
     10
   ],
   "sin_referencias_sin_resolver": true,
+  "sin_desbordes_de_compilacion": true,
   "enlaces_documentacion_verificados": true,
-  "pdf_sha256": "3b677055e20e1d0f0b07286592879a3f881ee290bbe9e4b36c0f639cd323f173",
-  "configuracion_experimental_sha256": "cb455ee634c353905d24e77c2d7cd2a697c89819bf27ba5af1c1c62400b38cc9",
-  "protocolo_sha256": "ccfb73ea3c21df78c7d5763465f85b2af5c1f8b42f2d3bf9a3612c29b99c561a"
+  "primera_entrega_y_resultados_historicos_sin_cambios": true,
+  "pdf_sha256": "cb4c292dc9bb80d76baa1d45d1d8dd15f2c066960648a2684679a83fce0e3dc2",
+  "configuracion_experimental_sha256": "3dc5ae30ec9d75ce70f61c6b17314f54ed38f243e41f22abf7808d170cdcd204",
+  "protocolo_sha256": "ca6809ffa340858b4478c5ee2ec52ad1411cf277a18ca21d18570ef274d33500",
+  "fuente_principal_sha256": "cef3013d23c2a5beae00894a8af7a4baed64e7d3e9b73860c38fe11b3f1243bc"
 }

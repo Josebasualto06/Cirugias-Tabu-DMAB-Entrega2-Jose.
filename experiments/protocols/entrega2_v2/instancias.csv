@@ -1,0 +1,13 @@
+instance_id,relative_path,jobs,rooms,anesthetists,surgeons,max_wait_min_minutes,max_wait_max_minutes,sha256
+HOSP-STD-15-01,instances/standard/HOSP-STD-15-01.yaml,15,6,5,8,27.0,45.0,0b1f86c37ab84014fec2a620f9e1fea4cdf4c8597d6571d0d1c1433a77ed9246
+HOSP-STD-15-02,instances/standard/HOSP-STD-15-02.yaml,15,6,5,7,18.0,32.0,af7b41cb940c7ae74ade378605edf3b0d89609c40dc5050a255b9ebf5c74c7fd
+HOSP-STD-15-03,instances/standard/HOSP-STD-15-03.yaml,15,6,6,10,38.0,55.0,b2d3752f4bd0a2a8e7eb64a97e646512f8fa37a5c82bd55b9ba2e2c2e640c043
+HOSP-STD-20-01,instances/standard/HOSP-STD-20-01.yaml,20,7,6,10,30.0,45.0,0e018019aa398a9586ce90222144258e8f70492d3258d3e1f60c2b10e6a8848c
+HOSP-STD-20-02,instances/standard/HOSP-STD-20-02.yaml,20,7,6,9,19.0,33.0,9c4414788f6b00cdee1c9479725ba9c16d3604a5d7f8ea6264471a02d17c70d8
+HOSP-STD-20-03,instances/standard/HOSP-STD-20-03.yaml,20,7,7,12,42.0,61.0,b3a09f865a56eb07617354d3eb1c57445cc3425fbab75bddf21febf8c4a80299
+HOSP-STD-25-01,instances/standard/HOSP-STD-25-01.yaml,25,8,7,13,32.0,47.0,4d33f4371a8f81ff8e7148594f33911a8b5754166126b83f267e6a2655e1fa3a
+HOSP-STD-25-02,instances/standard/HOSP-STD-25-02.yaml,25,8,7,12,21.0,35.0,188f7edc64d8888d6bed5c1c02ec2c4bb33948860b9a12da564ca96e0bff113e
+HOSP-STD-25-03,instances/standard/HOSP-STD-25-03.yaml,25,8,8,15,46.0,65.0,5490a152e3f6e91e86ba1fa44dfba89f982f638e7f33efdf15195bc5e7fd95da
+HOSP-STD-30-01,instances/standard/HOSP-STD-30-01.yaml,30,9,8,16,34.0,49.0,87128fda810e3a752fc1c427a0a573023f2db323d412876112cbdadf4080c2e3
+HOSP-STD-30-02,instances/standard/HOSP-STD-30-02.yaml,30,9,8,15,23.0,37.0,2993503f8ef4bcf345acc7e941d8c1972b72883c723120b8a98d80d217070102
+HOSP-STD-30-03,instances/standard/HOSP-STD-30-03.yaml,30,9,9,18,50.0,69.0,e9e4db92d8da3f691367c8d9c5ff01f77945cc81ea995306ea69b69aefe2ea3f
