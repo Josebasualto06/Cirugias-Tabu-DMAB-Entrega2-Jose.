@@ -1,0 +1,3 @@
+# Conservar los bytes de los CSV de medición y sus huellas entre plataformas.
+# csv.DictWriter usa terminadores CRLF, válidos en este formato.
+outputs/hardware_smoke/**/*.csv -text whitespace=cr-at-eol

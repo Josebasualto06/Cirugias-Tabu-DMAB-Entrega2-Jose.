@@ -102,6 +102,11 @@ completa del protocolo. La implementación está en
 
 ## Versiones y estudios anteriores
 
+La [prueba de rendimiento Mac/Colab](outputs/hardware_smoke/README.md)
+conserva dos bloques completos de 120 corridas, la comparación verificada,
+el notebook ejecutado y una estimación de duración de las campañas.
+Se mantiene separada de la evaluación de calidad del informe.
+
 La [primera entrega](informe/README.md), con su
 [fuente](informe/main.tex) y [PDF](informe/Entrega_1_Tabu_DMAB.pdf), se conserva
 como documento histórico independiente. El diseño de seis configuraciones de

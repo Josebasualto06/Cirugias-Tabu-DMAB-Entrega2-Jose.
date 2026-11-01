@@ -1,0 +1,235 @@
+{
+  "comparison": "OII464-local-colab-cpu-smoke-v1",
+  "created_utc": "2026-11-01T23:35:35.619491+00:00",
+  "state": "completed_analysis",
+  "scope": "One completed sequential CPU smoke run per environment, not a causal comparison of operating systems, processors or Colab account plans.",
+  "colab_context": "CPU estándar en cuenta Pro, según registro de la ejecución.",
+  "observed": {
+    "local": {
+      "runs": 120,
+      "search_wall_seconds": 364.01104283,
+      "search_cpu_seconds": 360.640982,
+      "loop_wall_seconds": 364.020111208,
+      "setup_seconds": 0.181084834,
+      "warmup_seconds": 0.16201,
+      "setup_warmup_loop_seconds": 364.363206042,
+      "method_wall_seconds": {
+        "TS-U": 178.110842246,
+        "TS-DMAB": 185.900200584
+      },
+      "hardware": {
+        "system": "Darwin",
+        "release": "27.0.0",
+        "machine": "arm64",
+        "processor": "Apple M5",
+        "logical_cpus": 10,
+        "ram_bytes": 25769803776
+      },
+      "versions": {
+        "python": "3.12.14",
+        "numpy": "2.3.5",
+        "PyYAML": "6.0.3",
+        "scipy": "1.18.1",
+        "matplotlib": "3.11.2"
+      }
+    },
+    "colab": {
+      "runs": 120,
+      "search_wall_seconds": 1499.659962201,
+      "search_cpu_seconds": 1472.212950289,
+      "loop_wall_seconds": 1499.684717325,
+      "setup_seconds": 0.716485354,
+      "warmup_seconds": 0.595052392,
+      "setup_warmup_loop_seconds": 1500.9962550710002,
+      "method_wall_seconds": {
+        "TS-U": 733.281215223,
+        "TS-DMAB": 766.378746978
+      },
+      "hardware": {
+        "system": "Linux",
+        "release": "6.6.159+",
+        "machine": "x86_64",
+        "processor": "Intel(R) Xeon(R) CPU @ 2.20GHz",
+        "logical_cpus": 2,
+        "ram_bytes": 13605818368
+      },
+      "versions": {
+        "python": "3.13.18",
+        "numpy": "2.3.5",
+        "PyYAML": "6.0.3",
+        "scipy": "1.16.3",
+        "matplotlib": "3.10.0"
+      }
+    }
+  },
+  "colab_over_local_wall_ratio": 4.119819966289785,
+  "colab_wall_percent_difference": 311.9819966289785,
+  "paired_quality": {
+    "pairs": 120,
+    "tolerance": 1e-09,
+    "matching_pairs": 120,
+    "mismatching_pairs": 0,
+    "maximum_absolute_differences": {
+      "initial_objective": 0.0,
+      "objective": 0.0,
+      "makespan": 0.0,
+      "total_wait": 0.0,
+      "max_wait": 0.0
+    },
+    "exact_quality_digest_match": true
+  },
+  "comparability": {
+    "same_code_hashes": true,
+    "same_instance_hashes": true,
+    "same_config": true,
+    "same_seeds": true,
+    "same_numpy_and_pyyaml": true,
+    "package_version_differences": {
+      "matplotlib": {
+        "local": "3.11.2",
+        "colab": "3.10.0"
+      },
+      "python": {
+        "local": "3.12.14",
+        "colab": "3.13.18"
+      },
+      "scipy": {
+        "local": "1.18.1",
+        "colab": "1.16.3"
+      }
+    },
+    "calendar_validation": "Final strict validation performed by run_tabu in each recorded run; calendars were not independently revalidated by this comparison command."
+  },
+  "groups": [
+    {
+      "method": "TS-U",
+      "jobs": 15,
+      "runs_per_environment": 15,
+      "local_wall_seconds": 20.804465126,
+      "colab_wall_seconds": 94.947521337,
+      "local_mean_seconds": 1.3869643417333333,
+      "colab_mean_seconds": 6.3298347558,
+      "local_median_seconds": 1.379374625,
+      "colab_median_seconds": 6.208488974,
+      "colab_over_local_ratio": 4.563804969844722
+    },
+    {
+      "method": "TS-U",
+      "jobs": 20,
+      "runs_per_environment": 15,
+      "local_wall_seconds": 33.249038123,
+      "colab_wall_seconds": 141.93875571,
+      "local_mean_seconds": 2.2166025415333332,
+      "colab_mean_seconds": 9.462583714,
+      "local_median_seconds": 2.209402708,
+      "colab_median_seconds": 9.658406041,
+      "colab_over_local_ratio": 4.2689582533160255
+    },
+    {
+      "method": "TS-U",
+      "jobs": 25,
+      "runs_per_environment": 15,
+      "local_wall_seconds": 50.263247291,
+      "colab_wall_seconds": 210.02899434,
+      "local_mean_seconds": 3.350883152733333,
+      "colab_mean_seconds": 14.001932956,
+      "local_median_seconds": 3.352740458,
+      "colab_median_seconds": 13.885463352,
+      "colab_over_local_ratio": 4.178579890074218
+    },
+    {
+      "method": "TS-U",
+      "jobs": 30,
+      "runs_per_environment": 15,
+      "local_wall_seconds": 73.794091706,
+      "colab_wall_seconds": 286.365943836,
+      "local_mean_seconds": 4.919606113733333,
+      "colab_mean_seconds": 19.0910629224,
+      "local_median_seconds": 4.89207975,
+      "colab_median_seconds": 18.961930586,
+      "colab_over_local_ratio": 3.8806080163829204
+    },
+    {
+      "method": "TS-DMAB",
+      "jobs": 15,
+      "runs_per_environment": 15,
+      "local_wall_seconds": 22.09295629,
+      "colab_wall_seconds": 100.598375893,
+      "local_mean_seconds": 1.4728637526666666,
+      "colab_mean_seconds": 6.7065583928666666,
+      "local_median_seconds": 1.472059166,
+      "colab_median_seconds": 6.456886041,
+      "colab_over_local_ratio": 4.553413973780147
+    },
+    {
+      "method": "TS-DMAB",
+      "jobs": 20,
+      "runs_per_environment": 15,
+      "local_wall_seconds": 34.438871876,
+      "colab_wall_seconds": 149.745449423,
+      "local_mean_seconds": 2.2959247917333334,
+      "colab_mean_seconds": 9.983029961533333,
+      "local_median_seconds": 2.270931125,
+      "colab_median_seconds": 10.298845757,
+      "colab_over_local_ratio": 4.3481519941236995
+    },
+    {
+      "method": "TS-DMAB",
+      "jobs": 25,
+      "runs_per_environment": 15,
+      "local_wall_seconds": 52.725054667,
+      "colab_wall_seconds": 220.631151486,
+      "local_mean_seconds": 3.515003644466667,
+      "colab_mean_seconds": 14.7087434324,
+      "local_median_seconds": 3.485444667,
+      "colab_median_seconds": 14.530159413,
+      "colab_over_local_ratio": 4.184559937954706
+    },
+    {
+      "method": "TS-DMAB",
+      "jobs": 30,
+      "runs_per_environment": 15,
+      "local_wall_seconds": 76.643317751,
+      "colab_wall_seconds": 295.40377017599997,
+      "local_mean_seconds": 5.109554516733334,
+      "colab_mean_seconds": 19.6935846784,
+      "local_median_seconds": 5.114305541,
+      "colab_median_seconds": 19.434988882,
+      "colab_over_local_ratio": 3.8542664754638145
+    }
+  ],
+  "estimates_not_observed": {
+    "local": {
+      "main_720_search_seconds": 2184.06625698,
+      "secondary_720_nominal_search_seconds": 7200,
+      "main_plus_secondary_nominal_search_seconds": 9384.06625698,
+      "assumption": "Six times the 120-run smoke search total, same instance mix and approximately stable throughput; add 720*10 seconds for the separate timed campaign. Excludes installation, analysis, storage, atomic deadline overrun and validation overhead of the timed runner."
+    },
+    "colab": {
+      "main_720_search_seconds": 8997.959773206001,
+      "secondary_720_nominal_search_seconds": 7200,
+      "main_plus_secondary_nominal_search_seconds": 16197.959773206001,
+      "assumption": "Six times the 120-run smoke search total, same instance mix and approximately stable throughput; add 720*10 seconds for the separate timed campaign. Excludes installation, analysis, storage, atomic deadline overrun and validation overhead of the timed runner."
+    }
+  },
+  "sources": {
+    "local": {
+      "directory": "outputs/hardware_smoke/local_20261101_complete",
+      "files_sha256": {
+        "manifest.json": "b453711ee8afe5491f31cb4fcaf7777c067596f529d9c9080ae8fe8b015d4195",
+        "summary.json": "9e946b8ea18f4089353eb58bbf0b651e146591a38284d99f9d94afe432896bab",
+        "runs.csv": "9061f6aeecb6e6e5b3da449d1b77e560c3849d82f7c9b54f01bd7a010ac3ee1f",
+        "solutions.json": "63b83ba55f04005b5413609cdf16b64ed77ae6dc8b686b13863d242b14403702"
+      }
+    },
+    "colab": {
+      "directory": "outputs/hardware_smoke/colab_20261101_complete",
+      "files_sha256": {
+        "manifest.json": "1bdfa45c1de9511106fd23d8b3b96d1f92ef027587ef2943245731f2f750bc0b",
+        "summary.json": "e09ca59a8dcaaef5024b39990a7a92dc990eb4ccfaca506fb52a62e2de3c6d67",
+        "runs.csv": "8512946559c1cdf608291dce159b4b1d929fdcd6268b6e5b37525eb723a0e388",
+        "solutions.json": "63b83ba55f04005b5413609cdf16b64ed77ae6dc8b686b13863d242b14403702"
+      }
+    }
+  }
+}
