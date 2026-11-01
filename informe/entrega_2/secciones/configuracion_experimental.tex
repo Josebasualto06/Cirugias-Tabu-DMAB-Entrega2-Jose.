@@ -1,0 +1,172 @@
+\section{Configuración experimental}
+\label{sec:experimental}
+El protocolo evaluará el aporte de D-MAB y de la cartera con controles de
+igual presupuesto, siguiendo la comparación de algoritmos estocásticos
+revisada en clases \parencite{vega_comparacion}. Se fijan los siguientes
+criterios antes de ejecutar la campaña.
+
+\subsection{Instancias y alcance}
+Se utilizarán las 12 instancias sintéticas del repositorio oficial:
+\texttt{HOSP-STD-N-01}, \texttt{-02} y \texttt{-03} para cada tamaño
+de la Tabla~\ref{tab:instancias}. Se validarán esquema, elegibilidad, unidades
+en minutos y huellas SHA-256. Se conservarán las restricciones y la función
+objetivo de la propuesta, incluida la limpieza.
+
+\begin{table}[ht]
+ \centering
+ \caption{Catálogo inicial y recursos disponibles.}
+ \label{tab:instancias}
+ \begin{tabular}{@{}rrrrrr@{}}
+  \toprule
+  Cirugías & Casos & Salas & Anestesistas & Cirujanos & Espera límite (min)\\
+  \midrule
+  15 & 3 & 6 & 5--6 & 7--10 & 18--55\\
+  20 & 3 & 7 & 6--7 & 9--12 & 19--61\\
+  25 & 3 & 8 & 7--8 & 12--15 & 21--65\\
+  30 & 3 & 9 & 8--9 & 15--18 & 23--69\\
+  \bottomrule
+ \end{tabular}
+\end{table}
+Los intervalos reflejan variación entre casos y, para el límite de espera,
+también entre pacientes. Este catálogo ya es conocido por el proyecto:
+las nuevas semillas medirán variabilidad de búsqueda dentro de él.
+La ampliación a 50, 100 y 150 cirugías se registrará como una fase separada,
+con reglas de generación y admisión fijadas antes de comparar métodos;
+esas instancias se reservarán de la calibración.
+
+\subsection{Métodos y controles}
+Se mantendrán dos bloques (Tabla~\ref{tab:metodos}). En A se aislarán la
+selección aprendida y el detector; en B se evaluará la cartera frente
+a prolongar Tabu o repetirlo. FIFO, SPT y LPT se calcularán una vez por
+instancia como referencias deterministas, además de integrar la inicialización.
+
+\begin{table}[ht]
+ \centering
+ \caption{Configuraciones de la campaña principal.}
+ \label{tab:metodos}
+ \begin{tabular}{@{}lp{0.65\textwidth}r@{}}
+  \toprule
+  Bloque & Método e identificador & Evaluaciones\\
+  \midrule
+  A & U: Tabu con selección uniforme & 3.030\\
+  A & M: Tabu con D-MAB & 3.030\\
+  A & Q: Tabu con UCB1 sin Page--Hinkley & 3.030\\
+  B & T: Tabu uniforme prolongado & 6.060\\
+  B & R: dos Tabu uniformes independientes & $3.030+3.030$\\
+  B & H: cartera Tabu uniforme + Tabu con D-MAB & $3.030+3.030$\\
+  \bottomrule
+ \end{tabular}
+\end{table}
+La comparación estadística se efectuará dentro de cada bloque. La conservación
+del camino uniforme de H no implica superioridad frente a T o R.
+
+\clearpage
+\subsection{Repeticiones, parámetros y parada}
+Cada configuración tendrá 30 repeticiones por instancia, con semillas
+80--109: se obtendrán 2.160 registros método--instancia--semilla.
+U, M, Q y T compartirán las treinta soluciones iniciales de cada semilla;
+H conservará el mismo inicio para sus dos caminos. R usará las semillas
+$s$ y $s+1.000.000$, donde $s$ es la semilla principal.
+El pareamiento se justificará por este diseño y por la instancia compartida;
+los sorteos posteriores pueden divergir.
+
+Se fijan 30 soluciones iniciales, 15 candidatos por lote y memoria de siete
+soluciones. En M y Q se usará exploración $C=0{,}1$; M tendrá
+margen $\delta=0{,}01$ y umbral $\lambda=1$ en Page--Hinkley.
+No se ajustarán estos valores con las semillas de evaluación.
+Cualquier calibración posterior utilizará datos de desarrollo y una versión
+distinta del protocolo.
+
+El presupuesto contará las valoraciones de candidatos, incluidas las
+treinta iniciales de cada camino. Los duplicados sin reevaluación no gastarán
+otra valoración; sus intentos y la reparación se registrarán.
+La revalidación final se contabilizará aparte. Toda solución devuelta
+deberá cumplir las restricciones estrictas; los fallos se conservarán en el
+registro y nunca se sustituirán silenciosamente por otra semilla.
+
+Como análisis secundario, B se comparará con 10 segundos de búsqueda:
+T dispondrá de 10 s, y R y H de dos cuotas secuenciales de 5 s,
+con inicialización incluida y sin transferir sobrantes.
+Un plazo global de 10 s limitará ambas cuotas: el sobrepaso del primer
+camino se descontará del segundo. El reloj monotónico se comprobará antes
+de generar cada candidato; se registrarán el sobrepaso atómico final y las
+inicializaciones incompletas. Este criterio reemplazará al de evaluaciones.
+Se medirán por separado búsqueda y ejecución total, incluida la validación.
+
+\subsection{Métricas y relevancia práctica}
+La métrica primaria será $f(S)$ de \eqref{eq:objetivo}; makespan, espera
+total y máxima, factibilidad, tiempo, número de evaluaciones y convergencia
+se reportarán por separado. Se describirán mediana e intervalo intercuartílico,
+junto con frecuencias de movimientos, reparación y reinicios del controlador.
+Las curvas usarán puntos comunes del presupuesto: 10, 50 y 100\,\%.
+
+Para comparar escalas se calculará
+\begin{equation}
+ g_i=100\frac{m_{c,i}-m_{a,i}}{m_{c,i}},
+ \label{eq:ganancia}
+\end{equation}
+\noindent donde $i$ es una instancia; $m_{c,i}$ y $m_{a,i}$ son las medianas
+de las treinta corridas del control y la alternativa, respectivamente,
+y $g_i$ es su mejora relativa porcentual; $g_i>0$ favorece a la alternativa.
+El efecto mínimo relevante se fija en \textbf{1\,\% del objetivo ponderado},
+sin equipararlo a un porcentaje de minutos. La tolerancia numérica
+$10^{-9}$ se aplicará a diferencias para identificar empates, conservando
+los objetivos crudos. El umbral práctico y la significación se interpretarán
+por separado, junto con sus intervalos de confianza.
+
+\clearpage
+\subsection{Hipótesis e inferencia estadística}
+En la campaña por evaluaciones se fijan cuatro contrastes globales bilaterales:
+M frente a U, H frente a T,
+M frente a Q y H frente a R. El nivel será $\alpha=0{,}05$,
+con corrección de Holm conjunta para las cuatro comparaciones.
+La hipótesis nula de Wilcoxon será simetría de las diferencias
+alrededor de cero, frente a la alternativa bilateral.
+Se usará una mediana por instancia y método: \textbf{doce bloques globales},
+sin tratar las 360 corridas de un método como instancias independientes.
+
+Para inferencia se dividirá la diferencia entre ambas medianas por su máximo;
+esta normalización conserva la magnitud al intercambiar métodos.
+Wilcoxon usará las doce diferencias normalizadas, con permutaciones de signos
+y tratamiento explícito de ceros y empates
+\parencite{scipy_wilcoxon,scipy_permutation}.
+Se fijará la prueba de signos como sensibilidad ante asimetría;
+se reportarán ambas sin elegir la que dé menor valor $p$.
+Por instancia se aplicará la misma normalización a las treinta parejas;
+sus cuatro contrastes por doce instancias constituirán una familia exploratoria
+de 48 pruebas, corregida con Holm.
+La secundaria temporal usará las mismas semillas; H frente a T y H frente a R
+formarán una familia exploratoria separada con Holm.
+
+Como análisis contextual se aplicará Friedman a los tres métodos de cada bloque.
+Por el tamaño de la muestra se usarán 100.000 permutaciones de etiquetas
+dentro de cada instancia \parencite{scipy_friedman,scipy_permutation}.
+Se corregirán con Holm los dos contrastes ómnibus.
+Solo ante rechazo se interpretarán las tres comparaciones post hoc del bloque,
+con Holm; estas no sustituirán los cuatro contrastes globales prefijados.
+
+Se estimará la mediana de las mejoras relativas y su IC95\,\% con 5.000
+remuestreos: instancias y, dentro de ellas, semillas emparejadas, conservando
+juntos los métodos. Se añadirá $A_{12}$ por instancia como medida descriptiva
+de superioridad marginal: más de 0,5 favorecerá a la alternativa al minimizar.
+Las semillas estadísticas serán independientes y se fijarán en el protocolo.
+No rechazar una hipótesis no demostrará equivalencia; treinta repeticiones
+tampoco garantizan potencia suficiente para detectar una mejora del 1\,\%.
+
+\subsection{Entorno, registros y reproducibilidad}
+La referencia será macOS/arm64, Python 3.12.14, NumPy 2.3.5 y SciPy 1.18.1.
+Se registrarán CPU, memoria y versiones efectivas, ejecutando secuencialmente
+en la misma máquina y sin otras tareas de cálculo concurrentes.
+Cada corrida guardará instancia, método, semilla, parámetros, evaluaciones,
+tiempos, calidad, factibilidad y calendario final, además de trazas y eventos
+del controlador.
+
+El manifiesto incluirá huellas de datos y de todos los archivos ejecutados,
+junto con la revisión del código. Se verificarán cobertura, duplicados y
+calendarios antes del análisis. Los casos fallidos se describirán aparte,
+con su tasa de fallos; una instancia sin resúmenes comparables no entrará
+silenciosamente en una prueba.
+Los contrastes exigirán treinta corridas válidas por método e instancia;
+si falta alguna, se declarará incompleta la comparación correspondiente.
+Se conservarán los datos sintéticos y las versiones del protocolo;
+cualquier enmienda se declarará antes de su campaña.

@@ -1,0 +1,431 @@
+{
+  "protocol_id": "OII464-E2-v1",
+  "version": "1.0.0",
+  "date": "2026-11-01",
+  "state": "specified_not_executed",
+  "purpose": "Configuración experimental de Tabu Search con selección adaptativa D-MAB; ampliación del informe de Entrega 1.",
+  "base_revision": "35a8344",
+  "objective": {
+    "name": "f",
+    "minimize": true,
+    "weights": {
+      "makespan": 1,
+      "total_reservation_starts": 1e-06,
+      "total_wait": 0.5,
+      "max_wait": 1.4
+    },
+    "numerical_difference_tolerance": 1e-09,
+    "minimum_relevant_improvement_percent": 1,
+    "improvement_percent": "100*(median_control-median_alternative)/median_control",
+    "inference_difference": "(median_control-median_alternative)/max(median_control,median_alternative)",
+    "higher_improvement_favors": "alternative",
+    "known_optimum": false
+  },
+  "data": {
+    "source_repository": "https://github.com/Saicooh/OII464_Hospitales",
+    "source_revision": "ecd30e3dbc1962d856c09b3470d1870c3b139a9a",
+    "inventory": "instancias.csv",
+    "count": 12,
+    "jobs": [
+      15,
+      20,
+      25,
+      30
+    ],
+    "replicas_per_size": 3,
+    "units": "minutes",
+    "classification": "fully_synthetic",
+    "scope": "conditional_on_known_catalog",
+    "future_extension": {
+      "jobs": [
+        50,
+        100,
+        150
+      ],
+      "status": "not_generated_not_part_of_this_campaign",
+      "rule": "Separate versioned specification of generation, sample size and admission before comparing algorithms; exclude from calibration."
+    }
+  },
+  "replication": {
+    "runs_per_instance_method": 30,
+    "seeds": [
+      80,
+      81,
+      82,
+      83,
+      84,
+      85,
+      86,
+      87,
+      88,
+      89,
+      90,
+      91,
+      92,
+      93,
+      94,
+      95,
+      96,
+      97,
+      98,
+      99,
+      100,
+      101,
+      102,
+      103,
+      104,
+      105,
+      106,
+      107,
+      108,
+      109
+    ],
+    "second_uniform_restart_seed_offset": 1000000,
+    "initialization_shared_in_block_A": true,
+    "initialization_shared_with_first_uniform_path_in_block_B": true,
+    "perfect_common_random_numbers": false
+  },
+  "methods": [
+    {
+      "id": "U",
+      "block": "A",
+      "policy": "uniform",
+      "budget": 3030,
+      "paths": 1
+    },
+    {
+      "id": "M",
+      "block": "A",
+      "policy": "dmab",
+      "budget": 3030,
+      "paths": 1
+    },
+    {
+      "id": "Q",
+      "block": "A",
+      "policy": "ucb",
+      "budget": 3030,
+      "paths": 1,
+      "dynamic_resets": false
+    },
+    {
+      "id": "T",
+      "block": "B",
+      "policy": "uniform",
+      "budget": 6060,
+      "paths": 1
+    },
+    {
+      "id": "R",
+      "block": "B",
+      "policy": "two_uniform",
+      "budget": 6060,
+      "paths": 2,
+      "path_budgets": [
+        3030,
+        3030
+      ],
+      "path_seeds": [
+        "s",
+        "s+1000000"
+      ]
+    },
+    {
+      "id": "H",
+      "block": "B",
+      "policy": "fixed_portfolio",
+      "budget": 6060,
+      "paths": 2,
+      "path_budgets": [
+        3030,
+        3030
+      ],
+      "path_policies": [
+        "uniform",
+        "dmab"
+      ],
+      "path_seeds": [
+        "s",
+        "s"
+      ],
+      "selection": "minimum_objective_then_makespan_tie_uniform"
+    }
+  ],
+  "common_parameters": {
+    "population_size": 30,
+    "candidates_per_batch": 15,
+    "tabu_tenure": 7,
+    "tabu_memory": "solution",
+    "common_random_numbers": true,
+    "exploration": 0.1,
+    "ph_delta": 0.01,
+    "ph_lambda": 1,
+    "priority_waiting_job_probability": 0.65
+  },
+  "primary_campaign": {
+    "criterion": "candidate_objective_evaluations",
+    "expected_configuration_records": 2160,
+    "expected_trajectory_runs": 2880,
+    "expected_candidate_evaluations": 9817200,
+    "initialization_counts": true,
+    "duplicates_not_reevaluated_not_charged": true,
+    "repair_and_scheduling_costs_recorded_separately": true,
+    "final_validation_not_charged_to_search_budget": true,
+    "initial_population_exception": "Thirty initial evaluations are charged even if coincident after repair, consistently across policies.",
+    "stop": "exact_per_method_budget"
+  },
+  "secondary_time_campaign": {
+    "status": "specified_requires_time_stop_implementation_before_execution",
+    "methods": [
+      "T",
+      "R",
+      "H"
+    ],
+    "runs_per_instance_method": 30,
+    "seeds": [
+      80,
+      81,
+      82,
+      83,
+      84,
+      85,
+      86,
+      87,
+      88,
+      89,
+      90,
+      91,
+      92,
+      93,
+      94,
+      95,
+      96,
+      97,
+      98,
+      99,
+      100,
+      101,
+      102,
+      103,
+      104,
+      105,
+      106,
+      107,
+      108,
+      109
+    ],
+    "expected_configuration_records": 1080,
+    "total_search_seconds": 10,
+    "nominal_two_path_seconds": [
+      5,
+      5
+    ],
+    "execution": "sequential",
+    "clock": "monotonic_perf_counter",
+    "includes_initialization": true,
+    "check_deadline_before_each_new_evaluation": true,
+    "global_deadline": "t0+10",
+    "path1_deadline": "t0+5",
+    "path2_deadline": "min(actual_path2_start+5,t0+10)",
+    "transfer_unused_time": false,
+    "deduct_path1_overrun_from_path2": true,
+    "log_atomic_final_overrun": true,
+    "log_incomplete_initialization": true,
+    "replace_evaluation_budget": true,
+    "report_search_and_end_to_end_seconds_separately": true,
+    "contrasts": [
+      [
+        "H",
+        "T"
+      ],
+      [
+        "H",
+        "R"
+      ]
+    ],
+    "multiple_testing": {
+      "method": "Holm",
+      "family_size": 2,
+      "role": "secondary_exploratory"
+    },
+    "atomic_overrun_policy": "Allow the last candidate unit (generation, repair and objective evaluation) started before its deadline to finish and retain its result; log the overrun and do not start another unit. This authorized overrun alone is not a quota failure.",
+    "quota_failure": "Starting a new candidate unit after the applicable deadline, unauthorized time transfer or disregarding the global deadline; exclude the permitted final atomic overrun.",
+    "check_deadline_before_candidate_generation": true,
+    "atomic_unit": "generation_repair_and_objective_evaluation_of_one_candidate"
+  },
+  "statistical_analysis": {
+    "alpha": 0.05,
+    "alternative": "two-sided",
+    "primary_metric": "objective",
+    "global_unit": "instance",
+    "global_summary_per_method": "median_of_30_valid_runs",
+    "global_instance_count": 12,
+    "contrasts": [
+      {
+        "id": "learning",
+        "alternative": "M",
+        "control": "U"
+      },
+      {
+        "id": "portfolio",
+        "alternative": "H",
+        "control": "T"
+      },
+      {
+        "id": "detector",
+        "alternative": "M",
+        "control": "Q"
+      },
+      {
+        "id": "restarts",
+        "alternative": "H",
+        "control": "R"
+      }
+    ],
+    "main_family": {
+      "method": "Wilcoxon_signed_rank",
+      "difference": "symmetric_normalized_difference",
+      "null": "distribution_of_normalized_paired_differences_symmetric_about_zero",
+      "multiple_testing": "Holm",
+      "family_size": 4,
+      "zero_method": "pratt",
+      "global_permutation": "Enumerate all sign flips for nonzero paired instance differences (at most 4096); do not rely on exact-no-ties lookup.",
+      "local_permutations": 99999,
+      "seed": 55000,
+      "rounding": "Set objective differences of magnitude <=1e-9 to zero before normalization; preserve all raw objectives.",
+      "all_zero_differences": "Return statistic 0 and p=1; preserve the comparison in its declared Holm family."
+    },
+    "sensitivity": {
+      "method": "two-sided_binomial_sign_test_on_nonzero_differences",
+      "role": "predefined_sensitivity_not_a_replacement_selected_by_p_value",
+      "no_nonzero_differences": "Return p=1; there is no directional evidence."
+    },
+    "by_instance": {
+      "unit": "matched_repetition",
+      "n": 30,
+      "contrasts": 4,
+      "instances": 12,
+      "family_size": 48,
+      "multiple_testing": "Holm",
+      "role": "exploratory"
+    },
+    "omnibus": {
+      "method": "Friedman_statistic_with_tie_correction",
+      "blocks": [
+        [
+          "U",
+          "M",
+          "Q"
+        ],
+        [
+          "T",
+          "R",
+          "H"
+        ]
+      ],
+      "permutations": 100000,
+      "exchangeability": "method_labels_within_instance",
+      "seed": 55001,
+      "p_value": "(exceedances+1)/(100000+1)",
+      "multiple_testing": "Holm",
+      "family_size": 2,
+      "role": "contextual_exploratory",
+      "posthoc": {
+        "enabled_only_if_adjusted_omnibus_p_below_alpha": true,
+        "pairs_per_block": 3,
+        "method": "paired_Wilcoxon_symmetric_normalized_difference",
+        "multiple_testing": "Holm",
+        "role": "exploratory_not_second_confirmation_of_main_contrast"
+      },
+      "all_methods_tied_in_every_instance": "Return statistic 0 and p=1 rather than divide by a zero tie-correction factor; retain in the two-test Holm family and do not perform post hoc inference."
+    },
+    "intervals": {
+      "confidence_level": 0.95,
+      "method": "hierarchical_percentile_bootstrap",
+      "resamples": 5000,
+      "seed": 55002,
+      "global_statistic": "median_of_instance_improvement_percent",
+      "global_resampling": "instances_then_matched_seeds_within_instance_all_methods_kept_together",
+      "within_instance": "matched_repetition_indices",
+      "marginal_A12": "optional_descriptive_probability_alternative_less_control_plus_half_ties; paired bootstrap preserves sample dependence"
+    },
+    "practical_interpretation": {
+      "threshold_percent": 1,
+      "rule": "Report sign, point estimate, confidence interval and adjusted p separately. Point estimate >=1% meets the declared practical threshold; lower CI >=1% gives stronger support. Do not convert subthreshold effects to zeros or claim equivalence from nonrejection."
+    },
+    "seed_derivation": "numpy.random.SeedSequence([role_seed, contrast_index, instance_index]); canonical sorted instance IDs and fixed contrast order"
+  },
+  "failure_policy": {
+    "no_silent_seed_substitution": true,
+    "no_silent_exclusion": true,
+    "require_complete_30_by_12_matrix_for_each_compared_method": true,
+    "omnibus_requires_complete_block": true,
+    "if_incomplete": "Mark corresponding contrast not evaluable as specified; report failure rates and missing cells, do not silently reduce N or impute objective. Any correction/re-execution requires a documented amendment and preserves original records.",
+    "infeasible_solution_never_accepted": true,
+    "matrix_scope": "For each contrast, both compared methods require all 30 valid runs in all 12 instances; Friedman requires all three methods in its block."
+  },
+  "records": {
+    "fields": [
+      "campaign",
+      "instance_id",
+      "instance_sha256",
+      "method",
+      "seed",
+      "secondary_seed",
+      "budget_kind",
+      "budget_limit",
+      "initial_objective",
+      "objective",
+      "makespan",
+      "wait_total",
+      "wait_max",
+      "feasible",
+      "status",
+      "evaluations",
+      "attempts",
+      "repaired_candidates",
+      "operator_counts",
+      "dmab_restarts",
+      "search_seconds",
+      "total_seconds",
+      "deadline_overrun_seconds",
+      "initialization_complete",
+      "code_revision",
+      "code_hashes",
+      "environment_id"
+    ],
+    "save_final_calendar": true,
+    "trace_checkpoints_percent": [
+      10,
+      50,
+      100
+    ],
+    "ph_events": [
+      "step",
+      "move",
+      "reward",
+      "reset"
+    ],
+    "snapshot_recursive_source_hashes": true,
+    "save_dependency_versions": true,
+    "save_cpu_and_memory": true,
+    "execution_order": "Balanced rotation of the three methods within each block, indexed by repetition (ten appearances in each position across thirty repetitions)."
+  },
+  "environment_reference": {
+    "os": "macOS",
+    "architecture": "arm64",
+    "python": "3.12.14",
+    "numpy": "2.3.5",
+    "scipy": "1.18.1",
+    "PyYAML": "6.0.3",
+    "matplotlib": "3.11.2",
+    "parallel_searches": 1,
+    "hardware": "record_actual_model_cpu_memory_before_campaign",
+    "timing": "no_concurrent_compute_workloads"
+  },
+  "scope": {
+    "results_not_yet_generated": true,
+    "slides": false,
+    "existing_optimizer_unchanged": true
+  }
+}

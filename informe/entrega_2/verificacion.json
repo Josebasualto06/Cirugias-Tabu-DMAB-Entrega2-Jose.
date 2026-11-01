@@ -1,0 +1,51 @@
+{
+  "fecha": "2026-11-01",
+  "documento": "Entrega_2_Tabu_DMAB.pdf",
+  "paginas_totales": 10,
+  "paginas_fisicas_configuracion_experimental": [
+    6,
+    7,
+    8
+  ],
+  "extension_seccion_paginas": 3,
+  "formato_carta": true,
+  "estilo_e_imagen_institucional_sin_cambios": true,
+  "secciones_preservadas": {
+    "resumen": {
+      "identico": true,
+      "sha256": "805d03bed70c2959a7aedd61fa4f3dbe2cf98bc14332d5fd851c5d0817c05695"
+    },
+    "introduccion": {
+      "identico": true,
+      "sha256": "e7f34c5150899b7796a0f48a87c26c3e6d1ba11a3b29825e99aa8f0f074baf3b"
+    },
+    "conclusion": {
+      "identico": true,
+      "sha256": "49371817a4007f5a198ebf69f32b164908b6079cad25354d8309cc6c17cd6f32"
+    }
+  },
+  "instancias_validadas_por_sha256": 12,
+  "registros_configuracion_planificados": 2160,
+  "trayectorias_planificadas": 2880,
+  "evaluaciones_candidatos_planificadas": 9817200,
+  "registros_temporales_planificados": 1080,
+  "efecto_minimo_relevante_porcentaje": 1,
+  "estado_campanas": "pendientes_de_ejecucion",
+  "revision_visual_paginas": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+  ],
+  "sin_referencias_sin_resolver": true,
+  "enlaces_documentacion_verificados": true,
+  "pdf_sha256": "3b677055e20e1d0f0b07286592879a3f881ee290bbe9e4b36c0f639cd323f173",
+  "configuracion_experimental_sha256": "cb455ee634c353905d24e77c2d7cd2a697c89819bf27ba5af1c1c62400b38cc9",
+  "protocolo_sha256": "ccfb73ea3c21df78c7d5763465f85b2af5c1f8b42f2d3bf9a3612c29b99c561a"
+}

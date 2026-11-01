@@ -72,6 +72,18 @@ adaptativa de movimientos mediante D-MAB mejora Tabu Search frente a elegir
 los mismos movimientos uniformemente?** La evaluación distingue el aporte
 del aprendizaje del efecto de repetir la búsqueda o consumir más cómputo.
 
+## Segunda entrega: configuración experimental
+
+La ampliación incorpora el diseño de las pruebas y el análisis estadístico:
+
+- [Informe de segunda entrega](informe/entrega_2/Entrega_2_Tabu_DMAB.pdf).
+- [Sección experimental en LaTeX](informe/entrega_2/secciones/configuracion_experimental.tex).
+- [Protocolo versionado e inventario](experiments/protocols/entrega2_v1/README.md).
+
+El diseño fija treinta repeticiones, presupuestos comparables y un efecto
+mínimo relevante del 1% del objetivo. Las campañas de este protocolo están
+pendientes de ejecución.
+
 ## Evidencia preliminar y controles
 
 El [estudio de carteras](experiments/results/portfolios_60_79/ANALYSIS.md)
