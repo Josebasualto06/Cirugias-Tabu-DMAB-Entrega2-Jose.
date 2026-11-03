@@ -1,0 +1,170 @@
+% Sección (iv) Experimental Setup. Se inserta en main.tex antes de la Conclusión:
+%   \clearpage
+%   \input{experimental_setup}
+% Usa solo paquetes ya cargados por main.tex y pucv_inf_2024.sty.
+% Referencia eq:objetivo, definida en la Propuesta metodológica.
+\section{Configuración experimental}
+\label{sec:experimental}
+
+Este diseño responde a la pregunta del proyecto: ¿en qué condiciones D-MAB
+mejora Tabu Search frente a la selección uniforme? Por ello, las comparaciones
+comparten representación, planificador, objetivo y presupuesto. La hipótesis
+primaria plantea que, bajo congestión, Tabu con D-MAB obtiene menor $f$ medio que
+Tabu uniforme. El equipo fijó hipótesis, semillas y pruebas en un protocolo previo
+a los experimentos nuevos. Esta sección actualiza el plan de evaluación de la sección
+anterior y prevalece ante cualquier diferencia. Además, describe el diseño y no informa
+conclusiones.
+
+\subsection{Conjuntos de datos}
+\label{subsec:datos}
+El estudio usa dos catálogos sintéticos, sin datos clínicos, y los analiza por
+separado. El catálogo estándar proviene del repositorio oficial
+\parencite{saicooh2026}. Contiene 12 instancias: tres réplicas de 15, 20, 25 y 30
+cirugías. Sin embargo, este catálogo casi no tensiona la espera entre etapas. Solo
+16 de 240 soluciones finales del estudio de carteras presentan espera positiva.
+Por tanto, no permite evaluar la condición de bloqueo que plantea la pregunta.
+
+Para cubrir ese vacío, el equipo generó un catálogo de congestión de 48 instancias,
+doce por tamaño. El generador remuestrea pacientes de una instancia estándar y
+aplica ruido lognormal con $\sigma=0{,}10$. Luego redondea los tiempos a 0,5 minutos
+y redibuja la elegibilidad de personal. Cada instancia tiene semilla propia.
+
+Una calibración evaluó 18 combinaciones de salas, cirujanos y espera máxima, sobre
+cuatro instancias de desarrollo excluidas del catálogo. La regla pre-registrada eligió
+reducir los cirujanos al 40~\% y mantener salas y espera máxima. Esta elección
+sigue el mecanismo del modelo: con la misma sala en ambas etapas, la espera depende
+del cirujano. De hecho, sin reducir cirujanos, ninguna combinación superó 10~\% de
+soluciones con espera. En el catálogo final, 51,8~\% de las soluciones de Tabu uniforme
+y D-MAB presenta espera positiva. Este dato verifica la presión sobre la restricción.
+
+Ambos catálogos superan la validación de esquema, tiempos, recursos, elegibilidad y
+digest canónico. Además, FIFO, SPT y LPT encuentran solución factible en las 48
+instancias nuevas. Los manifiestos guardan el SHA-256 de cada archivo. Cada
+experimento usa un rango exclusivo de semillas. Las semillas nuevas sobre el
+catálogo estándar miden variación de la búsqueda; no miden generalización a
+instancias no vistas.
+
+\subsection{Líneas base y controles}
+\label{subsec:controles}
+La Tabla~\ref{tab:lineas-base} vincula cada control con la explicación alternativa
+que descarta. Así, una diferencia observada puede atribuirse al aprendizaje y no a
+otro componente del diseño.
+
+\begin{table}[ht]
+ \centering
+ \caption{Controles y explicación alternativa que descarta cada uno.}
+ \label{tab:lineas-base}
+ \begin{tabular}{@{}p{0.33\textwidth}p{0.61\textwidth}@{}}
+  \toprule
+  Control (evaluaciones) & Explicación alternativa\\
+  \midrule
+  FIFO, SPT y LPT & Una regla constructiva basta. Integran el inicio de Tabu; superarlas no prueba el aporte de D-MAB.\\
+  Tabu uniforme (3.030) & La mejora proviene de Tabu y no de aprender.\\
+  Tabu prolongado (6.060) & La cartera mejora solo por consumir más evaluaciones.\\
+  Dos Tabu independientes (6.060) & La cartera mejora por repetir la búsqueda.\\
+  Tabu + UCB1 sin Page--Hinkley (3.030) & El efecto proviene de UCB1 y no del reinicio.\\
+  \bottomrule
+ \end{tabular}
+\end{table}
+
+\subsection{Métricas}
+\label{subsec:metricas}
+La métrica primaria es $f(S)$ de la ecuación~\eqref{eq:objetivo}, fijada antes de
+evaluar. Las métricas secundarias son $C_{\max}$, espera total, espera máxima,
+factibilidad, tiempo de pared y convergencia. La convergencia se mide con la
+evaluación de la última mejora global. Estas métricas son descriptivas. Una baja de
+$f$ no implica una baja de cada componente; por eso, se informan por separado.
+
+\subsection{Implementación}
+\label{subsec:implementacion}
+El código usa Python~3.13.2, NumPy~2.2.3, SciPy~1.15.2 y PyYAML~6.0.3. Los
+experimentos nuevos corren en un AMD Ryzen~7 8845HS, con 8 núcleos, 16 hilos y
+13,8~GiB de RAM, sobre Windows~11. La Tabla~\ref{tab:parametros} fija los parámetros.
+El tiempo se mide en un solo proceso. Una cartera tarda, en mediana, 4,12~s con 15
+cirugías (rango 3,83--4,80) y 13,09~s con 30 (rango 12,65--13,53). Sin embargo, el
+rendimiento varió entre sesiones: con 15 cirugías pasó de 1.470 a cerca de 2.240
+evaluaciones por segundo. Por eso, el control principal de cómputo son las evaluaciones.
+
+\begin{table}[ht]
+ \centering
+ \caption{Parámetros congelados de la búsqueda y del presupuesto.}
+ \label{tab:parametros}
+ \begin{tabular}{@{}p{0.16\textwidth}p{0.78\textwidth}@{}}
+  \toprule
+  Componente & Configuración\\
+  \midrule
+  Tabu & 30 soluciones iniciales (FIFO, SPT, LPT y 27 aleatorias); lotes de 15 candidatos; memoria de 7 firmas de solución; aspiración por mejora global.\\
+  D-MAB & Brazos \texttt{swap}, \texttt{insert}, \texttt{room\_1}, \texttt{room\_2} y \texttt{room\_pair}; $C=0{,}1$; $\delta=0{,}01$; $\lambda=1$.\\
+  Cartera & Dos caminos de 3.030 evaluaciones; reparto 50/50 fijo; conserva el menor $f$.\\
+  Parada & Agotar el presupuesto de evaluaciones del camino.\\
+  Conteo & Cuentan las 30 iniciales y cada candidato distinto del lote, aun infactible. No cuentan duplicados, reparación ni revalidación final.\\
+  \bottomrule
+ \end{tabular}
+\end{table}
+
+El archivo de 30 soluciones del código no altera la trayectoria: retirarlo dejó
+idénticas 120 corridas de diagnóstico. Por tanto, esas soluciones solo aportan el
+punto de partida. Para reproducir el estudio, cada carpeta guarda un manifiesto con
+parámetros, semillas, entorno y hashes de código e instancias. Además, un verificador
+recalcula cada calendario final con el planificador estricto.
+
+\subsection{Corridas y análisis estadístico}
+\label{subsec:estadistica}
+El diseño es emparejado: cada método recibe la misma instancia y semilla. El estudio
+de congestión usa 48 instancias y 20 semillas, es decir, 960 pares por método. Cada
+par ejecuta cuatro trayectorias y reutiliza el prefijo de Tabu uniforme. Por tanto,
+las alternativas de un mismo par no son independientes.
+
+La familia confirmatoria tiene cuatro comparaciones. C1 compara D-MAB con Tabu
+uniforme y constituye la hipótesis primaria. C2 compara la cartera con Tabu
+prolongado, y C3 la compara con dos Tabu. C4 compara D-MAB con UCB1. C1 y C4 usan
+3.030 evaluaciones; C2 y C3 usan 6.060. Cada diferencia se calcula como alternativa
+menos referencia. Por tanto, un valor negativo favorece a la alternativa.
+
+Las semillas de una instancia comparten datos. Por eso, la prueba de Wilcoxon
+bilateral opera sobre medias por instancia y no sobre pares. Holm corrige las cuatro
+comparaciones. Un bootstrap jerárquico de instancias y semillas, con 5.000 réplicas,
+entrega intervalos de 95~\%. El umbral práctico es 0,25 unidades de $f$. Todos los
+tiempos son múltiplos de 0,5 minutos, y un paso de espera total mueve $f$ en 0,25.
+La hipótesis primaria exige $p$ de Holm menor que 0,05, intervalo bajo cero y media
+de a lo sumo $-0{,}25$.
+
+\begin{table}[ht]
+ \centering
+ \caption{Tamaños para potencia 0,80 y $\alpha=0{,}05$, según diferencias de 240 pares. DE: desviación estándar de la diferencia.}
+ \label{tab:potencia}
+ \begin{tabular}{@{}lrrrrr@{}}
+  \toprule
+  & & \multicolumn{2}{c}{Pares necesarios} & \multicolumn{2}{c}{Instancias (20 semillas)}\\
+  Comparación & DE & Efecto 0,25 & Efecto 0,65 & Efecto 0,25 & Efecto 0,65\\
+  \midrule
+  D-MAB $-$ Tabu uniforme & 7,034 & 6.217 & 922 & 317 & 49\\
+  Cartera $-$ Tabu prolongado & 4,292 & 2.315 & 345 & 221 & 35\\
+  Cartera $-$ Dos Tabu & 5,018 & 3.165 & 470 & 322 & 50\\
+  \bottomrule
+ \end{tabular}
+\end{table}
+
+La Tabla~\ref{tab:potencia} justifica el número de corridas con los datos del estudio
+de carteras. El diseño de 240 pares está subdimensionado: C1 necesita 922 pares para
+detectar 0,65 y 6.217 para detectar 0,25. Son 3,8 y 25,9 veces los pares disponibles.
+Además, con 12 instancias, la potencia simulada de la prueba real es 0,30 y 0,08,
+respectivamente.
+Por esta razón, una regla pre-registrada fijó 48 instancias. Con ese tamaño, C1 alcanza 0,87
+para detectar 0,65. Sin embargo, baja a 0,72 con $\alpha=0{,}0125$, el peor caso de
+Holm, y a 0,24 para detectar 0,25. Por tanto, un resultado no significativo no probará
+equivalencia. Finalmente, un piloto descriptivo de 40 corridas prueba el protocolo con
+igual tiempo de pared, porque los demás estudios igualan evaluaciones.
+
+\subsection{Amenazas a la validez}
+\label{subsec:amenazas}
+Cinco amenazas limitan la interpretación. Primero, la reparación altera cerca de un
+tercio de los candidatos (31,3~\%). Así, la recompensa se atribuye a un movimiento que
+no se aplicó tal cual. Segundo, solo 3,9~\% de las propuestas recibe recompensa
+positiva, lo que reduce la señal para aprender. Tercero, las instancias estándar ya
+eran conocidas al elegir la arquitectura. Cuarto, el catálogo de congestión comparte
+el perfil de duraciones del estándar y no constituye un dominio independiente.
+Quinto, la potencia simulada supone un efecto homogéneo y extrapola desde 12 instancias.
+Además, la DE de C1 en congestión fue 13,21, frente a la DE supuesta de 7,03. Con la
+aproximación t, la DE supuesta pedía 49 instancias para potencia 0,80. Con la DE
+observada, 48 instancias alcanzan 0,32.

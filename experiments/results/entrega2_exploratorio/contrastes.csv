@@ -1,0 +1,2 @@
+contrast,pairs,mean_difference,ci_low,ci_high,wilcoxon_p_uncorrected,instances_better,instances_worse
+UCB1 − Tabu uniforme (3.030),960,-2.6172394682291658,-3.9044865336979164,-1.345136932708333,9.891140756224104e-06,35,13

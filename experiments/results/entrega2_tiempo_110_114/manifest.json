@@ -1,0 +1,60 @@
+{
+  "protocol": "entrega2-tiempo-v1",
+  "status": "completed",
+  "protocol_document": "docs/protocolo-entrega2.md",
+  "protocol_sha256": "faa7cd5909658e68b6a4d1ef526257c8eb3e78c03d06fd1b4b6c05377ed74605",
+  "git_head": "fc07e20e8cd377e65dfafe246f6591b5f884d7a4",
+  "code_sha256": {
+    "src/surgery_optim/__init__.py": "edc423add241dc635c38113a92496d89c4800c008773d9e6908c21305b900a9a",
+    "src/surgery_optim/bandit.py": "82a5dd7eaa4fef68d0e74842c06b644ff4136c3d4418eab7f97cda117a9ec32b",
+    "src/surgery_optim/baselines.py": "07e2f0dba9df46a578b368187ce85bca025cc2f6073a6dc456b4b2ac69d81fd8",
+    "src/surgery_optim/encoding.py": "e20c3aee461c86bec8a6100444355677f6fb416c2c6b5e34164a6ea36128b68d",
+    "src/surgery_optim/instances.py": "aebc507ea4af68b38970069321b3b45349503fe781009bc1a7bd0d45ab7b3921",
+    "src/surgery_optim/model.py": "052d66de03256e770f9bc60a6b399c45bcc88d6a886716d78868876478ed8da1",
+    "src/surgery_optim/objective.py": "22fc51d23b31577abf78933e30bfdb71a44f855e35f401bdfc7055265f03ab61",
+    "src/surgery_optim/portfolio/__init__.py": "ec543110d3e9f21c059c87efffb1a6fe4239cf4fb9d039b99dc326e7ffc8b751",
+    "src/surgery_optim/portfolio/__main__.py": "3d2414802f0534bdf846a812d3345461e1d1744d7f3524de1ee0d2857a327018",
+    "src/surgery_optim/scheduler.py": "881d0f9468da90f0bc9f0fbe1209297f4527063ac44b48e5c000a5f7f2a198b4",
+    "src/surgery_optim/tabu.py": "1d81b2ea3e775065ea26dca397ac36024455425f9ab30bce37d52e4324032e3c",
+    "experiments/entrega2_common.py": "9eafc8e34acf564fe23e0afcdb0dabcf5d423a4741340a401f7cad3367696f06",
+    "experiments/equal_time_pilot.py": "93a371055ec0125d2b14112fda1816e2f69086fa565a7fd79b9ad8d3196bdaef",
+    "experiments/portfolio_search.py": "ec5c75481fc0c6632b7560e05057164fc753bf217cb70991df913a33edfc05f5"
+  },
+  "software": {
+    "python": "3.13.2",
+    "numpy": "2.2.3",
+    "scipy": "1.15.2",
+    "pyyaml": "6.0.3",
+    "platform": "Windows-11-10.0.26100-SP0"
+  },
+  "hardware": {
+    "ram_bytes": 14806589440,
+    "cores": 8,
+    "os": "Microsoft Windows 11 Home",
+    "os_build": "26100",
+    "threads": 16,
+    "max_clock_mhz": 3801,
+    "cpu": "AMD Ryzen 7 8845HS w/ Radeon 780M Graphics"
+  },
+  "instance_sha256": {
+    "instances/standard/HOSP-STD-15-01.yaml": "0b1f86c37ab84014fec2a620f9e1fea4cdf4c8597d6571d0d1c1433a77ed9246",
+    "instances/standard/HOSP-STD-20-01.yaml": "0e018019aa398a9586ce90222144258e8f70492d3258d3e1f60c2b10e6a8848c",
+    "instances/standard/HOSP-STD-25-01.yaml": "4d33f4371a8f81ff8e7148594f33911a8b5754166126b83f267e6a2655e1fa3a",
+    "instances/standard/HOSP-STD-30-01.yaml": "87128fda810e3a752fc1c427a0a573023f2db323d412876112cbdadf4080c2e3"
+  },
+  "seeds": [
+    110,
+    111,
+    112,
+    113,
+    114
+  ],
+  "time_limit_seconds": {
+    "15": 2.0610377500997856,
+    "20": 3.1734541999176145,
+    "25": 4.626938999979757,
+    "30": 6.544562350027263
+  },
+  "timings_sha256": "44390e8912531fc8fa651eda1788d9d0530718d88a82db6aa61d567910e02d2c",
+  "execution": "sequential, single process"
+}
