@@ -122,9 +122,10 @@ prolongado, y C3 la compara con dos Tabu. C4 compara D-MAB con UCB1. C1 y C4 usa
 menos referencia. Por tanto, un valor negativo favorece a la alternativa.
 
 Las semillas de una instancia comparten datos. Por eso, la prueba de Wilcoxon
-bilateral opera sobre medias por instancia y no sobre pares. Holm corrige las cuatro
-comparaciones. Un bootstrap jerárquico de instancias y semillas, con 5.000 réplicas,
-entrega intervalos de 95~\%. El umbral práctico es 0,25 unidades de $f$. Todos los
+bilateral \parencite{wilcoxon1945} opera sobre medias por instancia y no sobre pares.
+Holm \parencite{holm1979} corrige las cuatro comparaciones. Un bootstrap jerárquico
+\parencite{efron1979} de instancias y semillas, con 5.000 réplicas, entrega
+intervalos de 95~\%. El umbral práctico es 0,25 unidades de $f$. Todos los
 tiempos son múltiplos de 0,5 minutos, y un paso de espera total mueve $f$ en 0,25.
 La hipótesis primaria exige $p$ de Holm menor que 0,05, intervalo bajo cero y media
 de a lo sumo $-0{,}25$.
