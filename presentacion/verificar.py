@@ -50,8 +50,17 @@ def figures() -> list[tuple[str, str, str]]:
     checks.append(("DE real", comma(float(realized["realized_sd"]), 2), "potencia_realizada.csv"))
     checks.append(("potencia real", comma(float(realized["t_power_alpha_05"]), 2),
                    "potencia_realizada.csv"))
-    pairs = int(realized["pairs_needed_realized_sd"])
-    checks.append(("pares con DE real", f"{pairs // 1000}.{pairs % 1000:03d}", "potencia_realizada.csv"))
+    full = [r for r in rows(RESULTS / "entrega2_potencia/simulacion.csv")
+            if r["method"] == "dmab3030" and r["effect"] == "0.65" and r["instances"] == "48"][0]
+    checks.append(("potencia 48 instancias", comma(float(full["rejection_alpha_05"]), 2), "simulacion.csv"))
+    # Las 30 soluciones iniciales cuentan como evaluaciones, pero no son candidatos.
+    validation = rows(RESULTS / "validation_40_59/runs.csv")
+    repaired = sum(float(r["repaired_candidates"]) / (float(r["evaluations"]) - 30)
+                   for r in validation) / len(validation)
+    checks.append(("reparación media por corrida", f"{comma(100 * repaired, 1)} \\%", "validation_40_59/runs.csv"))
+    diagnosis = [r for r in rows(RESULTS / "entrega2_diagnostico_115_119/summary.csv") if r["policy"] == "dmab"][0]
+    checks.append(("recompensa positiva", f"{comma(100 * float(diagnosis['positive_reward_share']), 1)} \\%",
+                   "entrega2_diagnostico_115_119/summary.csv"))
     waiting = [r for r in rows(RESULTS / "entrega2_exploratorio/espera_por_tamano.csv")
                if r["size"] == "todas"][0]
     checks.append(("espera final", comma(100 * float(waiting["waiting_share"]), 1), "espera_por_tamano.csv"))

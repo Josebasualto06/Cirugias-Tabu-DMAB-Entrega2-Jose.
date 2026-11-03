@@ -245,6 +245,7 @@
     \item Wilcoxon sobre medias por instancia, Holm sobre C1--C4, bootstrap jerárquico.
     \item Signo: alternativa $-$ referencia; negativo favorece a la alternativa.
     \item Umbral práctico: 0,25 unidades de $f$.
+    \item Regla para C1: $p$ Holm $<0{,}05$, IC bajo cero y media $\le -0{,}25$.
   \end{itemize}
 \end{frame}
 
@@ -270,14 +271,24 @@
   \centering
   \cifra{Planificación, catálogo estándar}{922 pares}{para detectar 0,65 con DE 7,03;\\había 240}\hfill
   \cifra{Regla pre-registrada}{960 pares}{48 instancias por 20 semillas}\hfill
-  \cifra{Congestión, DE real 13,21}{Potencia 0,32}{aproximación t para detectar 0,65;\\harían falta 3.246 pares}
+  \cifra{Amenaza: DE observada 13,21}{Potencia 0,32}{aproximación t para detectar 0,65;\\un nulo no prueba equivalencia}
 
   \vspace{0.4cm}
   \raggedright
   \begin{itemize}
     \item Con 12 instancias, la potencia simulada para 0,65 era 0,30.
     \item Con DE 7,03 y aproximación t, bastaban 49 instancias para 0,80.
-    \item No ampliamos la muestra: el protocolo prohíbe hacerlo tras ver resultados.
+    \item Con 48 instancias, la potencia simulada para 0,65 es 0,87.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Cinco amenazas limitan lo que el diseño puede concluir}
+  \begin{itemize}
+    \item La reparación altera 31,3 \% de los candidatos.
+    \item Solo 3,9 \% de las propuestas recibe recompensa positiva.
+    \item Las instancias estándar ya se conocían al elegir la arquitectura.
+    \item Congestión comparte el perfil de duraciones del catálogo estándar.
+    \item La potencia supone un efecto homogéneo entre instancias.
   \end{itemize}
 \end{frame}
 

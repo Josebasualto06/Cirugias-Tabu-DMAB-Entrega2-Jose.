@@ -1,6 +1,6 @@
 # Guion de la defensa
 
-Duración objetivo: 8:15, con margen de 1:45 sobre el máximo de 10 minutos.
+Duración objetivo: 9:00, con margen de 1:00 sobre el máximo de 10 minutos.
 Los tiempos incluyen señalar cada figura y tabla. El texto leído sin pausas dura cerca
 de 4 minutos, así que hay que cronometrar un ensayo. El reparto de presentadores es una
 propuesta.
@@ -62,6 +62,7 @@ nuevas sobre un mismo catálogo no miden generalización.
 Cada comparación descarta una explicación alternativa. C1 aísla el aprendizaje, C2 el
 cómputo, C3 la repetición y C4 el reinicio. Analizamos medias por instancia, porque las
 semillas de una instancia comparten datos. Un valor negativo favorece a la alternativa.
+C1 solo respalda la hipótesis si cumple las tres condiciones fijadas antes.
 
 ### 9. El catálogo original no ejercía presión sobre la espera
 **Tiempo:** 0:55 · **Presenta:** [Cristopher]
@@ -75,11 +76,19 @@ con espera.
 **Tiempo:** 1:00 · **Presenta:** [Carlos]
 
 Antes de correr, calculamos que detectar 0,65 exigía 922 pares, y teníamos 240. Una regla
-pre-registrada fijó 48 instancias por 20 semillas: 960 pares. Sin embargo, la desviación real
-casi duplicó la supuesta, y la potencia aproximada quedó en 0,32. No agregamos corridas: el
-protocolo lo prohíbe tras ver resultados.
+pre-registrada fijó 48 instancias por 20 semillas: 960 pares, con potencia simulada de 0,87.
+Como amenaza, la desviación observada casi duplicó la supuesta, y la potencia aproximada baja
+a 0,32. Por eso, un resultado nulo no probará equivalencia.
 
-### 11. El diseño fija de antemano cómo atribuir una mejora al aprendizaje
+### 11. Cinco amenazas limitan lo que el diseño puede concluir
+**Tiempo:** 0:45 · **Presenta:** [Carlos]
+
+Declaramos cinco amenazas. La reparación cambia cerca de un tercio de los candidatos, así que la
+recompensa se atribuye a un movimiento que no se aplicó tal cual. Solo 3,9 % de las propuestas
+recibe recompensa positiva: hay poca señal para aprender. Además, el catálogo estándar ya se
+conocía, y el de congestión no es un dominio independiente.
+
+### 12. El diseño fija de antemano cómo atribuir una mejora al aprendizaje
 **Tiempo:** 0:50 · **Presenta:** [Carlos]
 
 En resumen, el diseño fija tres cosas antes de ver resultados: dos catálogos, cinco controles
