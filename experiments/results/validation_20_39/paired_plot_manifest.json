@@ -1,0 +1,29 @@
+{
+  "source": "runs.csv",
+  "runs_sha256": "3d3de2a62cf7d6f46d1a8c6aa67c53df7377ae5983da7463aabaebff62ee8824",
+  "code_sha256": "903ddac41f2327e423aff59b4d6a786f48b2236cca0a5ae2a5250ed4e83b50a9",
+  "seeds": [
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39
+  ],
+  "negative_difference_favors": "alternative policy",
+  "same_instances_as_exploration": true
+}

@@ -1,0 +1,19 @@
+{
+  "reference_manifest": "manifest.json",
+  "reference_uniform_runs": "legacy_mixed_runs.csv",
+  "same_initial_objective_verified_per_instance_seed": true,
+  "candidate_budget": 3030,
+  "operators": [
+    "swap",
+    "insert",
+    "room_1",
+    "room_2",
+    "room_pair"
+  ],
+  "reward": "clipped candidate improvement against pre-batch local objective divided by 2% of initial objective; duplicate gives zero",
+  "code_sha256": {
+    "algorithms/tabu_candidate_selection.py": "bdd5f4289cc06ea7fd17f87d726fe8b3665ea5cbdf677b668722b245c95c38e2",
+    "algorithms/gwo_tabu_comparison.py": "83880402dfd43496e75caeb5a7ad58fd1def30cc11ab5fa7e23af8df48d705de",
+    "experiments/compare_candidate_level_learning.py": "aaee4a34c3ef504ccdc654fb2fec83de4d55bbeec58288c51936c33facb45ff6"
+  }
+}

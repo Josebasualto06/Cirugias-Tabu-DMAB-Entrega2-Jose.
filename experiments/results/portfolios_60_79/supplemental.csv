@@ -1,0 +1,6 @@
+method,reference,mean_difference,wins,similar,losses
+fixed_portfolio6060,uniform3030,-2.416075639583333,99,141,0
+learned_protected6060,uniform3030,-2.0298112770833336,89,151,0
+fixed_portfolio6060,two_uniform6060,0.1341551458333323,71,104,65
+learned_free6060,fixed_portfolio6060,-0.1320816625000004,13,218,9
+learned_protected6060,fixed_portfolio6060,0.3862643624999998,21,182,37

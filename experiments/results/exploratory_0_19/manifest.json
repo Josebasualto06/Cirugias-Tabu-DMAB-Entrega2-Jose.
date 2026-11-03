@@ -1,0 +1,85 @@
+{
+  "source_repository": "https://github.com/Saicooh/OII464_Hospitales.git",
+  "source_head_checked": "ecd30e3dbc1962d856c09b3470d1870c3b139a9a",
+  "instance_paths": [
+    "instances/standard/HOSP-STD-15-01.yaml",
+    "instances/standard/HOSP-STD-15-02.yaml",
+    "instances/standard/HOSP-STD-15-03.yaml",
+    "instances/standard/HOSP-STD-20-01.yaml",
+    "instances/standard/HOSP-STD-20-02.yaml",
+    "instances/standard/HOSP-STD-20-03.yaml",
+    "instances/standard/HOSP-STD-25-01.yaml",
+    "instances/standard/HOSP-STD-25-02.yaml",
+    "instances/standard/HOSP-STD-25-03.yaml",
+    "instances/standard/HOSP-STD-30-01.yaml",
+    "instances/standard/HOSP-STD-30-02.yaml",
+    "instances/standard/HOSP-STD-30-03.yaml"
+  ],
+  "instance_sha256": {
+    "instances/standard/HOSP-STD-15-01.yaml": "0b1f86c37ab84014fec2a620f9e1fea4cdf4c8597d6571d0d1c1433a77ed9246",
+    "instances/standard/HOSP-STD-15-02.yaml": "af7b41cb940c7ae74ade378605edf3b0d89609c40dc5050a255b9ebf5c74c7fd",
+    "instances/standard/HOSP-STD-15-03.yaml": "b2d3752f4bd0a2a8e7eb64a97e646512f8fa37a5c82bd55b9ba2e2c2e640c043",
+    "instances/standard/HOSP-STD-20-01.yaml": "0e018019aa398a9586ce90222144258e8f70492d3258d3e1f60c2b10e6a8848c",
+    "instances/standard/HOSP-STD-20-02.yaml": "9c4414788f6b00cdee1c9479725ba9c16d3604a5d7f8ea6264471a02d17c70d8",
+    "instances/standard/HOSP-STD-20-03.yaml": "b3a09f865a56eb07617354d3eb1c57445cc3425fbab75bddf21febf8c4a80299",
+    "instances/standard/HOSP-STD-25-01.yaml": "4d33f4371a8f81ff8e7148594f33911a8b5754166126b83f267e6a2655e1fa3a",
+    "instances/standard/HOSP-STD-25-02.yaml": "188f7edc64d8888d6bed5c1c02ec2c4bb33948860b9a12da564ca96e0bff113e",
+    "instances/standard/HOSP-STD-25-03.yaml": "5490a152e3f6e91e86ba1fa44dfba89f982f638e7f33efdf15195bc5e7fd95da",
+    "instances/standard/HOSP-STD-30-01.yaml": "87128fda810e3a752fc1c427a0a573023f2db323d412876112cbdadf4080c2e3",
+    "instances/standard/HOSP-STD-30-02.yaml": "2993503f8ef4bcf345acc7e941d8c1972b72883c723120b8a98d80d217070102",
+    "instances/standard/HOSP-STD-30-03.yaml": "e9e4db92d8da3f691367c8d9c5ff01f77945cc81ea995306ea69b69aefe2ea3f"
+  },
+  "instance_digests": {
+    "HOSP-STD-15-01": "961d3d2c3eef83296e641ca556961d3dcd1c5322dd32e37e43d498596b46e264",
+    "HOSP-STD-15-02": "f315107711baef80dca74f77944f3ddf1643e5a1d35edd4016bbea6bbc495e03",
+    "HOSP-STD-15-03": "1c59e8d211dafb58fed0e0f6cb6acc4ce21b77aa0b6c3ea02ea5f28743328d4b",
+    "HOSP-STD-20-01": "4020267125f32fb837f503d4f8454f15a1c2eaaa040c81268ca390cc0cb3914b",
+    "HOSP-STD-20-02": "f4d7eb68c49ca8471778e951b75929acfd33ba8efe201fc46198b6734b219e6c",
+    "HOSP-STD-20-03": "cf8acc0cbb3e3f835da745a06eee3784454065eef9e3b7278add7d92128fa270",
+    "HOSP-STD-25-01": "0ae95d5e511979da55ccca585a1eb6136928c1e313c5f44fbda4766889092b8e",
+    "HOSP-STD-25-02": "111e3dbf700a52182fb348e3992e1ca35fa16ea56d3fdab97ee16fdc5a83af70",
+    "HOSP-STD-25-03": "2d6e6d85cbec6219069261e929485a64f4ffcd10e2507b980fb2121f19a54ec7",
+    "HOSP-STD-30-01": "2f04176e649b56a7972631b0814e3932667b13b8da7df0c9bd837592c1400685",
+    "HOSP-STD-30-02": "ae1dbf281b4091bae360735878ddd7e10635385b4d42b9720ddcbcdc944e2c38",
+    "HOSP-STD-30-03": "5c14c469ed592eb550dfc07626cff1cb866a9c8062b0ed4fd25d9fedcbdb1808"
+  },
+  "code_sha256": {
+    "algorithms/tabu_operator_selection.py": "8e36bc31a40e4848074a15cae94304c6a29c25266af25398cedd759e82ff753a",
+    "algorithms/gwo_tabu_comparison.py": "83880402dfd43496e75caeb5a7ad58fd1def30cc11ab5fa7e23af8df48d705de",
+    "algorithms/gwo_eyeing_comparison.py": "d6ff952552f7305c1a959947d11590b9fd36a410b19b513b1fa92bebe7fa4332",
+    "algorithms/constructive_baselines.py": "721a7aad5da316322664b46e15bb4a6346df1b067ba04b0d1a5a499bbd852f82",
+    "algorithms/mh.py": "32eb6e69747ef8c445991e9c0485a230644365c66fd893ca4056a4e26505d3d4",
+    "simulation/scheduler.py": "007b5cf48a144dbf0ba6249c21d6eba557e40918960cf1f7a81d567b64248b1a",
+    "experiments/compare_tabu_operator_selection.py": "de7d5f9b12ea51d1521e62b566cc2efee202515629bf271c0b31f9d22b3f394d"
+  },
+  "seeds": "0..19",
+  "evaluation_budget": 3030,
+  "initial_population": 30,
+  "candidates_per_decision": 15,
+  "tabu_tenure": 7,
+  "objective_mode": "weighted_no_balance",
+  "operators": [
+    "swap",
+    "insert",
+    "room"
+  ],
+  "context_features": [
+    "intercept",
+    "progress",
+    "stagnation",
+    "blocking",
+    "room_spread",
+    "local_gap"
+  ],
+  "dmab": {
+    "ph_delta": 0.01,
+    "ph_lambda": 0.35
+  },
+  "linucb": {
+    "alpha": 0.4,
+    "ridge": 1.0
+  },
+  "reward": "clipped local improvement divided by 2% of initial objective",
+  "strict_constraint": "max_wait checked by schedule_instance_solution for every accepted solution",
+  "shared_initialization": "30 random-key solutions with FIFO, SPT and LPT inserted"
+}

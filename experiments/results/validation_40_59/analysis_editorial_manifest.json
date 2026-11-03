@@ -1,0 +1,7 @@
+{
+  "source": "runs.csv and generated ANALYSIS.md",
+  "runs_sha256": "37793c79b9480a78e5c7de46ee3b0cff36bf7abd2284eb09e647b4cf4831b101",
+  "code_sha256": "244d451ff30289f445d9d68e9f629950daba6f4f53ead63a5bfe335ffc16ac4b",
+  "practical_threshold_minutes": 0.25,
+  "same_instances_as_exploration": true
+}

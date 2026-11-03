@@ -1,0 +1,28 @@
+{
+  "source_manifest": "manifest.json",
+  "runs_sha256": "37793c79b9480a78e5c7de46ee3b0cff36bf7abd2284eb09e647b4cf4831b101",
+  "analysis_code_sha256": "a2fccdb2c637145b8eba0ef19e11bd8ac406874cbe9fc01bf9cd05f8c8f71de7",
+  "seeds": [
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51,
+    52,
+    53,
+    54,
+    55,
+    56,
+    57,
+    58,
+    59
+  ],
+  "comparison": "dmab minus ucb, paired by instance and seed"
+}

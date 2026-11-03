@@ -1,0 +1,8 @@
+{
+  "status": "passed",
+  "schedules_replayed": 1680,
+  "allocator_runs_replayed": 480,
+  "decisions_replayed": 14400,
+  "all_budgets_and_protected_floors_verified": true,
+  "source_hashes_match": true
+}

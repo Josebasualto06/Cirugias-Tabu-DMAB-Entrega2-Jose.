@@ -1,0 +1,14 @@
+{
+  "illustrative_only": true,
+  "seed": 20,
+  "instances": [
+    "HOSP-STD-15-01",
+    "HOSP-STD-20-01",
+    "HOSP-STD-25-01",
+    "HOSP-STD-30-01"
+  ],
+  "budget": 3030,
+  "matching_final_values_in_runs_csv_verified": true,
+  "runs_sha256": "3d3de2a62cf7d6f46d1a8c6aa67c53df7377ae5983da7463aabaebff62ee8824",
+  "code_sha256": "f3122a2a568338c50b04f56a7669bc253b49f622857aadafa43e61e0754e5d07"
+}

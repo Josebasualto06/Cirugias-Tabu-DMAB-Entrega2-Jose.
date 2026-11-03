@@ -1,0 +1,9 @@
+{
+  "sample_seed": 40,
+  "all_instances": true,
+  "all_policies": true,
+  "replayed_runs": 36,
+  "runs_sha256": "37793c79b9480a78e5c7de46ee3b0cff36bf7abd2284eb09e647b4cf4831b101",
+  "audit_code_sha256": "a94ca9f6a8545c66114879d0a17d89367eee557b5ba708a8d6634159d1111015",
+  "strict_schedule_and_max_wait_recomputed": true
+}
