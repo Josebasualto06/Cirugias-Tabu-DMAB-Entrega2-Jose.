@@ -32,26 +32,11 @@ def comma(value: float, digits: int = 3) -> str:
     return f"{value:.{digits}f}".replace(".", ",")
 
 
-def signed(value: float) -> str:
-    sign = "+" if value >= 0 else "-"
-    return sign + comma(abs(value)).replace(",", "{,}")
-
-
 def figures() -> list[tuple[str, str, str]]:
     """Return (claim, text that must appear in the slides, source)."""
-    study = RESULTS / "entrega2_congestion_90_109"
+    # La defensa cubre solo la configuración experimental: no muestra C1-C4.
     checks = []
-    for row in rows(study / "comparisons.csv"):
-        name = row["comparison"]
-        checks.append((f"{name} media", signed(float(row["mean_difference"])), "comparisons.csv"))
-        interval = (f"[{signed(float(row['ci_low']))};\\ {signed(float(row['ci_high']))}]")
-        checks.append((f"{name} IC", interval, "comparisons.csv"))
-        checks.append((f"{name} p Holm", comma(float(row["holm_p"])), "comparisons.csv"))
-    explored = rows(RESULTS / "entrega2_exploratorio/contrastes.csv")[0]
-    checks.append(("UCB1-uniforme media", signed(float(explored["mean_difference"])), "contrastes.csv"))
-    checks.append(("UCB1-uniforme IC", f"[{signed(float(explored['ci_low']))};\\ "
-                                       f"{signed(float(explored['ci_high']))}]", "contrastes.csv"))
-    power = [r for r in rows(RESULTS / "entrega2_potencia/potencia.csv")
+    power =[r for r in rows(RESULTS / "entrega2_potencia/potencia.csv")
              if r["method"] == "dmab3030" and r["effect"] == "0.65"][0]
     checks.append(("pares para 0,65", power["naive_pairs_needed"], "potencia.csv"))
     checks.append(("instancias t para 0,65", power["instances_needed_20_seeds"], "potencia.csv"))
@@ -80,10 +65,6 @@ def figures() -> list[tuple[str, str, str]]:
                if r["method"] == "fixed_portfolio6060"]
     waiting_old = sum(float(r["blocked"]) > 0 for r in cartera)
     checks.append(("espera estandar", f"{waiting_old} de {len(cartera)}", "portfolios_60_79/runs.csv"))
-    tipo_i = [r for r in rows(RESULTS / "entrega2_potencia/simulacion.csv")
-              if r["method"] == "fixed_portfolio6060" and r["reference"] == "uniform6060"
-              and r["effect"] == "0.0" and r["instances"] == "48"][0]
-    checks.append(("error tipo I C2", comma(float(tipo_i["rejection_alpha_05"])), "simulacion.csv"))
     return checks
 
 

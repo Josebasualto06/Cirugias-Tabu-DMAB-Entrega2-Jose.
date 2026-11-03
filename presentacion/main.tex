@@ -281,53 +281,21 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Bajo congestión, C1 no es concluyente y UCB1 superó a D-MAB}
-  \centering\scriptsize\setlength{\tabcolsep}{3pt}
-  \begin{tabular}{@{}p{0.8cm}p{3.4cm}D{1.2cm}C{2.8cm}D{1.1cm}p{3.5cm}@{}}
-    \toprule
-    \multicolumn{6}{@{}l}{\bfseries 3.030 evaluaciones por método}\\
-    Id & Comparación & Media & IC 95 \% & $p$ Holm & Lectura\\
-    \midrule
-    C1 & D-MAB $-$ Tabu uniforme & $-0{,}793$ & $[-1{,}850;\ +0{,}279]$ & 0,041 & \textbf{No concluyente}\\
-    C4 & D-MAB $-$ UCB1 & $+1{,}824$ & $[+0{,}566;\ +3{,}124]$ & 0,005 & UCB1 superó a D-MAB\\
-    \midrule
-    \emph{Expl.} & \emph{UCB1 $-$ Tabu uniforme} & $-2{,}617$ & $[-3{,}904;\ -1{,}345]$ & sin Holm & \textbf{Exploratorio}\\
-    \bottomrule
-  \end{tabular}
-
-  \vspace{0.22cm}
-  \begin{tabular}{@{}p{0.8cm}p{3.4cm}D{1.2cm}C{2.8cm}D{1.1cm}p{3.5cm}@{}}
-    \toprule
-    \multicolumn{6}{@{}l}{\bfseries 6.060 evaluaciones por método}\\
-    Id & Comparación & Media & IC 95 \% & $p$ Holm & Lectura\\
-    \midrule
-    C2 & Cartera $-$ Tabu prolongado & $-1{,}380$ & $[-2{,}405;\ -0{,}398]$ & 0,008 & Favorece a la cartera\\
-    C3 & Cartera $-$ Dos Tabu & $-0{,}409$ & $[-1{,}126;\ +0{,}338]$ & 0,057 & No significativa\\
-    \bottomrule
-  \end{tabular}
-
-  \vspace{0.22cm}
-  \raggedright
-  960 pares. Negativo favorece a la alternativa.\\
-  C1: la regla exige $p$ Holm $<0{,}05$, IC bajo cero y media $\le -0{,}25$; su IC incluye cero.\\
-  C2: error tipo I simulado 0,082. C3: compatible con repetir la búsqueda.\par
-\end{frame}
-
-\begin{frame}{Sabemos cómo medir el efecto; falta confirmarlo con un nuevo pre-registro}
+\begin{frame}{El diseño fija de antemano cómo atribuir una mejora al aprendizaje}
   \begin{columns}[t,onlytextwidth]
     \begin{column}{0.48\textwidth}
-      {\bfseries\color{azul} Qué sabemos hoy}
+      {\bfseries\color{azul} Qué fija este diseño}
       \begin{itemize}
-        \item D-MAB frente a uniforme: no concluyente bajo congestión.
-        \item UCB1 superó a D-MAB en la ablación pre-registrada.
-        \item Cartera frente a dos Tabu: diferencia no significativa.
+        \item Dos catálogos: 12 estándar y 48 de congestión.
+        \item Cinco controles con igual presupuesto de evaluaciones.
+        \item Hipótesis, semillas y regla de decisión registradas antes.
       \end{itemize}
     \end{column}
     \begin{column}{0.48\textwidth}
-      {\bfseries\color{azul} Qué falta}
+      {\bfseries\color{azul} Qué viene}
       \begin{itemize}
-        \item Confirmar UCB1 $-$ uniforme con semillas desde 120.
-        \item Evaluar instancias no vistas, mayor escala e igual tiempo.
+        \item Informar los resultados de C1--C4 en la próxima entrega.
+        \item Evaluar igual tiempo, instancias no vistas y mayor escala.
       \end{itemize}
     \end{column}
   \end{columns}

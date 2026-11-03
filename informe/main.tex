@@ -1,4 +1,4 @@
-% Primer informe OII464. Formato institucional de la Escuela de Ingeniería
+% Segundo informe OII464. Formato institucional de la Escuela de Ingeniería
 % Informática PUCV y propuesta de selección adaptativa de movimientos.
 \documentclass[12pt,letterpaper]{report}
 \usepackage[spanish,es-nodecimaldot]{babel}
@@ -10,6 +10,7 @@
 \renewcommand{\thesubsection}{\thesection.\arabic{subsection}}
 \renewcommand{\thetable}{\arabic{table}}
 \captionsetup[table]{name=Tabla}
+\addto\captionsspanish{\renewcommand{\contentsname}{Índice}}
 \setlength{\headheight}{14pt}
 \hypersetup{
  pdftitle={Programación de cirugías electivas mediante búsqueda tabú y selección adaptativa de movimientos},
@@ -25,25 +26,27 @@
 \pagenumbering{arabic}
 
 \chapter*{Resumen}
-La programación de cirugías electivas exige coordinar las etapas de anestesia
-y cirugía, considerando la disponibilidad compartida de salas y profesionales
-para evitar que la espera entre procedimientos prolongue la jornada o bloquee
-recursos. Para abordar este problema, se propone integrar búsqueda tabú con
+La programación de cirugías electivas coordina anestesia y cirugía con salas
+y profesionales compartidos. Si un paciente espera entre etapas, la jornada se
+alarga y los recursos quedan bloqueados. Este proyecto integra búsqueda tabú con
 un bandido multibrazo dinámico (D-MAB), que aprende durante la ejecución qué
-movimientos conviene utilizar y orienta así la generación de vecinos en la
-evolución de la búsqueda. La metodología incorpora una cartera con dos
-trayectorias, una de selección uniforme y otra guiada por D-MAB, que comparten
-un presupuesto total de evaluaciones y conservan el mejor calendario factible,
-respetando las restricciones de recursos y espera máxima. Su evaluación se
-realizará en instancias sintéticas mediante comparaciones y ablaciones con
-igual presupuesto, considerando calidad, bloqueo, tiempo y robustez para
-distinguir el aporte del aprendizaje del efecto de repetir la búsqueda.
-Con este diseño se busca identificar las condiciones en que la adaptación
-puede aportar mejoras reproducibles y determinar si estas justifican su
-costo computacional.
+movimiento conviene proponer. Una cartera fija ejecuta un camino uniforme y otro
+guiado por D-MAB, cada uno con 3.030 evaluaciones, y conserva el mejor calendario
+factible. Este segundo informe agrega la configuración experimental. El diseño
+usa las 12 instancias oficiales y 48 instancias nuevas con menos cirujanos, que
+tensionan la espera. Cinco controles separan el aporte del aprendizaje de otras
+explicaciones: más presupuesto, repetir la búsqueda o el reinicio del detector.
+Cada comparación empareja instancia y semilla. El equipo fijó hipótesis,
+semillas y pruebas antes de ejecutar. La prueba de Wilcoxon opera sobre medias
+por instancia, con corrección de Holm e intervalos bootstrap. Un análisis de
+potencia justifica el tamaño del estudio. Con este diseño, el proyecto busca
+identificar en qué condiciones la adaptación aporta mejoras reproducibles.
 
 \noindent\textbf{Palabras clave:} programación de cirugías; búsqueda tabú;
 selección adaptativa de operadores; aprendizaje en línea; bloqueo.
+
+\clearpage
+\tableofcontents
 
 \clearpage
 \section{Introducción}
@@ -200,22 +203,15 @@ reparación de candidatos.
 
 \clearpage
 \section{Conclusión}
-La arquitectura propuesta sitúa el aprendizaje en la evolución de Tabu
-Search, al utilizar D-MAB para seleccionar los movimientos que generan
-nuevos vecinos y una cartera fija para conservar el mejor calendario
-factible entre el camino uniforme y el adaptativo. Con ello, se establece
-una metodología reproducible para estudiar si la adaptación contribuye a
-reducir el makespan y el bloqueo, manteniendo estrictas las restricciones
-del problema.
+La arquitectura sitúa el aprendizaje en la evolución de Tabu Search: D-MAB
+elige los movimientos y la cartera conserva el mejor calendario factible. La
+configuración experimental fija cómo evaluarla con igual presupuesto y las
+mismas restricciones. El catálogo de congestión permite estudiar la espera, que
+el catálogo oficial casi no tensiona.
 
-La evaluación se organizará para distinguir el aporte del aprendizaje
-del efecto de repetir la búsqueda y del presupuesto computacional,
-evitando atribuir al controlador ventajas que correspondan a otros
-componentes. También se analizará cómo la reparación de candidatos
-influye en la utilidad observada de los movimientos. A lo largo del
-semestre se ampliarán las pruebas a escenarios reservados y de mayor
-congestión, con el propósito de determinar cuándo conviene utilizar la
-propuesta, qué costo implica y cuáles son sus límites al aumentar la escala.
+Los controles y la regla de decisión, fijados antes de ejecutar, permiten
+distinguir el aporte del aprendizaje del de otros componentes. La próxima
+entrega informará los resultados de este diseño.
 
 \clearpage
 \printbibliography[title={Referencias}]

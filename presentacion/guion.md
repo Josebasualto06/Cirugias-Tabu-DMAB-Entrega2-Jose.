@@ -1,6 +1,6 @@
 # Guion de la defensa
 
-Duración objetivo: 9:20, con margen de 40 segundos sobre el máximo de 10 minutos.
+Duración objetivo: 8:15, con margen de 1:45 sobre el máximo de 10 minutos.
 Los tiempos incluyen señalar cada figura y tabla. El texto leído sin pausas dura cerca
 de 4 minutos, así que hay que cronometrar un ensayo. El reparto de presentadores es una
 propuesta.
@@ -79,22 +79,18 @@ pre-registrada fijó 48 instancias por 20 semillas: 960 pares. Sin embargo, la d
 casi duplicó la supuesta, y la potencia aproximada quedó en 0,32. No agregamos corridas: el
 protocolo lo prohíbe tras ver resultados.
 
-### 11. Bajo congestión, C1 no es concluyente y UCB1 superó a D-MAB
-**Tiempo:** 1:15 · **Presenta:** [Carlos]
+### 11. El diseño fija de antemano cómo atribuir una mejora al aprendizaje
+**Tiempo:** 0:50 · **Presenta:** [Carlos]
 
-C1 tiene `p` de Holm 0,041, pero su intervalo incluye cero y nuestra regla exige ambas cosas.
-Por eso es no concluyente. C4 sí es clara: UCB1 sin Page–Hinkley superó a D-MAB. La cartera
-supera a Tabu prolongado, pero no significativamente a dos Tabu, lo que es compatible con
-repetir la búsqueda. UCB1 frente a uniforme es exploratorio: no estaba pre-registrado.
-
-### 12. Sabemos cómo medir el efecto; falta confirmarlo con un nuevo pre-registro
-**Tiempo:** 0:40 · **Presenta:** [Carlos]
-
-Hoy tenemos un diseño auditado y un resultado honesto: D-MAB no es concluyente frente a
-uniforme. La hipótesis siguiente es que UCB1 supera a uniforme bajo congestión. La
-confirmaremos con semillas desde la 120 y un pre-registro nuevo. Gracias.
+En resumen, el diseño fija tres cosas antes de ver resultados: dos catálogos, cinco controles
+con igual presupuesto y una regla de decisión registrada. En la próxima entrega informaremos
+los resultados de C1 a C4. Toda confirmación posterior usará semillas desde la 120 y un
+pre-registro nuevo. Gracias.
 
 ## Preguntas probables
+
+Esta entrega presenta solo la configuración experimental. Si preguntan por resultados,
+las respuestas siguientes usan cifras del estudio 90–109 y su calificativo obligatorio.
 
 **¿Entonces el ML no sirve?**
 No podemos afirmarlo. C1 es no concluyente y su potencia es baja, y la falta de significación
