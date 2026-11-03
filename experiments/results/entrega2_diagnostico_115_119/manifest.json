@@ -1,0 +1,64 @@
+{
+  "protocol": "entrega2-diagnostico-v1",
+  "status": "completed",
+  "protocol_document": "docs/protocolo-entrega2.md",
+  "protocol_sha256": "faa7cd5909658e68b6a4d1ef526257c8eb3e78c03d06fd1b4b6c05377ed74605",
+  "git_head": "a0da66986addcf4f4cd57388ce134e129fdf62ad",
+  "code_sha256": {
+    "src/surgery_optim/__init__.py": "edc423add241dc635c38113a92496d89c4800c008773d9e6908c21305b900a9a",
+    "src/surgery_optim/bandit.py": "82a5dd7eaa4fef68d0e74842c06b644ff4136c3d4418eab7f97cda117a9ec32b",
+    "src/surgery_optim/baselines.py": "07e2f0dba9df46a578b368187ce85bca025cc2f6073a6dc456b4b2ac69d81fd8",
+    "src/surgery_optim/encoding.py": "e20c3aee461c86bec8a6100444355677f6fb416c2c6b5e34164a6ea36128b68d",
+    "src/surgery_optim/instances.py": "aebc507ea4af68b38970069321b3b45349503fe781009bc1a7bd0d45ab7b3921",
+    "src/surgery_optim/model.py": "052d66de03256e770f9bc60a6b399c45bcc88d6a886716d78868876478ed8da1",
+    "src/surgery_optim/objective.py": "22fc51d23b31577abf78933e30bfdb71a44f855e35f401bdfc7055265f03ab61",
+    "src/surgery_optim/portfolio/__init__.py": "ec543110d3e9f21c059c87efffb1a6fe4239cf4fb9d039b99dc326e7ffc8b751",
+    "src/surgery_optim/portfolio/__main__.py": "3d2414802f0534bdf846a812d3345461e1d1744d7f3524de1ee0d2857a327018",
+    "src/surgery_optim/scheduler.py": "881d0f9468da90f0bc9f0fbe1209297f4527063ac44b48e5c000a5f7f2a198b4",
+    "src/surgery_optim/tabu.py": "1d81b2ea3e775065ea26dca397ac36024455425f9ab30bce37d52e4324032e3c",
+    "experiments/entrega2_common.py": "9eafc8e34acf564fe23e0afcdb0dabcf5d423a4741340a401f7cad3367696f06",
+    "experiments/diagnose_engine.py": "43045cd688d198463d2de84416156cbd871ebbce5adb9ba1795bb51d9569c7f4"
+  },
+  "software": {
+    "python": "3.13.2",
+    "numpy": "2.2.3",
+    "scipy": "1.15.2",
+    "pyyaml": "6.0.3",
+    "platform": "Windows-11-10.0.26100-SP0"
+  },
+  "hardware": {
+    "ram_bytes": 14806589440,
+    "cores": 8,
+    "os": "Microsoft Windows 11 Home",
+    "os_build": "26100",
+    "threads": 16,
+    "max_clock_mhz": 3801,
+    "cpu": "AMD Ryzen 7 8845HS w/ Radeon 780M Graphics"
+  },
+  "instance_sha256": {
+    "instances/standard/HOSP-STD-15-01.yaml": "0b1f86c37ab84014fec2a620f9e1fea4cdf4c8597d6571d0d1c1433a77ed9246",
+    "instances/standard/HOSP-STD-15-02.yaml": "af7b41cb940c7ae74ade378605edf3b0d89609c40dc5050a255b9ebf5c74c7fd",
+    "instances/standard/HOSP-STD-15-03.yaml": "b2d3752f4bd0a2a8e7eb64a97e646512f8fa37a5c82bd55b9ba2e2c2e640c043",
+    "instances/standard/HOSP-STD-20-01.yaml": "0e018019aa398a9586ce90222144258e8f70492d3258d3e1f60c2b10e6a8848c",
+    "instances/standard/HOSP-STD-20-02.yaml": "9c4414788f6b00cdee1c9479725ba9c16d3604a5d7f8ea6264471a02d17c70d8",
+    "instances/standard/HOSP-STD-20-03.yaml": "b3a09f865a56eb07617354d3eb1c57445cc3425fbab75bddf21febf8c4a80299",
+    "instances/standard/HOSP-STD-25-01.yaml": "4d33f4371a8f81ff8e7148594f33911a8b5754166126b83f267e6a2655e1fa3a",
+    "instances/standard/HOSP-STD-25-02.yaml": "188f7edc64d8888d6bed5c1c02ec2c4bb33948860b9a12da564ca96e0bff113e",
+    "instances/standard/HOSP-STD-25-03.yaml": "5490a152e3f6e91e86ba1fa44dfba89f982f638e7f33efdf15195bc5e7fd95da",
+    "instances/standard/HOSP-STD-30-01.yaml": "87128fda810e3a752fc1c427a0a573023f2db323d412876112cbdadf4080c2e3",
+    "instances/standard/HOSP-STD-30-02.yaml": "2993503f8ef4bcf345acc7e941d8c1972b72883c723120b8a98d80d217070102",
+    "instances/standard/HOSP-STD-30-03.yaml": "e9e4db92d8da3f691367c8d9c5ff01f77945cc81ea995306ea69b69aefe2ea3f"
+  },
+  "seeds": [
+    115,
+    116,
+    117,
+    118,
+    119
+  ],
+  "policies": [
+    "uniform",
+    "dmab"
+  ],
+  "package_version": "surgery_optim"
+}

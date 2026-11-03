@@ -2,134 +2,153 @@
 
 ## Pregunta y contribución
 
-¿La selección adaptativa de movimientos mediante D-MAB mejora la calidad,
-el tiempo o la robustez de Tabu Search frente a elegir los mismos movimientos
-uniformemente, con igual presupuesto computacional?
+¿En qué condiciones la selección adaptativa de movimientos mediante D-MAB
+mejora la calidad, el tiempo o la robustez de Tabu Search frente a elegir los
+mismos movimientos uniformemente?
 
-La propuesta adapta y evalúa aprendizaje en línea para la programación
-quirúrgica de dos etapas del curso. Su aporte se contrastará experimentalmente;
-la arquitectura no garantiza una mejora en cada instancia o semilla.
+La contribución consiste en adaptar, implementar y evaluar selección online
+de movimientos en el caso de programación quirúrgica del curso. Se estudia
+una hipótesis de mejora; los pilotos no demuestran una superioridad general
+del aprendizaje con igual presupuesto.
 
-## Configuraciones vigentes
+## Ubicación en la taxonomía ML → MH
 
-| Sigla | Experimento | Papel |
-|---|---|---|
-| **TS-U** | Tabu Search con selección uniforme de los cinco movimientos. | Metaheurística de referencia. |
-| **TS-DMAB** | Tabu Search con D-MAB completo: UCB1 escalado y Page-Hinkley. | Diseño híbrido MH + ML. |
+La propuesta se ubica en **evolución: selección de operadores y generación
+de vecinos**. En este contexto, evolución es la etapa iterativa en que una
+metaheurística transforma soluciones; no implica que Tabu sea un algoritmo
+evolutivo genético.
 
-Cada algoritmo realiza **una trayectoria de 6.060 evaluaciones**, incluidas
-sus treinta soluciones iniciales. Las configuraciones se ejecutan por separado
-y cada una devuelve su propio mejor calendario factible. La campaña vigente
-no incluye una cartera externa, dos reinicios ni una ablación sin detector.
-
-## Ubicación en la taxonomía ML a MH
-
-El aprendizaje actúa en **evolución: selección de operadores y generación
-de vecinos**. Evolución describe aquí la transformación iterativa de soluciones;
-Tabu Search no se convierte en un algoritmo genético.
-
-D-MAB aprende qué tipo de movimiento proponer; Tabu elige el vecino admisible
-y conserva su memoria. La función objetivo usa el planificador estricto,
-sin un modelo sustituto. Personal, reparación y factibilidad se resuelven
-mediante reglas comunes a ambas configuraciones.
+D-MAB aprende qué tipo de movimiento proponer. Tabu elige después el mejor
+vecino admisible de un lote y mantiene su memoria. La función objetivo se
+calcula con el planificador estricto, sin un modelo sustituto. La asignación
+de personal y la reparación son reglas del planificador. La cartera externa
+tiene reparto fijo y selección final determinista.
 
 ## Componentes y responsabilidades
 
-| Componente | Función |
+| Componente | Función y estado |
 |---|---|
-| Tabu Search (MH) | Mantiene solución local, mejor global, memoria tabú y archivo de treinta soluciones. |
-| D-MAB (ML) | Aprende de recompensas y selecciona uno de cinco movimientos mediante UCB1. |
-| Page-Hinkley | Detecta caídas de recompensa y reinicia las estimaciones del bandido; conserva el estado de Tabu. |
-| Planificador y reparación | Construye calendarios con personal elegible y restricciones estrictas; puede modificar orden y salas. |
-| Datos | Doce instancias sintéticas con duraciones, recursos, elegibilidad, preparación, transición, limpieza y espera máxima. |
-| Orquestación | Ejecuta una configuración por corrida, registra sus resultados y aplica el mismo presupuesto a ambos métodos. |
+| Tabu Search (MH) | Explora secuencias y salas; mantiene solución local, mejor global, memoria tabú y archivo de treinta soluciones. |
+| D-MAB (ML) | Selecciona uno de cinco movimientos antes de cada propuesta; actualiza recompensas online con UCB1 escalado y Page–Hinkley. |
+| Planificador y reparación | Asigna personal elegible, construye horarios y comprueba restricciones estrictas. Puede modificar el orden y las salas propuestas. |
+| Datos | Doce instancias YAML sintéticas del catálogo oficial, con duraciones, recursos, elegibilidad, preparación, transición, limpieza y espera máxima. |
+| Orquestación | Ejecuta dos caminos independientes de 3.030 evaluaciones y devuelve el mejor calendario factible; presupuesto total 6.060. |
 
-Page-Hinkley es la prueba estadística incorporada al D-MAB de referencia.
-El aprendizaje y la selección de movimientos ya están en el mecanismo MAB/UCB1;
-el detector permite renovar estimaciones ante cambios de recompensa. No
-certifica estancamiento ni identifica directamente un óptimo local.
-
-Los movimientos son `swap`, `insert`, `room_1`, `room_2` y `room_pair`:
-intercambio, inserción, cambio de sala de anestesia, cirugía o ambas.
-D-MAB decide el tipo; una regla aleatoria elige pacientes y salas concretas.
-Con probabilidad 0,65 se prioriza uno de los tres pacientes con mayor espera,
-cuando existen pacientes con espera positiva.
+Los cinco movimientos son `swap`, `insert`, `room_1`, `room_2` y
+`room_pair`: intercambio, inserción, cambio de sala de anestesia, de cirugía
+o de ambas. D-MAB decide el tipo; una regla aleatoria selecciona pacientes y
+salas concretas. Con probabilidad 0,65 se prioriza uno de los tres pacientes
+con más espera cuando existen pacientes bloqueados.
 
 ## Flujo de una corrida
 
-1. Leer y validar la instancia, fija durante toda la búsqueda.
-2. Construir treinta soluciones: FIFO, SPT, LPT y veintisiete alternativas
-   aleatorias. Partir de la mejor y conservar el archivo inicial.
-3. Generar lotes de hasta quince candidatos distintos. TS-U selecciona
-   uniformemente el movimiento; TS-DMAB consulta al controlador.
-4. Reparar la propuesta y evaluar el calendario con restricciones estrictas.
-   En TS-DMAB, actualizar el bandido con la recompensa del candidato.
-5. Elegir el vecino de menor objetivo entre los admisibles. La aspiración
-   permite una solución tabú si mejora el mejor global; si todos los vecinos
-   son tabú, el motor actual utiliza el mejor del lote como respaldo.
-6. Actualizar memoria, archivo y mejor global. Pueden aceptarse retrocesos
-   del objetivo local para explorar; se conserva el mejor resultado global.
-7. Detenerse al alcanzar 6.060 evaluaciones, incluidas las treinta iniciales.
-   Revalidar el mejor calendario y guardar resultados y trazas.
+1. Leer y validar la instancia. Sus datos permanecen fijos durante la corrida.
+2. Inicializar cada camino con treinta soluciones: FIFO, SPT, LPT y
+   veintisiete alternativas aleatorias, usando la misma semilla. La reparación
+   puede cambiar las preferencias iniciales.
+3. En cada camino, partir de la mejor solución inicial y generar lotes de
+   hasta quince candidatos distintos.
+4. En el camino uniforme, muestrear el movimiento uniformemente. En el
+   camino aprendido, consultarlo a D-MAB antes de proponer cada candidato.
+5. Reparar el candidato, evaluar el horario con restricciones estrictas y,
+   en D-MAB, actualizar la recompensa. Los duplicados reciben recompensa cero
+   y no consumen otra evaluación estricta.
+6. Elegir el vecino de menor objetivo entre los admisibles. La aspiración
+   admite un vecino tabú si mejora el mejor global. Si todos son tabú, la
+   implementación actual utiliza el mejor del lote como salida de respaldo.
+7. Actualizar memoria, archivo y mejor solución. Se admiten retrocesos del
+   objetivo local para explorar; el mejor global se conserva.
+8. Detener cada camino al alcanzar 3.030 evaluaciones, incluidas sus treinta
+   iniciales. Revalidar ambas mejores soluciones y devolver la de menor
+   objetivo combinado; se desempata por makespan y, si también coincide,
+   se conserva Tabu uniforme.
 
-Para cada pareja instancia-semilla se comparte la inicialización. Las
-trayectorias posteriores pueden divergir porque distintos movimientos consumen
-distintos números aleatorios. No se supone sincronización perfecta de sorteos.
+La ejecución de referencia es secuencial, con estados y generadores
+independientes. La misma semilla comparte el inicio, pero las trayectorias
+posteriores pueden divergir: distintos movimientos consumen distintos números
+aleatorios. No se atribuye a las pruebas una paralelización interna de la
+cartera que no se haya medido.
 
-## Aprendizaje y tareas fuera de línea
+## Ejecutar la cartera elegida
 
-**Fuera de línea:** revisar literatura, validar datos y fijar objetivo,
-presupuesto, parámetros y protocolo. Cualquier calibración posterior utiliza
-datos de desarrollo distintos de la evaluación.
+Desde la raíz del repositorio, después de instalar el proyecto:
 
-**Durante la corrida:** D-MAB empieza con estimaciones vacías, prueba los
-movimientos y actualiza sus recompensas. La recompensa es la mejora positiva
-respecto del objetivo local antes del lote, dividida por
-`max(1, 0,02 × objetivo inicial)` y limitada a `[0,1]`. Los candidatos que
-no mejoran reciben cero. También se evalúan candidatos que Tabu no acepta
-finalmente; los duplicados sin reevaluación reciben cero sin consumir otra
-valoración de objetivo.
+```bash
+.venv/bin/python -m surgery_optim.portfolio \
+  --instance instances/standard/HOSP-STD-30-01.yaml \
+  --seed 60 --budget 6060 \
+  --output outputs/final/HOSP-STD-30-01-seed60.json
+```
 
-UCB1 combina recompensa media y exploración. Page-Hinkley detecta caídas en
-la recompensa de un movimiento y reinicia las estadísticas de todos los brazos,
-sin cambiar el calendario, la memoria ni el archivo de Tabu. D-MAB no usa
-metacaracterísticas contextuales, etiquetas de óptimo local ni resultados futuros.
+La API correspondiente es:
 
-Se mantienen `C=0,1`, `delta=0,01` y `lambda=1`, memoria de siete soluciones,
-quince candidatos por lote y treinta soluciones iniciales. No se calibrarán
-con las semillas 80-109 de la campaña prevista.
+```python
+from surgery_optim.instances import load_instance
+from surgery_optim.portfolio import run_portfolio
 
-## Objetivo y límites
+context = load_instance("instances/standard/HOSP-STD-30-01.yaml")
+result = run_portfolio(context, seed=60, budget=6060)
+```
 
-Se minimiza `f = Cmax + 1e-6 × suma de inicios + 0,5 × espera total + 1,4 × espera máxima`.
-`Cmax` es el término de la última operación incluida limpieza; los inicios
-son los de preparación o reserva; las esperas transcurren entre el término
-de anestesia incluida limpieza y el inicio del procedimiento quirúrgico.
-No se penaliza el desequilibrio entre salas ni se exige usar la misma sala
-en ambas etapas. Un menor objetivo no implica mejorar cada componente.
+El resultado incluye los dos componentes, el calendario elegido, su calidad,
+presupuesto y tiempos. El presupuesto cuenta las evaluaciones de búsqueda;
+las comprobaciones finales de factibilidad se realizan adicionalmente y su
+tiempo queda incluido en la medición de ejecución.
 
-La asignación de personal es constructiva y la reparación restringe los
-calendarios alcanzables. El planificador reserva anestesista hasta el inicio
-de cirugía y cirujano hasta el fin de limpieza quirúrgica. Estos supuestos
-se mantienen explícitos, sin presentarlos como descripción universal de la
-práctica clínica. La espera máxima es estricta.
+## Aprendizaje online y tareas offline
 
-La agenda es estática. Cancelaciones, urgencias, fijación de cirugías en curso
-y aprendizaje entre jornadas son extensiones pendientes. No se garantiza
-superioridad de TS-DMAB ni optimalidad global.
+**Offline:** leer la literatura, validar datos, calibrar parámetros con
+semillas exploratorias, fijar pesos del objetivo, presupuesto y protocolo.
+Los parámetros vigentes son `C=0,1`, `delta=0,01` y `lambda=1` para D-MAB;
+memoria de siete soluciones y quince candidatos por lote para Tabu.
 
-## Evaluación y reproducibilidad
+**Online:** D-MAB empieza con estimaciones vacías en cada corrida, prueba los
+cinco movimientos y actualiza sus recompensas. La recompensa es la mejora
+positiva del candidato respecto del valor local anterior al lote,
+normalizada por `max(1, 0,02 × objetivo inicial)` y limitada a `[0,1]`.
+Se evalúan también candidatos no seleccionados finalmente por Tabu.
 
-El [protocolo vigente](../experiments/protocols/entrega2_v2/README.md) fija
-12 instancias, 30 repeticiones, semillas 80-109 y dos métodos: 720 registros
-principales. El efecto mínimo relevante es 1% del objetivo ponderado.
-Se reportan makespan, esperas, factibilidad, tiempo, convergencia y eventos
-del controlador. El contraste estudia el controlador completo; los reinicios
-registrados no permiten atribuir causalmente un efecto aislado a Page-Hinkley.
+UCB1 balancea explotación y exploración. Page–Hinkley detecta caídas en la
+recompensa de un movimiento y reinicia las estimaciones de todos los brazos;
+mantiene intactos el horario, la memoria y el archivo de Tabu. D-MAB no recibe
+metacaracterísticas contextuales, etiquetas de óptimo local ni resultados
+futuros de caminos no ejecutados.
 
-La [metodología](metodologia-experimental.md) detalla presupuesto, análisis
-y uso de la API. La comparación secundaria asigna diez segundos a cada
-algoritmo; su criterio temporal requiere implementación y verificación antes
-de ejecutar esa campaña. Los estudios de cartera se preservan en su
-[protocolo histórico](protocolo-carteras.md) y
-[resultados](../experiments/results/portfolios_60_79/DECISION.md).
+## Protección y límites del modelo
+
+La selección final conserva el objetivo del Tabu uniforme de 3.030 de la
+misma semilla. Esta propiedad cuesta el doble de evaluaciones y no garantiza
+superar a Tabu prolongado con 6.060. Tampoco protege cada métrica individual:
+un menor objetivo combinado puede acompañarse de mayor makespan o espera.
+
+El personal se asigna de forma constructiva; no se exploran todas sus
+asignaciones. La reparación puede alterar un movimiento y limita los horarios
+que la búsqueda alcanza. La espera se mide desde el término de anestesia
+incluida su limpieza; el planificador reserva al anestesista hasta el inicio
+de cirugía y al cirujano hasta el fin de limpieza quirúrgica. Estos supuestos
+se mantienen explícitos y requieren revisión para una aplicación hospitalaria.
+
+El flujo actual resuelve una instancia estática. Replanificación por
+cancelaciones o urgencias, fijación de cirugías en curso y aprendizaje entre
+jornadas son extensiones pendientes, sin resultados atribuidos al prototipo.
+
+## Evaluación del semestre
+
+- Controles de igual presupuesto: Tabu prolongado de 6.060 y dos Tabu
+  uniformes independientes de 3.030.
+- Comparación del aprendizaje interno: Tabu uniforme, Tabu+D-MAB y
+  Tabu+UCB1 sin Page–Hinkley bajo igual presupuesto por política.
+- Referencias constructivas: FIFO, SPT y LPT, que también forman parte de la
+  inicialización común.
+- Métricas: objetivo combinado, makespan, espera total y máxima, factibilidad,
+  tiempo, dispersión entre semillas y proporción de candidatos reparados.
+- Ampliación prevista: tamaños y congestión mayores; comparar por separado
+  con igual número de evaluaciones y con igual límite de tiempo.
+- Análisis: diferencias emparejadas, incertidumbre agrupada por instancia y
+  corrección de comparaciones múltiples; distinguir pruebas exploratorias de
+  validación y nuevas semillas de instancias realmente nuevas.
+
+LinUCB queda documentado en el [protocolo histórico de
+carteras](protocolo-carteras.md) y sus [resultados](../experiments/results/portfolios_60_79/DECISION.md).
+No forma parte del flujo seleccionado: no mostró una ventaja suficiente para
+justificar un segundo controlador en el piloto.

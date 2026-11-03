@@ -1,0 +1,60 @@
+{
+  "protocol": "entrega2-potencia-v1",
+  "status": "completed",
+  "protocol_document": "docs/protocolo-entrega2.md",
+  "protocol_sha256": "faa7cd5909658e68b6a4d1ef526257c8eb3e78c03d06fd1b4b6c05377ed74605",
+  "git_head": "a0da66986addcf4f4cd57388ce134e129fdf62ad",
+  "code_sha256": {
+    "src/surgery_optim/__init__.py": "edc423add241dc635c38113a92496d89c4800c008773d9e6908c21305b900a9a",
+    "src/surgery_optim/bandit.py": "82a5dd7eaa4fef68d0e74842c06b644ff4136c3d4418eab7f97cda117a9ec32b",
+    "src/surgery_optim/baselines.py": "07e2f0dba9df46a578b368187ce85bca025cc2f6073a6dc456b4b2ac69d81fd8",
+    "src/surgery_optim/encoding.py": "e20c3aee461c86bec8a6100444355677f6fb416c2c6b5e34164a6ea36128b68d",
+    "src/surgery_optim/instances.py": "aebc507ea4af68b38970069321b3b45349503fe781009bc1a7bd0d45ab7b3921",
+    "src/surgery_optim/model.py": "052d66de03256e770f9bc60a6b399c45bcc88d6a886716d78868876478ed8da1",
+    "src/surgery_optim/objective.py": "22fc51d23b31577abf78933e30bfdb71a44f855e35f401bdfc7055265f03ab61",
+    "src/surgery_optim/portfolio/__init__.py": "ec543110d3e9f21c059c87efffb1a6fe4239cf4fb9d039b99dc326e7ffc8b751",
+    "src/surgery_optim/portfolio/__main__.py": "3d2414802f0534bdf846a812d3345461e1d1744d7f3524de1ee0d2857a327018",
+    "src/surgery_optim/scheduler.py": "881d0f9468da90f0bc9f0fbe1209297f4527063ac44b48e5c000a5f7f2a198b4",
+    "src/surgery_optim/tabu.py": "1d81b2ea3e775065ea26dca397ac36024455425f9ab30bce37d52e4324032e3c",
+    "experiments/entrega2_common.py": "9eafc8e34acf564fe23e0afcdb0dabcf5d423a4741340a401f7cad3367696f06",
+    "experiments/power_analysis.py": "ffb4e529aca30cbaa2d4d04b79c1a095cdcd275e42127d597efd22bf3710869e"
+  },
+  "software": {
+    "python": "3.13.2",
+    "numpy": "2.2.3",
+    "scipy": "1.15.2",
+    "pyyaml": "6.0.3",
+    "platform": "Windows-11-10.0.26100-SP0"
+  },
+  "hardware": {
+    "ram_bytes": 14806589440,
+    "cores": 8,
+    "os": "Microsoft Windows 11 Home",
+    "os_build": "26100",
+    "threads": 16,
+    "max_clock_mhz": 3801,
+    "cpu": "AMD Ryzen 7 8845HS w/ Radeon 780M Graphics"
+  },
+  "source_runs": "experiments/results/portfolios_60_79/runs.csv",
+  "source_runs_sha256": "da46375665a3e1eb0334afb4a21759ee470c3a9f35f7a7bdcb214131ccc32ca1",
+  "effects": [
+    0.25,
+    0.65
+  ],
+  "power": 0.8,
+  "alpha": 0.05,
+  "holm_worst_alpha": 0.0125,
+  "simulation": {
+    "replicates": 5000,
+    "seed": 20261102,
+    "instance_levels": [
+      12,
+      24,
+      36,
+      48
+    ],
+    "seeds": 20
+  },
+  "congestion_instances": 48,
+  "congestion_power_reached": false
+}
