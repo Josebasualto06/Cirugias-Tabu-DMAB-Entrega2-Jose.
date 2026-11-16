@@ -1,0 +1,46 @@
+% Sección (vi) Conclusión. Se inserta en main.tex después de Resultados y discusión:
+%   \clearpage
+%   \input{conclusion}
+% No introduce cifras de resultados ni referencias nuevas: resume la sección anterior.
+\section{Conclusión}
+\label{sec:conclusion}\label{con-ini}
+
+Este proyecto preguntó en qué condiciones D-MAB mejora Tabu Search frente a la
+selección uniforme al programar cirugías en dos etapas. La literatura no había
+medido ese aporte en un Tabu con espera estricta y reparación. Nuestra respuesta
+es que no identificamos esa condición para D-MAB completo. Bajo congestión, el
+resultado es no concluyente, porque el intervalo de la diferencia incluye el cero.
+
+Sin embargo, el estudio deja tres hallazgos. Primero, la cartera supera al Tabu
+prolongado con igual presupuesto. Segundo, esa ganancia es compatible con repetir
+la búsqueda, porque no distinguimos la cartera de dos Tabu independientes.
+Tercero, el reinicio Page--Hinkley no ayuda bajo congestión. De hecho, UCB1 sin
+reinicio supera a D-MAB y, en una confirmación pre-registrada con semillas
+nuevas, también a Tabu uniforme.
+
+El aporte principal es metodológico. Diseñamos controles a igual presupuesto que
+separan el aprendizaje del cómputo y de la repetición de la búsqueda. Además, dos
+protocolos registrados antes de ejecutar restringieron nuestras decisiones. Así,
+no declaramos un efecto que el intervalo no respalda, y confirmamos una señal
+antes de afirmarla. Por último, generamos un catálogo de congestión que tensiona
+la espera entre etapas.
+
+Tres limitaciones acotan estas conclusiones. Primero, las semillas nuevas sobre
+un mismo catálogo sintético no miden generalización a otros hospitales. Segundo,
+la variabilidad observada dejó subdimensionada la comparación principal. Tercero,
+comparamos por evaluaciones y en una sola máquina, no por tiempo.
+
+Por tanto, el trabajo futuro debería contrastar cinco hipótesis. Primera: un
+umbral $\lambda$ mayor reduce los reinicios y acerca D-MAB a UCB1. Segunda: un
+crédito por rangos o por valores extremos entrega señal aunque las mejoras sean
+escasas. Tercera: recompensar el movimiento aplicado, y no el propuesto, corrige
+la distorsión de la reparación. Cuarta: reiniciar la búsqueda ante el
+estancamiento reproduce la ganancia de la cartera. Quinta: un modelo sustituto
+que prefiltre vecinos ahorra evaluaciones estrictas. Además, falta evaluar una
+cartera con UCB1 frente a dos Tabu independientes. También faltan instancias
+reservadas de 50 a 150 cirugías y una comparación a igual tiempo.
+
+En conjunto, el proyecto muestra que el valor de un híbrido no depende de sumar
+componentes de aprendizaje. Depende de comprobar, con controles, cuál de ellos
+aporta. En este caso, aportó el componente más simple.
+\label{con-fin}

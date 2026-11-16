@@ -1,0 +1,165 @@
+% Sección (v) Resultados y discusión. Se inserta en main.tex después de la
+% Configuración experimental:
+%   \clearpage
+%   \input{resultados}
+% Cada cifra lleva su fuente en un comentario «% fuente: ruta».
+% R = experiments/results. La tabla y la figura se generan con scripts.
+\section{Resultados y discusión}
+\label{sec:resultados}\label{res-ini}
+% Evita líneas viudas y huérfanas en esta sección y en la conclusión.
+% \@clubpenalty es el valor que LaTeX restaura después de cada título.
+\makeatletter\@clubpenalty=10000\makeatother
+\clubpenalty=10000\widowpenalty=10000
+
+Esta sección responde la pregunta del proyecto: ¿en qué condiciones D-MAB mejora
+Tabu Search frente a la selección uniforme? Cada diferencia se calcula como
+alternativa menos referencia; por tanto, un valor negativo favorece a la
+alternativa. La Tabla~\ref{tab:comparaciones} resume las cuatro comparaciones
+pre-registradas y la Figura~\ref{fig:forest} muestra sus intervalos.
+
+\begin{table}[!ht]
+ \centering
+ \caption{Comparaciones pre-registradas en el catálogo de congestión: 48 instancias, semillas 90--109 y 960 pares.}
+ \label{tab:comparaciones}
+ \footnotesize\setlength{\tabcolsep}{4pt}
+ \input{tablas/tabla_comparaciones}
+
+ \vspace{0.1cm}
+ \begin{minipage}{\textwidth}
+  \footnotesize Diferencia: alternativa menos referencia; un valor negativo favorece
+  a la alternativa. Lectura: aplica los tres criterios de la regla de C1 ($p$ de
+  Holm menor que 0,05, intervalo que excluye el cero y media de al menos 0,25 en
+  valor absoluto). Esa regla solo era vinculante para C1.
+ \end{minipage}
+\end{table}
+
+\subsection{El catálogo de congestión sí tensionó la espera}
+\label{subsec:validez}
+Primero comprobamos que el escenario fuera válido. El estudio completó los 960
+pares sin fallos. Además, la auditoría recalculó los 5.760 calendarios finales
+con el planificador estricto, y todos coincidieron con los valores archivados.
+% fuente: R/entrega2_congestion_90_109/verification.json
+En cuanto a la congestión, 51,8~\% de las soluciones de Tabu uniforme y D-MAB
+terminó con espera positiva. Por tamaño, esa proporción varió entre 45,0~\% y
+57,5~\%.
+% fuente: R/entrega2_exploratorio/espera_por_tamano.csv
+
+Por tanto, las comparaciones siguientes sí evalúan la condición de bloqueo que
+plantea la pregunta. Sin embargo, el margen sobre el criterio de 50~\% es
+estrecho: los dos tamaños menores quedan bajo él.
+
+\subsection{La evidencia sobre D-MAB frente a Tabu uniforme no es concluyente}
+\label{subsec:c1}
+Bajo congestión y con igual presupuesto, el resultado de C1 es no concluyente: no
+podemos afirmar que D-MAB mejore a Tabu uniforme. La diferencia media fue
+$-0{,}793$, con IC~95~\% [$-1{,}850$; $+0{,}279$] y $p$ de Holm 0,041.
+% fuente: R/entrega2_congestion_90_109/comparisons.csv (C1)
+La regla pre-registrada exigía tres condiciones, y C1 cumple dos. El $p$ de Holm
+es menor que 0,05 y la media es menor que $-0{,}25$. No obstante, el intervalo
+incluye el cero; por consiguiente, la hipótesis primaria no queda respaldada.
+Además, la diferencia favoreció a D-MAB en 504 pares y a Tabu uniforme en 418.
+% fuente: R/entrega2_congestion_90_109/comparisons.csv (wins, losses)
+
+Leemos el intervalo y no solo el valor $p$. El intervalo descarta un perjuicio
+medio mayor que 0,28 y un beneficio mayor que 1,85.
+% fuente: R/entrega2_congestion_90_109/comparisons.csv (C1: límites del IC, redondeados)
+En cambio, no distingue un
+efecto nulo de un beneficio relevante. Además, la potencia aproximada para
+detectar 0,65 fue solo 0,32 (sección~\ref{subsec:amenazas}).
+% fuente: R/entrega2_exploratorio/potencia_realizada.csv
+Por tanto, la falta de evidencia concluyente no prueba que ambos métodos sean
+equivalentes. De forma descriptiva, la diferencia provino de la espera: la espera
+total media bajó de 9,31 a 8,29 minutos. El makespan medio, en cambio, casi no
+cambió: 287,56 frente a 287,79.
+% fuente: R/entrega2_congestion_90_109/descriptive.csv
+
+\begin{figure}[t]
+ \centering
+ \includegraphics[width=\textwidth]{figuras/forest_comparaciones}
+ \caption{Diferencia media de $f$ e IC~95~\% agrupado de cada comparación. Un valor negativo favorece a la alternativa. La línea continua marca el cero y la discontinua, el umbral práctico. Los grupos son estudios distintos: la familia y el contraste exploratorio usan las semillas 90--109; la confirmación, las semillas 120--139.}
+ \label{fig:forest}
+\end{figure}
+
+\subsection{La ganancia de la cartera es compatible con repetir la búsqueda}
+\label{subsec:cartera}
+La cartera superó al Tabu prolongado con el mismo presupuesto de 6.060
+evaluaciones. En C2, la diferencia media fue $-1{,}380$, con IC [$-2{,}405$;
+$-0{,}398$] y $p$ de Holm 0,008. En cambio, frente a dos Tabu independientes
+(C3), la diferencia fue $-0{,}409$, con IC [$-1{,}126$; $+0{,}338$] y $p$ de
+Holm 0,057.
+% fuente: R/entrega2_congestion_90_109/comparisons.csv (C2, C3)
+Ese segundo intervalo incluye el cero. Además, en 546 de las 960 corridas
+(56,9~\%), el Tabu prolongado no registró mejoras después de la evaluación 3.030.
+% fuente: R/entrega3_descriptivos/descriptivos.csv (descriptivo, no pre-registrado)
+
+Por tanto, repartir el presupuesto en dos caminos rindió más que prolongar uno
+solo. Sin embargo, no podemos atribuir esa ganancia al aprendizaje, porque no
+distinguimos la cartera de dos Tabu uniformes. La explicación más simple es que
+la búsqueda se estanca y un segundo camino aporta diversidad. Pese a ello,
+leemos C2 con cautela: en la simulación de potencia, su error tipo~I fue 0,082
+y no 0,05.
+% fuente: R/entrega2_potencia/simulacion.csv (cartera vs Tabu prolongado, efecto 0, 48 instancias)
+
+\subsection{El reinicio Page--Hinkley no ayudó bajo congestión}
+\label{subsec:reinicio}
+La ablación indica que el reinicio perjudicó a D-MAB. En C4, D-MAB obtuvo un
+$f$ mayor que UCB1 sin reinicio. La diferencia media fue $+1{,}824$, con IC
+[$+0{,}566$; $+3{,}124$] y $p$ de Holm 0,005.
+% fuente: R/entrega2_congestion_90_109/comparisons.csv (C4)
+Además, D-MAB reinició sus estimaciones una mediana de 24 veces por corrida, es
+decir, cerca de una vez cada 126 evaluaciones.
+% fuente: R/entrega3_descriptivos/descriptivos.csv (descriptivo, no pre-registrado)
+
+Luego confirmamos con semillas nuevas un contraste que el estudio anterior solo
+exploró. Ese análisis exploratorio había dado $-2{,}617$ para UCB1 sin reinicio
+frente a Tabu uniforme.
+% fuente: R/entrega2_exploratorio/contrastes.csv (exploratorio, no pre-registrado)
+Por eso, registramos un segundo protocolo antes de ejecutar, con una sola
+comparación y las semillas 120--139. En esa confirmación, la diferencia media
+fue $-2{,}749$, con IC [$-4{,}069$; $-1{,}453$] y $p$ menor que 0,001.
+% fuente: R/entrega3_confirmacion_ucb1/comparisons.csv (E1)
+El resultado cumple las tres condiciones de la regla, y su auditoría recalculó
+los 1.920 calendarios finales.
+% fuente: R/entrega3_confirmacion_ucb1/verification.json
+
+Por tanto, en este catálogo de congestión, UCB1 sin reinicio supera a Tabu
+uniforme con igual presupuesto. Para explicar el efecto del reinicio, proponemos una hipótesis. En
+el diagnóstico del catálogo estándar, solo 3,9~\% de las propuestas recibió
+recompensa positiva.
+% fuente: R/entrega2_diagnostico_115_119/summary.csv
+Con una señal tan escasa, el detector podría reiniciar por ruido y borrar lo
+aprendido. Sin embargo, no medimos ese mecanismo; por tanto, sigue siendo una
+hipótesis.
+
+\subsection{Discusión: aporta la selección adaptativa, pero no el reinicio}
+\label{subsec:discusion}
+Estos resultados responden la pregunta en dos partes. Por un lado, no
+identificamos una condición en que D-MAB completo mejore de forma concluyente a
+Tabu uniforme. Por otro, bajo congestión sí aporta la selección adaptativa sin
+reinicio. Por consiguiente, el componente útil es UCB1 y no el detector de
+cambios.
+
+Este hallazgo matiza la literatura que motivó la propuesta.
+\textcite{dacosta2008} diseñaron el reinicio para escenarios donde cambia la
+calidad de los operadores. En nuestro Tabu, en cambio, la señal es escasa y la
+reparación la distorsiona. En congestión, el decodificador reparó en promedio
+44,0~\% de los candidatos de D-MAB.
+% fuente: R/entrega3_descriptivos/descriptivos.csv (descriptivo, no pre-registrado)
+Así, casi la mitad de las recompensas se asignó a un movimiento que no se aplicó
+tal cual. Además, otros estudios eligen operadores con aprendizaje en
+arquitecturas distintas \parencite{yu2024,dolatkhah2026}. Por eso, sus resultados
+no se trasladan directamente a este Tabu.
+
+En cuanto a la relevancia práctica, comparamos cada efecto con el umbral de
+0,25. Los intervalos de C2, de C4 y de la confirmación quedan completos más allá
+de ese umbral. El intervalo de C1, en cambio, abarca desde un beneficio relevante
+hasta un perjuicio leve.
+
+Tres amenazas limitan estas conclusiones. Primero, las semillas nuevas sobre el
+mismo catálogo no miden generalización a otros hospitales. Segundo, igualamos
+evaluaciones y no tiempo, y el piloto a igual tiempo fue solo descriptivo.
+Tercero, ejecutamos todo en una sola máquina y con datos sintéticos. Además, el
+objetivo inicial mencionaba tiempo y robustez, que aquí solo describimos. Por
+último, la confirmación no evalúa una cartera con UCB1 ni la compara con dos
+Tabu.
+\label{res-fin}

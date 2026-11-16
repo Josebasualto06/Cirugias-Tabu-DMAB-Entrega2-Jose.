@@ -1,4 +1,4 @@
-% Segundo informe OII464. Formato institucional de la Escuela de Ingeniería
+% Informe final OII464. Formato institucional de la Escuela de Ingeniería
 % Informática PUCV y propuesta de selección adaptativa de movimientos.
 \documentclass[12pt,letterpaper]{report}
 \usepackage[spanish,es-nodecimaldot]{babel}
@@ -9,13 +9,15 @@
 \renewcommand{\thesection}{\arabic{section}}
 \renewcommand{\thesubsection}{\thesection.\arabic{subsection}}
 \renewcommand{\thetable}{\arabic{table}}
+\renewcommand{\thefigure}{\arabic{figure}}
 \captionsetup[table]{name=Tabla}
+\captionsetup[figure]{name=Figura}
 \addto\captionsspanish{\renewcommand{\contentsname}{Índice}}
 \setlength{\headheight}{14pt}
 \hypersetup{
  pdftitle={Programación de cirugías electivas mediante búsqueda tabú y selección adaptativa de movimientos},
  pdfauthor={José Basualto, Cristopher Dauros, Carlos Ruz},
- pdfsubject={Segunda entrega del proyecto OII464},
+ pdfsubject={Informe final del proyecto OII464},
  pdfkeywords={programación de cirugías, búsqueda tabú, selección adaptativa de operadores, aprendizaje en línea}
 }
 
@@ -32,15 +34,16 @@ alarga y los recursos quedan bloqueados. Este proyecto integra búsqueda tabú c
 un bandido multibrazo dinámico (D-MAB), que aprende durante la ejecución qué
 movimiento conviene proponer. Una cartera fija ejecuta un camino uniforme y otro
 guiado por D-MAB, cada uno con 3.030 evaluaciones, y conserva el mejor calendario
-factible. Este segundo informe agrega la configuración experimental. El diseño
-usa las 12 instancias oficiales y 48 instancias nuevas con menos cirujanos, que
-tensionan la espera. Cinco controles separan el aporte del aprendizaje de otras
-explicaciones: más presupuesto, repetir la búsqueda o el reinicio del detector.
-Cada comparación empareja instancia y semilla. El equipo fijó hipótesis,
-semillas y pruebas antes de ejecutar. La prueba de Wilcoxon opera sobre medias
-por instancia, con corrección de Holm e intervalos bootstrap. Un análisis de
-potencia justifica el tamaño del estudio. Con este diseño, el proyecto busca
-identificar en qué condiciones la adaptación aporta mejoras reproducibles.
+factible. El diseño usa las 12 instancias oficiales y 48 instancias nuevas con
+menos cirujanos, que tensionan la espera. Cinco controles separan el aprendizaje
+de otras explicaciones, como más presupuesto o repetir la búsqueda. Un protocolo
+previo fijó hipótesis, semillas y pruebas; el análisis usa Wilcoxon sobre medias
+por instancia, con corrección de Holm. Bajo congestión, la evidencia sobre D-MAB
+frente a Tabu uniforme no es concluyente: el intervalo de la diferencia incluye
+el cero. La cartera supera al Tabu prolongado, pero no se distingue de dos Tabu
+independientes. En cambio, UCB1 sin reinicio supera a D-MAB y, en una
+confirmación pre-registrada, a Tabu uniforme. Por tanto, aporta la selección
+adaptativa simple y no el reinicio del detector.
 
 \noindent\textbf{Palabras clave:} programación de cirugías; búsqueda tabú;
 selección adaptativa de operadores; aprendizaje en línea; bloqueo.
@@ -78,16 +81,16 @@ docente de dos etapas con espera estricta, reparación y controles de cómputo.
 El objetivo de este proyecto es estudiar si la selección adaptativa de
 movimientos puede mejorar la calidad, el tiempo o la robustez de Tabu Search
 frente a la selección uniforme, integrando una metaheurística (MH) con
-aprendizaje automático (ML). Para ello, D-MAB orientará la generación de
+aprendizaje automático (ML). Para ello, D-MAB orienta la generación de
 vecinos durante la \emph{evolución} de la trayectoria
-\parencite{vega_taxonomia}, y su aporte se evaluará con instancias sintéticas
+\parencite{vega_taxonomia}, y su aporte se evalúa con instancias sintéticas
 del repositorio oficial \parencite{saicooh2026}, mediante comparaciones con
 las mismas restricciones y presupuestos de búsqueda equivalentes.
 
 \clearpage
 \section{Propuesta metodológica}
 \subsection{Problema, representación y factibilidad}
-La agenda será estática, con duraciones conocidas. La solución fija orden
+La agenda es estática, con duraciones conocidas. La solución fija orden
 y salas independientes por etapa; el planificador asigna profesionales
 elegibles disponibles. La espera y el fin de jornada son
 \begin{equation}
@@ -101,7 +104,7 @@ limpieza; $W_j$ es la espera; $L_j$ su límite estricto, y $C_{\max}$ el
 makespan. Las reservas siguen el modelo docente; la primera sala permanece
 ocupada hasta el traslado si las salas difieren.
 
-Se minimizará el siguiente criterio, sin penalización por desequilibrio de salas:
+Se minimiza el siguiente criterio, sin penalización por desequilibrio de salas:
 \begin{equation}
  f(S)=C_{\max}+10^{-6}\sum_o t_o^{\mathrm{ini}}
         +0{,}5\sum_{j\in J}W_j+1{,}4\max_{j\in J}W_j.
@@ -110,13 +113,13 @@ Se minimizará el siguiente criterio, sin penalización por desequilibrio de sal
 \noindent $S$ es un calendario y $f(S)$ su objetivo; $o$ recorre las
 operaciones y $t_o^{\mathrm{ini}}$ es su inicio de reserva. $C_{\max}$, $J$
 y $W_j$ se definieron en \eqref{eq:restricciones}. El coeficiente $10^{-6}$
-desempata; $0{,}5$ y $1{,}4$ ponderan espera total y máxima. Se reportarán
+desempata; $0{,}5$ y $1{,}4$ ponderan espera total y máxima. Se reportan
 estas métricas por separado: una reducción de $f$ no equivale necesariamente
 a la misma reducción del makespan.
 
 Las claves aleatorias representan orden y salas. El decodificador pospone
 pacientes no programables y repara asignaciones. La reparación puede alterar
-el movimiento y restringir calendarios alcanzables; se registrará su efecto
+el movimiento y restringir calendarios alcanzables; se registra su efecto
 sobre la atribución de recompensas.
 
 \subsection{Componente MH: búsqueda tabú}
@@ -141,11 +144,11 @@ el planificador asegura factibilidad y Tabu selecciona el vecino aceptado.
 
 \clearpage
 \subsection{Orquestación y cartera con respaldo}
-Fuera de línea se prepararán instancias y calibrarán parámetros con datos
-exploratorios separados. En línea se generarán, repararán y evaluarán
-candidatos, actualizando Tabu y D-MAB. Se partirá de exploración $C=0{,}1$,
+Fuera de línea se prepararon instancias y se calibraron parámetros con datos
+exploratorios separados. En línea se generan, reparan y evalúan
+candidatos, actualizando Tabu y D-MAB. Se usa exploración $C=0{,}1$,
 umbral Page--Hinkley $\lambda=1$ y margen del detector $\delta=0{,}01$;
-estos parámetros se revisarán en desarrollo.
+estos parámetros quedaron congelados antes de los experimentos.
 
 La cartera inicial ejecuta secuencialmente Tabu uniforme y Tabu con D-MAB,
 cada uno con 3.030 evaluaciones, incluidas sus treinta inicializaciones.
@@ -159,18 +162,18 @@ de Tabu de 3.030 evaluaciones, sin garantizar superar a Tabu de 6.060.
 La entrada ejecutable guarda ambos caminos y el calendario elegido.
 
 \subsection{Datos, controles y plan de evaluación}
-Se trabajará con 12 instancias obtenidas del repositorio oficial del problema
+Se trabajó con 12 instancias obtenidas del repositorio oficial del problema
 a estudiar, correspondientes a tres réplicas de 15, 20, 25 y 30 cirugías.
-Se comprobarán esquema, hashes, elegibilidad y unidades temporales. El tamaño,
+Se comprobaron esquema, hashes, elegibilidad y unidades temporales. El tamaño,
 los recursos, las duraciones y la espera permitida son metacaracterísticas descriptivas;
 no son entradas contextuales de D-MAB. Las nuevas semillas no sustituyen una
-evaluación en instancias reservadas. Durante el semestre se incorporarán
-escenarios de mayor congestión y tamaños de 50, 100 y 150 cirugías, ajustando
-recursos y declarando su procedencia sintética.
+evaluación en instancias reservadas. La sección~\ref{sec:experimental}
+incorpora un escenario de mayor congestión, de procedencia sintética declarada.
+Los tamaños de 50, 100 y 150 cirugías quedan como trabajo futuro.
 
 \begin{table}[ht]
  \centering
- \caption{Controles y ablaciones para identificar el aporte del aprendizaje.}
+ \caption{Controles y ablaciones previstos en la propuesta inicial; la Tabla~\ref{tab:lineas-base} los actualiza.}
  \label{tab:controles}
  \begin{tabular}{@{}p{0.32\textwidth}p{0.61\textwidth}@{}}
   \toprule
@@ -185,16 +188,16 @@ recursos y declarando su procedencia sintética.
  \end{tabular}
 \end{table}
 
-Se medirán objetivo, makespan, espera total y máxima, factibilidad, tiempo y
-convergencia; la robustez se estimará entre semillas. Se emparejarán instancias
-y semillas, con presupuestos de evaluaciones iguales entre estrategias y,
-en pruebas separadas, igual tiempo máximo. La incertidumbre se agrupará por
+Se midieron objetivo, makespan, espera total y máxima, factibilidad, tiempo y
+convergencia; la robustez se describe entre semillas. Se emparejaron instancias
+y semillas, con presupuestos de evaluaciones iguales entre estrategias. Un
+piloto descriptivo aparte usó igual tiempo máximo. La incertidumbre se agrupó por
 instancia, con contrastes corregidos por comparaciones múltiples.
 
-Se emplearán datos sintéticos sin identificadores clínicos y se registrarán
+Se emplearon datos sintéticos sin identificadores clínicos y se registraron
 el equipo, la configuración y el tiempo de ejecución de cada corrida,
 de modo que el costo computacional pueda analizarse al aumentar el tamaño
-de las instancias. Los controles y registros permitirán examinar el riesgo
+de las instancias. Los controles y registros permiten examinar el riesgo
 de atribuir al aprendizaje mejoras debidas a un mayor presupuesto o a la
 reparación de candidatos.
 
@@ -202,16 +205,10 @@ reparación de candidatos.
 \input{experimental_setup}
 
 \clearpage
-\section{Conclusión}
-La arquitectura sitúa el aprendizaje en la evolución de Tabu Search: D-MAB
-elige los movimientos y la cartera conserva el mejor calendario factible. La
-configuración experimental fija cómo evaluarla con igual presupuesto y las
-mismas restricciones. El catálogo de congestión permite estudiar la espera, que
-el catálogo oficial casi no tensiona.
+\input{resultados}
 
-Los controles y la regla de decisión, fijados antes de ejecutar, permiten
-distinguir el aporte del aprendizaje del de otros componentes. La próxima
-entrega informará los resultados de este diseño.
+\clearpage
+\input{conclusion}
 
 \clearpage
 \printbibliography[title={Referencias}]

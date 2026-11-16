@@ -1,3 +1,38 @@
+# Informe final (Entrega 3)
+
+`main.tex` contiene ahora el informe completo. La Entrega 3 agrega dos secciones
+y corrige la coherencia de las anteriores:
+
+- [`resultados.tex`](resultados.tex): sección 4, Resultados y discusión (3 páginas).
+- [`conclusion.tex`](conclusion.tex): sección 5, Conclusión (1 página).
+- [`Entrega_3_Tabu_DMAB.pdf`](Entrega_3_Tabu_DMAB.pdf): PDF final, 14 páginas.
+
+La tabla y la figura se generan desde los resultados archivados. Ninguna cifra
+se escribe a mano:
+
+```bash
+python experiments/scripts/descriptivos_entrega3.py   # descriptivos de congestión
+python experiments/scripts/tabla_resultados.py        # tablas/tabla_comparaciones.tex
+python experiments/scripts/forest_comparaciones.py    # figuras/forest_comparaciones.pdf
+```
+
+Dos verificadores de solo lectura acompañan al texto:
+
+```bash
+python -X utf8 informe/verificar_cifras.py   # cada cifra contra su archivo fuente
+python -X utf8 informe/verificar_estilo.py   # frases de 25 palabras o más y conectores
+```
+
+Para compilar, desde este directorio:
+
+```bash
+latexmk -pdf -interaction=nonstopmode -halt-on-error \
+  -jobname=Entrega_3_Tabu_DMAB main.tex
+```
+
+Los PDF de las Entregas 1 y 2 se conservan como se entregaron. El resto de este
+archivo describe la Entrega 1.
+
 # Informe de Entrega 1
 
 - Fuente principal: [`main.tex`](main.tex).
