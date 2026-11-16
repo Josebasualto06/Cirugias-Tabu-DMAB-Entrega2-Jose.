@@ -1,0 +1,7 @@
+{
+  "status": "completed",
+  "kind": "descriptive, not pre-registered, no search executed",
+  "source": "experiments/results/entrega2_congestion_90_109/runs.csv",
+  "source_sha256": "a9bf9d1a1b315b613ca39306cb2d6cf1022ff0ffb5f29dd8814ced4c40e3b3d0",
+  "script": "experiments/scripts/descriptivos_entrega3.py"
+}

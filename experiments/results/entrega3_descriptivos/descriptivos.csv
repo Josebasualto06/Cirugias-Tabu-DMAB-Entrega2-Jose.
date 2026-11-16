@@ -1,0 +1,14 @@
+measure,method,value,unit,runs
+mean_repaired_share,uniform3030,0.46589409722222225,share,960
+mean_repaired_share,dmab3030,0.44021805555555554,share,960
+mean_repaired_share,ucb3030,0.4014173611111111,share,960
+median_restarts,dmab3030,24.0,restarts per run,960
+mean_restarts,dmab3030,23.09375,restarts per run,960
+min_restarts,dmab3030,0,restarts per run,960
+max_restarts,dmab3030,53,restarts per run,960
+evaluations_per_median_restart,dmab3030,126.25,evaluations,960
+max_restarts,ucb3030,0,restarts per run,960
+runs_without_improvement_after_3030,uniform6060,546,runs,960
+share_without_improvement_after_3030,uniform6060,0.56875,share,960
+pairs_keeping_dmab_path,fixed_portfolio6060,516,pairs,960
+pairs_keeping_uniform_path,fixed_portfolio6060,444,pairs,960

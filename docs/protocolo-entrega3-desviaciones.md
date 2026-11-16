@@ -31,7 +31,7 @@ semilla 104. Los objetivos coincidieron con `entrega2_congestion_90_109`. Esa
 comprobación no guardó resultados ni usó las semillas 120–139.
 
 **N2 (2026-11-15). Ejecución.** El estudio corrió con 12 procesos entre las
-22:58 y las 23:14, en una sola sesión y antes de la fecha de corte. El
+22:59 y las 23:14, en una sola sesión y antes de la fecha de corte. El
 manifiesto registra el commit `dc9dbdf`.
 
 **N3 (2026-11-16). Resultado y auditoría.** La diferencia `UCB1 − uniforme` fue
