@@ -26,6 +26,40 @@ La [arquitectura](../docs/arquitectura-final.md) y la
 reparación, restricciones y límites de interpretación. Ninguno de los pilotos
 demuestra una superioridad general del aprendizaje con igual presupuesto.
 
+## Entregas 2 y 3: estudios pre-registrados en congestión
+
+Dos protocolos se registraron antes de ejecutar:
+[Entrega 2](../docs/protocolo-entrega2.md) y
+[Entrega 3](../docs/protocolo-entrega3.md). Cada uno tiene su registro de
+desviaciones. Ninguno modifica `src/`.
+
+```bash
+# Entrega 2: comparaciones C1–C4, semillas 90–109
+python -X utf8 -m experiments.study_congestion --workers 12
+python -X utf8 -m experiments.verify_congestion
+python -X utf8 -m experiments.explore_congestion      # exploratorio, no pre-registrado
+
+# Entrega 3: confirmación de UCB1 sin reinicio, semillas 120–139
+python -X utf8 -m experiments.confirm_ucb1 --workers 12
+python -X utf8 -m experiments.verify_confirm_ucb1
+
+# Informe final: descriptivos, tabla y figura desde los resultados archivados
+python experiments/scripts/descriptivos_entrega3.py
+python experiments/scripts/tabla_resultados.py
+python experiments/scripts/forest_comparaciones.py
+```
+
+`-X utf8` evita un fallo de codificación al imprimir en la consola de Windows.
+Los estudios completos se niegan a reemplazarse; reproducir uno exige otra
+carpeta de salida. Los resultados están en
+[`results/entrega2_congestion_90_109/`](results/entrega2_congestion_90_109/),
+[`results/entrega3_confirmacion_ucb1/`](results/entrega3_confirmacion_ucb1/) y
+[`results/entrega3_descriptivos/`](results/entrega3_descriptivos/). Los
+descriptivos no estaban pre-registrados: resumen columnas ya archivadas.
+
+Las semillas 0–139 y 1.000.060–1.000.109 están consumidas. Un estudio nuevo usa
+semillas desde la 140 y un protocolo propio.
+
 ## Estudio de selección de arquitectura: carteras, semillas 60–79
 
 ```bash

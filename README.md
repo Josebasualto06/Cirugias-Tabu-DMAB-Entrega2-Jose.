@@ -59,6 +59,37 @@ D-MAB no requiere entrenamiento previo con etiquetas: recibe recompensas de
 los candidatos evaluados durante cada corrida. La calibración de parámetros
 se realiza fuera de línea, separada de la evaluación.
 
+## Entrega 3 y final: resultados y conclusiones
+
+- [Informe final](informe/Entrega_3_Tabu_DMAB.pdf), con las secciones de
+  [resultados y discusión](informe/resultados.tex) y [conclusión](informe/conclusion.tex).
+- [Presentación final](presentacion_final/main.pdf) y su [guion](presentacion_final/guion.md).
+- Protocolos pre-registrados: [Entrega 2](docs/protocolo-entrega2.md) y
+  [Entrega 3](docs/protocolo-entrega3.md), con sus registros de desviaciones.
+
+En el catálogo de congestión, con 48 instancias y 960 pares por estudio:
+
+| Comparación (diferencia: alternativa − referencia) | Media | IC 95 % | Lectura |
+|---|---:|---|---|
+| C1: D-MAB − Tabu uniforme, 3.030 | −0,793 | [−1,850; +0,279] | No concluyente |
+| C4: D-MAB − UCB1 sin reinicio, 3.030 | +1,824 | [+0,566; +3,124] | Favorece a UCB1 sin reinicio |
+| C2: cartera − Tabu prolongado, 6.060 | −1,380 | [−2,405; −0,398] | Favorece a la cartera |
+| C3: cartera − dos Tabu, 6.060 | −0,409 | [−1,126; +0,338] | No concluyente |
+
+Estas cuatro comparaciones usan las semillas 90–109
+([análisis](experiments/results/entrega2_congestion_90_109/ANALYSIS.md)). Un valor
+negativo favorece a la alternativa. Aparte, una confirmación pre-registrada con
+las semillas nuevas 120–139 comparó UCB1 sin reinicio con Tabu uniforme: −2,749,
+IC 95 % [−4,069; −1,453]
+([análisis](experiments/results/entrega3_confirmacion_ucb1/ANALYSIS.md)).
+
+**No se demostró que D-MAB mejore a Tabu uniforme**: el intervalo de C1 incluye
+el cero. La cartera supera al Tabu prolongado, pero no se distingue de dos Tabu
+independientes, así que su ganancia es compatible con repetir la búsqueda. El
+reinicio Page–Hinkley no ayudó bajo congestión; UCB1 sin reinicio sí superó a
+Tabu uniforme. Las semillas nuevas sobre el mismo catálogo sintético no miden
+generalización a otros hospitales.
+
 ## Entrega 1
 
 - [Informe en LaTeX](informe/main.tex) y [PDF compilado](informe/Entrega_1_Tabu_DMAB.pdf).
