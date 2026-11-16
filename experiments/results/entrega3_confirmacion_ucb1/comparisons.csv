@@ -1,0 +1,2 @@
+comparison,method,reference,budget,pairs,instances,mean_difference,ci_low,ci_high,wins,similar,losses,instances_better,instances_worse,wilcoxon_p,holm_p
+E1,ucb3030,uniform3030,3030,960,48,-2.7494533244791666,-4.069457317643227,-1.4525055150520851,555,22,383,38,10,2.568754773335513e-06,2.568754773335513e-06

@@ -1,0 +1,9 @@
+{
+  "status": "passed",
+  "schedules_replayed": 1920,
+  "pairs": 960,
+  "failed_pairs": 0,
+  "source_hashes_match": true,
+  "decision_recomputed": true,
+  "h1c_supported": true
+}
