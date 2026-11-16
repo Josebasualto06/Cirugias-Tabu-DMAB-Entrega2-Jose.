@@ -8,12 +8,13 @@ kept apart and labelled, because they are different studies:
 * the pre-registered confirmation E1 (seeds 120-139), if that study is complete.
 
     python experiments/scripts/forest_comparaciones.py
-    python experiments/scripts/forest_comparaciones.py --salida presentacion_final/figuras/forest_comparaciones.pdf \
-        --ancho 24 --alto 9.6 --cuerpo 13 --fuente sans-serif --valores
+    python experiments/scripts/forest_comparaciones.py --valores --fuente "DejaVu Sans" \
+        --ancho 15 --alto 5.6 --cuerpo 7.4 \
+        --salida presentacion_final/figuras/forest_comparaciones.pdf
 
 Group identity never depends on colour alone: each group has its own marker and
 a header above its rows. The palette is the first three slots of a validated
-colour-blind-safe set.
+colour-blind-safe set. The file has exactly the requested size.
 """
 
 from __future__ import annotations
@@ -66,7 +67,7 @@ def groups() -> list[dict]:
     """Return the groups to draw, each with a header, a style and its rows."""
     family = {row["comparison"]: row for row in rows(FAMILY)}
     result = [{
-        "header": "Familia pre-registrada C1–C4 · semillas 90–109",
+        "header": "Familia pre-registrada · semillas 90–109",
         "legend": "Pre-registrada C1–C4", "color": BLUE, "marker": "o", "filled": True,
         "rows": [(FAMILY_LABELS[code], family[code]) for code in ("C1", "C4", "C2", "C3")],
     }]
@@ -92,7 +93,7 @@ def main() -> None:
     parser.add_argument("--salida", type=Path,
                         default=ROOT / "informe/figuras/forest_comparaciones.pdf")
     parser.add_argument("--ancho", type=float, default=16.0, help="width in cm")
-    parser.add_argument("--alto", type=float, default=7.6, help="height in cm")
+    parser.add_argument("--alto", type=float, default=7.4, help="height in cm")
     parser.add_argument("--cuerpo", type=float, default=9.0, help="font size in points")
     parser.add_argument("--fuente", default="serif")
     parser.add_argument("--valores", action="store_true",
@@ -102,37 +103,38 @@ def main() -> None:
     plt.rcParams.update({
         "font.family": args.fuente,
         "font.serif": ["Times New Roman", "Nimbus Roman", "DejaVu Serif"],
-        "font.sans-serif": ["Latin Modern Sans", "Arial", "DejaVu Sans"],
         "font.size": args.cuerpo, "pdf.fonttype": 42, "axes.unicode_minus": False,
         "mathtext.fontset": "stix" if args.fuente == "serif" else "dejavusans",
     })
-    figure, axis = plt.subplots(figsize=(args.ancho / 2.54, args.alto / 2.54))
+    # The constrained layout keeps every label inside the requested size, so the
+    # file is not rescaled when it is included.
+    figure, axis = plt.subplots(figsize=(args.ancho / 2.54, args.alto / 2.54),
+                                layout="constrained")
     figure.patch.set_facecolor("white")
 
-    position, ticks, labels, handles = 0.0, [], [], []
+    position = 0.0
+    ticks, labels, headers, value_ticks, values, handles = [], [], [], [], [], []
     for index, group in enumerate(groups()):
         if index:
-            position -= 0.55
-        axis.text(0.0, position, group["header"], transform=axis.get_yaxis_transform(),
-                  ha="left", va="center", color=INK_SECONDARY, style="italic",
-                  fontsize=args.cuerpo * 0.94)
+            position -= 0.45
+        # The header sits in the label column, above the rows of its group.
+        ticks.append(position)
+        labels.append(group["header"])
+        headers.append(len(labels) - 1)
         position -= 1.0
         face = group["color"] if group["filled"] else "white"
         for label, row in group["rows"]:
-            mean = float(row.get("mean_difference"))
+            mean = float(row["mean_difference"])
             low, high = float(row["ci_low"]), float(row["ci_high"])
             axis.plot([low, high], [position, position], color=group["color"], linewidth=1.6,
                       solid_capstyle="round", zorder=3)
             axis.plot([mean], [position], marker=group["marker"], markersize=6.5,
                       markerfacecolor=face, markeredgecolor=group["color"],
                       markeredgewidth=1.4, linestyle="none", zorder=4)
-            if args.valores:
-                axis.text(1.015, position,
-                          f"{spanish(mean)}  [{spanish(low)}; {spanish(high)}]",
-                          transform=axis.get_yaxis_transform(), ha="left", va="center",
-                          color=INK, fontsize=args.cuerpo * 0.94)
             ticks.append(position)
             labels.append(label)
+            value_ticks.append(position)
+            values.append(f"{spanish(mean)}  [{spanish(low)}; {spanish(high)}]")
             position -= 1.0
         handles.append(Line2D([0], [0], color=group["color"], linewidth=1.6,
                               marker=group["marker"], markersize=6.5, markerfacecolor=face,
@@ -140,13 +142,18 @@ def main() -> None:
                               label=group["legend"]))
 
     axis.axvline(0, color=INK_SECONDARY, linewidth=0.9, zorder=2)
-    axis.axvline(THRESHOLD, color=INK_SECONDARY, linewidth=0.9, linestyle=(0, (3, 2.5)), zorder=2)
-    # Keep a free band under the last row for the threshold label.
-    axis.set_ylim(position - 0.1, 0.75)
-    axis.text(THRESHOLD - 0.06, position + 0.02, "umbral práctico −0,25", ha="right",
-              va="bottom", color=INK_SECONDARY, fontsize=args.cuerpo * 0.9)
+    dashes = (0, (3, 2.5))
+    axis.axvline(THRESHOLD, color=INK_SECONDARY, linewidth=0.9, linestyle=dashes, zorder=2)
+    handles.append(Line2D([0], [0], color=INK_SECONDARY, linewidth=0.9, linestyle=dashes,
+                          label="Umbral práctico −0,25"))
+    axis.set_ylim(position + 0.4, 0.55)
     axis.set_yticks(ticks)
     axis.set_yticklabels(labels, color=INK)
+    for index in headers:
+        tick = axis.get_yticklabels()[index]
+        tick.set_color(INK_SECONDARY)
+        tick.set_fontstyle("italic")
+        tick.set_fontsize(args.cuerpo * 0.94)
     axis.tick_params(axis="y", length=0, pad=6)
     axis.tick_params(axis="x", colors=INK_SECONDARY, length=3)
     axis.xaxis.set_major_locator(MultipleLocator(1))
@@ -156,13 +163,20 @@ def main() -> None:
     for side in ("top", "right", "left"):
         axis.spines[side].set_visible(False)
     axis.spines["bottom"].set_color(GRID)
-    axis.set_xlabel("Diferencia media de $f$ (alternativa − referencia) e IC 95 %.  "
-                    "Negativo favorece a la alternativa", color=INK_SECONDARY)
-    axis.legend(handles=handles, loc="lower right", frameon=False, handlelength=2.2,
-                labelcolor=INK, borderaxespad=0.2)
+    figure.supxlabel("Diferencia media de $f$ e IC 95 %; negativo favorece a la alternativa",
+                     color=INK_SECONDARY, fontsize=args.cuerpo)
+    figure.legend(handles=handles, loc="outside upper center", ncols=len(handles),
+                  frameon=False, handlelength=2.2, labelcolor=INK, columnspacing=1.4)
+    if args.valores:
+        # Mean and interval of each row, as tick labels of a secondary axis.
+        column = axis.secondary_yaxis("right")
+        column.set_yticks(value_ticks, labels=values)
+        column.tick_params(axis="y", length=0, pad=6, labelcolor=INK,
+                           labelsize=args.cuerpo * 0.94)
+        column.spines["right"].set_visible(False)
 
     args.salida.parent.mkdir(parents=True, exist_ok=True)
-    figure.savefig(args.salida, bbox_inches="tight", pad_inches=0.03)
+    figure.savefig(args.salida)
     print(args.salida)
 
 
