@@ -8,6 +8,7 @@
 % G = R/entrega3_diagnostico_revision/summary.csv (diagnóstico posterior).
 % M = R/entrega3_diagnostico_recompensa/summary.csv (muestra de semillas, exploratorio).
 % S = R/entrega3_sensibilidad_bases/comparisons.csv (reanálisis exploratorio por base).
+% K = R/entrega3_cierre/summary.csv (tamaño de efecto, inicios y reglas; exploratorio).
 \section{Resultados y discusión}
 \label{sec:resultados}\label{res-ini}
 % Evita líneas viudas y huérfanas en esta sección y en la conclusión.
@@ -15,12 +16,14 @@
 \makeatletter\@clubpenalty=10000\makeatother
 \clubpenalty=10000\widowpenalty=10000
 
-Cada diferencia es alternativa menos referencia: un valor negativo favorece a la alternativa.
+Bajo congestión, D-MAB no mostró una mejora concluyente y UCB1 sí, aunque pequeña.
+Cada diferencia es alternativa menos referencia: un valor negativo favorece
+a la alternativa.
 
-\subsection{Tabu aporta la mayor parte de la mejora}
+\subsection{Con inicios lo antes posible, Tabu aporta la mayor parte de la mejora}
 \label{subsec:absolutos}
-El estudio completó los 960 pares sin fallos y su auditoría recalculó los 5.760
-calendarios, todos factibles.
+Los 960 pares terminaron sin fallos y los 5.760 calendarios auditados son
+factibles.
 % fuente: R/entrega2_congestion_90_109/verification.json
 El 51,8~\% de las soluciones de Tabu uniforme y D-MAB terminó con espera, entre
 45,0~\% y 57,5~\% según el tamaño.
@@ -63,9 +66,9 @@ D-MAB bajó la espera, no el \emph{makespan}.
 
 \begin{table}[!ht]
  \centering
- \caption{Diferencias de $f$ (semillas 90--109, 960 pares); negativo favorece a la alternativa. Negrita: cumple los tres criterios en el sentido de su media; solo obligaban en C1. Por base, ninguna comparación los cumple. Ese reanálisis y las columnas por tamaño (12 instancias cada una) son exploratorios.}
+ \caption{Diferencias de $f$ (semillas 90--109, 960 pares); negativo favorece a la alternativa. Negrita: cumple los tres criterios en el sentido de su media; solo obligaban en C1. Por base, ninguna comparación los cumple. Ese reanálisis, $r$ y las columnas por tamaño (12 instancias cada una) son exploratorios.}
  \label{tab:comparaciones}
- \scriptsize\setlength{\tabcolsep}{4pt}
+ \scriptsize\setlength{\tabcolsep}{2.5pt}
  \input{tablas/tabla_comparaciones}
 \end{table}
 
@@ -97,7 +100,7 @@ $-2{,}749$, con IC [$-4{,}069$; $-1{,}453$] y $p$ menor que 0,001
 
 E1 también cumple la regla por base (IC [$-4{,}335$; $-1{,}191$]; $p=0{,}005$).
 % fuente: S (E1)
-Mejora en 38 de 48 instancias, pero equivale a solo 0,92~\% de $f$. Con 15, 20, 25 y
+Mejora en 38 de 48 instancias ($r=-0{,}64$), pero equivale a solo 0,92~\% de $f$. Con 15, 20, 25 y
 30 cirugías dio $+0{,}12$, $-2{,}96$, $-3{,}91$ y $-4{,}25$: con 15 no hay ventaja.
 % fuente: D (instances_better, relative_difference y difference_<tamaño>, E1)
 
@@ -134,7 +137,7 @@ por tamaño y el piloto no incluyó UCB1.
  \label{fig:distribucion}
 \end{figure}
 
-\subsection{En el catálogo estándar los efectos no fueron consistentes}
+\subsection{En las oficiales, Tabu supera a las reglas, pero la selección no es consistente}
 \label{subsec:estandar}
 Con la configuración vigente (semillas 40--59), los signos se invirtieron respecto
 de la congestión. UCB1
@@ -148,13 +151,15 @@ $-0{,}455$, $-0{,}513$ y $-0{,}058$.
 En las semillas 60--79, D-MAB dio $+0{,}108$ frente a uniforme. La cartera dio
 $-0{,}656$ frente al prolongado y $+0{,}134$ frente a dos Tabu.
 % fuente: D (60-79)
-Son descriptivos, con 12 instancias, y ninguno sustenta una superioridad.
+Son descriptivos y ninguno sustenta una superioridad entre políticas.
+En una comparación exploratoria, esa cartera sí superó a la mejor regla constructiva en
+las 12 instancias, con 5,89~\% menos de $f$. En \emph{makespan}, y también con la
+penalización de clase por desequilibrio, ganó en 10. Dos Tabu lograron 5,90~\%, por lo que no lo atribuimos al
+aprendizaje.
+% fuente: K (official_*)
 
 \subsection{Discusión: bajo congestión ayuda UCB1, no el reinicio}
 \label{subsec:discusion}
-Con cirujanos escasos e igual número de evaluaciones, D-MAB no mejora de forma
-concluyente. UCB1 sí, sobre todo desde 20 cirugías, y solo esa ventaja se mantiene por base.
-
 Un diagnóstico exploratorio apunta a falsas alarmas del detector. En una muestra de
 cuatro semillas, la recompensa media baja al comienzo, cuando D-MAB reinicia más, y luego
 se estabiliza. Aun así,

@@ -136,7 +136,7 @@ def checks() -> list[tuple[str, str, str]]:
     assert replay["status"] == "passed" and replay["h1c_supported"]
 
     return (found + revision_checks() + diagnosis_checks() + reward_checks()
-            + sensitivity_checks())
+            + sensitivity_checks() + closing_checks())
 
 
 def revision_checks() -> list[tuple[str, str, str]]:
@@ -286,6 +286,44 @@ def sensitivity_checks() -> list[tuple[str, str, str]]:
                           else tex(float(row[f"ci_{side}"])), source))
         prefix = "p=" if code == "E1" else ""
         found.append((f"{code} por base, p", prefix + plain(float(row["holm_p"]), 3), source))
+    return found
+
+
+def closing_checks() -> list[tuple[str, str, str]]:
+    """Effect size, start-time rule and constructive rules in the official instances."""
+    source = "entrega3_cierre/summary.csv"
+    value = {(r["measure"], r["item"]): float(r["value"]) for r in rows(RESULTS / source)}
+    found = []
+
+    def add(claim: str, text: str) -> None:
+        found.append((claim, text, source))
+
+    for code in ("C1", "C2", "C3", "C4"):
+        add(f"r de {code}", tex(value["effect_size_r", code], 2, signed=True))
+    add("r de E1", "r=" + tex(value["effect_size_r", "E1"], 2, signed=True).strip("$"))
+
+    # The delay removes every wait, and then the best rule wins in all 48 instances.
+    assert value["schedules_waiting_after_delay", "all"] == 0
+    wins = [v for (measure, _), v in value.items() if measure == "instances_where_best_rule_wins"]
+    assert len(wins) == 8 and set(wins) == {48.0}
+    add("sección 3: la mejor regla con retraso", f"en las {wins[0]:.0f} instancias")
+    for name, study in (("E1", "entrega3_confirmacion_ucb1"),
+                        ("90-109", "entrega2_congestion_90_109")):
+        after = value["ucb_minus_uniform_delayed_objective", study]
+        assert value["ucb_minus_uniform_objective", study] < after < 0
+        add(f"sección 3: ventaja de UCB1 con retraso ({name})", plain(-after, 3))
+
+    better = {measure: value["official_instances_better_than_best_rule",
+                             f"fixed_portfolio6060:{measure}"]
+              for measure in ("objective", "makespan", "course_objective")}
+    assert better == {"objective": 12, "makespan": 10, "course_objective": 10}
+    add("cartera gana en makespan y con desequilibrio", f"ganó en {better['makespan']:.0f}")
+    gain = {method: value["official_mean_gain_percent", f"{method}:objective"]
+            for method in ("fixed_portfolio6060", "two_uniform6060")}
+    # The gain is not attributed to learning: two uniform Tabu obtain as much.
+    assert gain["two_uniform6060"] >= gain["fixed_portfolio6060"]
+    for method, percent in gain.items():
+        add(f"mejora sobre las reglas en las oficiales, {method}", plain(percent, 2))
     return found
 
 

@@ -57,7 +57,7 @@ UCB1 sin reinicio superó a D-MAB por 1,824. Al reanalizar de forma exploratoria
 ambas ventajas perdieron significación. Sí se mantuvo una confirmación
 prerregistrada con semillas nuevas: UCB1 superó a la selección uniforme
 ($-2{,}749$; IC [$-4{,}069$; $-1{,}453$]). Así, la evidencia favorece a UCB1 bajo
-congestión, pero no fue consistente en el catálogo oficial.
+congestión y con inicios lo antes posible, pero no fue consistente en el catálogo oficial.
 % fuente: secciones 4.2 a 4.6
 
 \noindent\textbf{Palabras clave:} programación de cirugías; búsqueda tabú;
@@ -147,7 +147,7 @@ $C_{\max}$ el \emph{makespan}. El anestesista queda reservado hasta que empieza 
 cirugía. La primera sala también, salvo que sea la misma de la cirugía: en ese
 caso se ocupa hasta el final. Esta regla sigue la formulación de clase
 \parencite{lara2026}; el simulador estricto docente retiene la sala hasta el fin
-de la cirugía (sección~\ref{subsec:amenazas}).
+de la cirugía. Nuestro planificador inicia cada etapa lo antes posible (sección~\ref{subsec:amenazas}).
 
 Se minimiza el criterio
 \begin{equation}

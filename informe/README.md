@@ -17,6 +17,7 @@ python -X utf8 experiments/scripts/descriptivos_revision.py   # descriptivos de 
 python -X utf8 experiments/scripts/diagnostico_revision.py    # diagnóstico; una sola vez
 python -X utf8 experiments/scripts/diagnostico_recompensa.py  # exploratorio; una sola vez
 python -X utf8 experiments/scripts/sensibilidad_bases.py      # exploratorio; una sola vez
+python -X utf8 experiments/scripts/cierre_informe.py          # exploratorio; una sola vez
 python experiments/scripts/tabla_descriptiva.py       # tablas/tabla_descriptiva.tex
 python experiments/scripts/tabla_resultados.py        # tablas/tabla_comparaciones.tex
 python experiments/scripts/forest_comparaciones.py    # figuras/forest_comparaciones.pdf

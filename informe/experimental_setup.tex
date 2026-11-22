@@ -125,7 +125,9 @@ relevancia clínica.
 Por esa dependencia, después de ver los resultados repetimos C1--C4 y E1 con la base
 como unidad, es decir, 12 bases. Mantuvimos la prueba, la corrección, el remuestreo y la
 regla. Este reanálisis es exploratorio. No reemplaza las decisiones registradas y, con menos
-unidades, tiene menos potencia.
+unidades, tiene menos potencia. También es exploratorio el tamaño de efecto de Wilcoxon,
+$r=Z/\sqrt{n}$, con $n=48$ y el signo de la diferencia.
+% fuente: experiments/results/entrega3_cierre/effect_sizes.csv
 % fuente: experiments/results/entrega3_sensibilidad_bases/
 
 \begin{table}[!ht]
@@ -154,7 +156,7 @@ resultado no significativo no prueba equivalencia.
 
 \subsection{Amenazas a la validez}
 \label{subsec:amenazas}
-Siete amenazas limitan el diseño. Primero, la calibración reutiliza las instancias
+Ocho amenazas limitan el diseño. Primero, la calibración reutiliza las instancias
 estándar, ya conocidas al elegir la arquitectura. Segundo, el catálogo de congestión
 se diseñó después de ver los resultados del estándar y hereda su perfil de duraciones.
 Además, sus 48 instancias derivan de las 12 estándar, cuatro de cada una. Wilcoxon y el
@@ -174,6 +176,15 @@ evaluador antiguo, en cambio, no retiene la sala hasta el final. Reimplementamos
 la regla estricta, sin ejecutar ese simulador: con ella,
 83,4~\% de nuestros 7.680 calendarios finales sería infactible. Nuestros
 valores no son comparables con los de ese simulador, y no evaluamos si las conclusiones
-se mantienen con su regla.%
+se mantienen con su regla.
 % fuente: experiments/results/entrega3_diagnostico_revision/summary.csv
+
+Octavo, el planificador inicia cada anestesia lo antes posible, como el simulador docente.
+El modelo matemático de clase, en cambio, trata ese inicio como variable. De forma
+exploratoria, retrasar ese inicio hasta poder operar eliminó la espera de los calendarios de congestión
+sin cambiar su término. Con ese retraso, la mejor regla constructiva superó la media de cada
+método en las 48 instancias. La ventaja de UCB1 también bajó: a 1,656 en E1 y a 0,093 en las
+semillas 90--109. No repetimos la búsqueda con esa regla, por lo que nuestras conclusiones
+valen solo con inicios lo antes posible.%
+% fuente: experiments/results/entrega3_cierre/summary.csv
 \label{set-fin}

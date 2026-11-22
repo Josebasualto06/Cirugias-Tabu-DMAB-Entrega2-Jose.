@@ -103,6 +103,13 @@ La regla de salas sigue la formulación de clase y difiere de la del simulador
 estricto del repositorio docente: los valores no son comparables con los de ese
 simulador (sección 3.5 del informe).
 
+Todo lo anterior vale solo con inicios lo antes posible. En una
+[revisión exploratoria](experiments/results/entrega3_cierre/CIERRE.md), retrasar la
+anestesia elimina la espera en congestión y entonces la mejor regla constructiva supera
+a todos los métodos en media. La misma revisión muestra que, en las 12 instancias
+oficiales, la cartera supera a la mejor de FIFO, SPT y LPT por 5,89 %. Dos Tabu logran
+5,90 %, así que esa ventaja no se atribuye al aprendizaje.
+
 ## Entrega 1
 
 - [Informe en LaTeX](informe/main.tex) y [PDF compilado](informe/Entrega_1_Tabu_DMAB.pdf).
