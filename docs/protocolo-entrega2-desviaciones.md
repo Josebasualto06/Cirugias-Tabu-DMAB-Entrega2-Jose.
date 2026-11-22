@@ -95,3 +95,12 @@ obligaba en C1 y pide una media negativa. Cuando N7 y la tabla extienden sus tre
 C2–C4, los leen en el sentido de la media: p de Holm bajo 0,05, IC que excluye el cero y media
 absoluta de al menos 0,25. Importa en C4, cuya media es positiva y favorece a la referencia.
 Ninguna cifra ni decisión cambia.
+
+**N9 (2026-11-22). Tamaño de efecto y regla de inicios.** Después de ver los resultados,
+`experiments/scripts/cierre_informe.py` agregó r = Z/√n de las pruebas C1–C4 registradas, sobre
+las mismas medias, sin una prueba nueva. También midió una dependencia no declarada: el
+planificador inicia cada etapa lo antes posible, como el simulador docente. Al retrasar solo la
+anestesia, los calendarios archivados de congestión quedan sin espera y con el mismo makespan.
+Entonces la mejor regla constructiva supera la media de cada método en las 48 instancias y
+UCB1 − uniforme pasa de −2,617 a −0,093. No se repitió la búsqueda con esa regla. Es
+exploratorio: las decisiones registradas no cambian y valen solo con la regla de inicios usada.

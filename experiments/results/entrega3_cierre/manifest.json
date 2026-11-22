@@ -1,0 +1,38 @@
+{
+  "status": "completed",
+  "kind": "exploratory, after seeing the results; no decision changed",
+  "searches_run": 0,
+  "delta": 100.0,
+  "software": {
+    "python": "3.13.2",
+    "numpy": "2.2.3",
+    "scipy": "1.15.2"
+  },
+  "hash_convention": "sha256 of LF-normalized bytes",
+  "sources_sha256": {
+    "experiments/results/entrega2_congestion_90_109/runs.csv": "b5e57e6b5f7ad1c62a3ec9f3b767bd93bca4791dc37d5c213754a90d788793d6",
+    "experiments/results/entrega2_congestion_90_109/solutions.jsonl": "0261646ba17d881091bba1f371caace5516336ad26353e5c36121eddbf1766da",
+    "experiments/results/entrega2_congestion_90_109/comparisons.csv": "b3ddc32f8369cd23e56544f217a26edb5f295f3b864b2cee0df02a9111e2edde",
+    "experiments/results/entrega3_confirmacion_ucb1/runs.csv": "144789c22ab715d7d8bcae2a1e7d23990cef1c34e6b26b5e466c09a5714b36df",
+    "experiments/results/entrega3_confirmacion_ucb1/solutions.jsonl": "5ffc86a7543c27c638beb4e80ee6715623849aaa3ecfef5a5641a7f71117175f",
+    "experiments/results/entrega3_confirmacion_ucb1/comparisons.csv": "80b2f4bd0e0540f23c15eeea8ddc8c34e27f8594bbb2c6d65ebcd18fe533e87b",
+    "experiments/results/portfolios_60_79/runs.csv": "da46375665a3e1eb0334afb4a21759ee470c3a9f35f7a7bdcb214131ccc32ca1",
+    "experiments/results/portfolios_60_79/solutions.jsonl": "661a4e67bf425cc4f2dad9e4fc89201a6a4b8f5460d0d01aa11ed978edfb493c",
+    "experiments/results/validation_40_59/baselines.csv": "cf34f89c12ae1c44e755196b8c00e5d83ff561de71e32a44e5a8547b32f2147b"
+  },
+  "code_sha256": {
+    "src/surgery_optim/__init__.py": "edc423add241dc635c38113a92496d89c4800c008773d9e6908c21305b900a9a",
+    "src/surgery_optim/bandit.py": "82a5dd7eaa4fef68d0e74842c06b644ff4136c3d4418eab7f97cda117a9ec32b",
+    "src/surgery_optim/baselines.py": "07e2f0dba9df46a578b368187ce85bca025cc2f6073a6dc456b4b2ac69d81fd8",
+    "src/surgery_optim/encoding.py": "e20c3aee461c86bec8a6100444355677f6fb416c2c6b5e34164a6ea36128b68d",
+    "src/surgery_optim/instances.py": "aebc507ea4af68b38970069321b3b45349503fe781009bc1a7bd0d45ab7b3921",
+    "src/surgery_optim/model.py": "052d66de03256e770f9bc60a6b399c45bcc88d6a886716d78868876478ed8da1",
+    "src/surgery_optim/objective.py": "22fc51d23b31577abf78933e30bfdb71a44f855e35f401bdfc7055265f03ab61",
+    "src/surgery_optim/portfolio/__init__.py": "ec543110d3e9f21c059c87efffb1a6fe4239cf4fb9d039b99dc326e7ffc8b751",
+    "src/surgery_optim/portfolio/__main__.py": "3d2414802f0534bdf846a812d3345461e1d1744d7f3524de1ee0d2857a327018",
+    "src/surgery_optim/scheduler.py": "881d0f9468da90f0bc9f0fbe1209297f4527063ac44b48e5c000a5f7f2a198b4",
+    "src/surgery_optim/tabu.py": "1d81b2ea3e775065ea26dca397ac36024455425f9ab30bce37d52e4324032e3c"
+  },
+  "script": "experiments/scripts/cierre_informe.py",
+  "script_sha256": "e703b16276058e47174df9e65203bc824899dbdc632b5024f9204d06c42b24f9"
+}

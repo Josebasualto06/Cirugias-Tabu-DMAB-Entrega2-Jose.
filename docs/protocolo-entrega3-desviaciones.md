@@ -98,3 +98,12 @@ cambiar la prueba, el bootstrap ni la regla, junto con C1–C4 (nota N7 de la En
 `experiments/results/entrega3_sensibilidad_bases/`, E1 sigue cumpliendo la regla: IC
 [−4,335; −1,191] y p = 0,005. No es una confirmación adicional, no mide generalización y no
 cambia la decisión registrada.
+
+**N11 (2026-11-22). Cierre del informe.** Según `experiments/results/entrega3_cierre/`,
+calculado después de ver los resultados y sin búsquedas nuevas, E1 tiene r = −0,64. Con la
+anestesia retrasada (nota N9 de la Entrega 2), su diferencia pasa de −2,749 a −1,656: H1c sigue
+respaldada según su protocolo, pero solo con inicios lo antes posible. La misma salida compara,
+de forma exploratoria, la cartera archivada de las semillas 60–79 con FIFO, SPT y LPT en las 12
+instancias oficiales: gana en las 12, con 5,89 % menos del objetivo, y en 10 al sumar la
+penalización de clase por desequilibrio. Dos Tabu logran 5,90 %, así que no se atribuye al
+aprendizaje. No se usó el simulador docente ni su regla de salas.

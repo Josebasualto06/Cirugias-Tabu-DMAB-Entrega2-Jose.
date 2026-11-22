@@ -50,6 +50,7 @@ python -X utf8 experiments/scripts/descriptivos_revision.py
 python -X utf8 experiments/scripts/diagnostico_revision.py  # diagnóstico; una sola vez
 python -X utf8 experiments/scripts/diagnostico_recompensa.py  # exploratorio; una sola vez
 python -X utf8 experiments/scripts/sensibilidad_bases.py      # exploratorio; una sola vez
+python -X utf8 experiments/scripts/cierre_informe.py          # exploratorio; una sola vez
 python experiments/scripts/tabla_descriptiva.py
 python experiments/scripts/tabla_resultados.py
 python experiments/scripts/forest_comparaciones.py
@@ -67,14 +68,16 @@ La revisión final agrega [`results/entrega3_revision/`](results/entrega3_revisi
 [`results/entrega3_revision_reejecucion/`](results/entrega3_revision_reejecucion/), esta
 última con semillas archivadas que se repiten solo para auditar.
 
-Tres análisis exploratorios, posteriores a los resultados, no cambian decisiones:
+Cuatro análisis exploratorios, posteriores a los resultados, no cambian decisiones:
 
 - [`results/entrega3_diagnostico_revision/`](results/entrega3_diagnostico_revision/): banco
   estacionario del detector y regla de salas del simulador estricto docente;
 - [`results/entrega3_diagnostico_recompensa/`](results/entrega3_diagnostico_recompensa/):
   recompensa media y momento de los reinicios, en una muestra de semillas;
 - [`results/entrega3_sensibilidad_bases/`](results/entrega3_sensibilidad_bases/): C1–C4 y E1
-  con la instancia base como unidad.
+  con la instancia base como unidad;
+- [`results/entrega3_cierre/`](results/entrega3_cierre/): tamaño de efecto, sensibilidad a la
+  regla de inicios y comparación con las reglas en las instancias oficiales.
 
 Las semillas 0–139 y 1.000.060–1.000.109 están consumidas. Un estudio nuevo usa
 semillas desde la 140 y un protocolo propio.
