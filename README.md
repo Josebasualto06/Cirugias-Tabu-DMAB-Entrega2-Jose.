@@ -96,8 +96,8 @@ otros hospitales.
 Las 48 instancias derivan de 12 bases. Un
 [reanálisis exploratorio](experiments/results/entrega3_sensibilidad_bases/SENSIBILIDAD.md),
 decidido después de ver los resultados, usa la base como unidad. Con él, C1 sigue
-sin cumplir la regla, C2 y C4 dejan de cumplirla y la confirmación de UCB1 la
-mantiene. No reemplaza las decisiones registradas.
+sin cumplir la regla, C2 y C4 pierden significación y la confirmación de UCB1 sigue
+cumpliéndola. No reemplaza las decisiones registradas.
 
 La regla de salas sigue la formulación de clase y difiere de la del simulador
 estricto del repositorio docente: los valores no son comparables con los de ese

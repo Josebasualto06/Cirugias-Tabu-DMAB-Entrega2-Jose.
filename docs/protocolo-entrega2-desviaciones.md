@@ -89,3 +89,9 @@ todos. No se cambió la prueba, la familia de Holm, el bootstrap ni la regla. Se
 0,010; IC [−1,786; +0,176]) y C3 tampoco la cumple. C2 y C4 dejan de cumplirla (p de Holm
 0,192 en ambas). Con 12 unidades hay menos potencia: eso no prueba ausencia de efecto. Las
 decisiones registradas no cambian y no se agregaron corridas, semillas ni instancias.
+
+**N8 (2026-11-22). Precisión de N7 y de la negrita de la tabla del informe.** La regla solo
+obligaba en C1 y pide una media negativa. Cuando N7 y la tabla extienden sus tres criterios a
+C2–C4, los leen en el sentido de la media: p de Holm bajo 0,05, IC que excluye el cero y media
+absoluta de al menos 0,25. Importa en C4, cuya media es positiva y favorece a la referencia.
+Ninguna cifra ni decisión cambia.
