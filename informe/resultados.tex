@@ -5,12 +5,17 @@
 % Cada cifra lleva su fuente en un comentario «% fuente: ruta».
 % R = experiments/results. Las tablas y las figuras se generan con scripts.
 % D = R/entrega3_revision/descriptivos.csv (descriptivo, no prerregistrado).
+% G = R/entrega3_diagnostico_revision/summary.csv (diagnóstico posterior).
+% M = R/entrega3_diagnostico_recompensa/summary.csv (muestra de semillas, exploratorio).
+% S = R/entrega3_sensibilidad_bases/comparisons.csv (reanálisis exploratorio por base).
 \section{Resultados y discusión}
 \label{sec:resultados}\label{res-ini}
 % Evita líneas viudas y huérfanas en esta sección y en la conclusión.
 % \@clubpenalty es el valor que LaTeX restaura después de cada título.
 \makeatletter\@clubpenalty=10000\makeatother
 \clubpenalty=10000\widowpenalty=10000
+
+Cada diferencia es alternativa menos referencia: un valor negativo favorece a la alternativa.
 
 \subsection{Tabu aporta la mayor parte de la mejora}
 \label{subsec:absolutos}
@@ -24,6 +29,9 @@ La Tabla~\ref{tab:descriptiva} muestra que Tabu uniforme ya mejora en 11,2~\% a 
 mejor regla constructiva. UCB1 llega a 12,0~\%: cambiar la selección agrega menos de un
 punto.
 % fuente: D (improvement_over_best_rule)
+Las reglas terminan antes, pero esperan más de diez veces lo que Tabu uniforme: $f$
+acepta más \emph{makespan} por menos espera.
+% fuente: D (makespan y blocked de las reglas y de uniform3030)
 
 \begin{table}[!ht]
  \centering
@@ -39,54 +47,58 @@ En C1 (Tabla~\ref{tab:comparaciones}), la diferencia media fue $-0{,}793$, con
 IC~95~\% [$-1{,}850$; $+0{,}279$] y $p$ de Holm 0,041.
 % fuente: R/entrega2_congestion_90_109/comparisons.csv (C1)
 Wilcoxon rechaza la igualdad, pero el intervalo incluye el cero. Por tanto, la regla
-prerregistrada no respalda la hipótesis primaria. El desacuerdo se relaciona con el
-bootstrap: su error estándar es 1,62 veces el de las medias por instancia.
+prerregistrada no respalda la hipótesis primaria. El bootstrap se fijó antes y es
+conservador frente al ruido de semillas. Su error estándar es 1,62 veces el de las
+medias por instancia.
 % fuente: D (bootstrap_se_ratio, C1)
-Aunque es conservador, se fijó antes y no lo cambiamos.
+Por base tampoco se cumple: $p$ de Holm baja a 0,010, pero el intervalo aún incluye el cero.
+% fuente: S (C1)
 
 El intervalo incluye beneficios y perjuicios mayores que el umbral de 0,25. Además,
 la DE de las diferencias fue 13,21 y no la supuesta de 7,03. Así, la potencia para
 detectar 0,65 cayó a 0,32, y el resultado no prueba equivalencia.
 % fuente: R/entrega2_exploratorio/potencia_realizada.csv
-La espera total bajó con D-MAB de 9,31 a 8,29 minutos. El \emph{makespan}, en
-cambio, subió levemente, de 287,56 a 287,79.
+D-MAB bajó la espera, no el \emph{makespan}.
 % fuente: R/entrega2_congestion_90_109/descriptive.csv
 
 \begin{table}[!ht]
  \centering
- \caption{Diferencias de $f$, en unidades del objetivo (semillas 90--109, 960 pares); negativo favorece a la alternativa. Negrita: cumple los tres criterios de la regla, que solo era vinculante para C1. Las columnas por tamaño son descriptivas, con 12 instancias cada una.}
+ \caption{Diferencias de $f$ (semillas 90--109, 960 pares); negativo favorece a la alternativa. Negrita: cumple los tres criterios registrados, vinculantes solo para C1. Por base, ninguna comparación los cumple. Ese reanálisis y las columnas por tamaño (12 instancias cada una) son exploratorios.}
  \label{tab:comparaciones}
  \scriptsize\setlength{\tabcolsep}{4pt}
  \input{tablas/tabla_comparaciones}
 \end{table}
 
-\subsection{La cartera gana al prolongado, pero no a repetir la búsqueda}
+\subsection{La ventaja de la cartera es frágil y compatible con repetir la búsqueda}
 \label{subsec:cartera}
-La cartera superó al Tabu prolongado (C2), pero no se distinguió de dos Tabu
-independientes (C3). Por tanto, no atribuimos su ganancia al aprendizaje. La
-explicación más simple es el estancamiento. En 546 de las 960 corridas (56,9~\%),
-el Tabu prolongado no mejoró después de la evaluación 3.030.
+La cartera superó al Tabu prolongado (C2), pero por base esa ventaja pierde
+significación. Tampoco se distinguió de dos Tabu independientes (C3). Por tanto, no
+atribuimos su ganancia al aprendizaje. La explicación más simple es el estancamiento.
+En 546 de las 960 corridas (56,9~\%), el Tabu prolongado no mejoró después de la
+evaluación 3.030.
 % fuente: R/entrega3_descriptivos/descriptivos.csv
 La ventaja aparece con 25 y 30 cirugías; con 15 y 20, la cartera es peor en media.
 Además, el error tipo~I simulado de C2 fue 0,082.
 % fuente: R/entrega2_potencia/simulacion.csv
 
-\subsection{UCB1 supera a D-MAB y a Tabu uniforme, según el tamaño}
+\subsection{UCB1 supera a Tabu uniforme; frente a D-MAB, la evidencia es frágil}
 \label{subsec:reinicio}
-En C4, quitar el reinicio mejoró el resultado: con 25 cirugías, UCB1 venció a D-MAB
-en las 12 instancias.
-% fuente: D (instances_better_25, C4)
-Con 15, en cambio, D-MAB fue mejor en media. El contraste exploratorio entre UCB1
-y Tabu uniforme había dado $-2{,}617$.
+En C4, quitar el reinicio mejoró el resultado, pero por base $p$ de Holm sube a 0,192.
+% fuente: S (C4)
+Con 25 cirugías, UCB1 venció a D-MAB en las 12 instancias; con 15, D-MAB fue mejor
+en media.
+% fuente: D (instances_better_25 y difference_15, C4)
+El contraste exploratorio UCB1 $-$ uniforme había dado $-2{,}617$.
 % fuente: R/entrega2_exploratorio/contrastes.csv
-Por eso, lo confirmamos con un protocolo propio y semillas nuevas. En E1, la
-diferencia fue $-2{,}749$, con IC [$-4{,}069$; $-1{,}453$] y $p$ menor que 0,001
+Lo confirmó E1, con protocolo propio y semillas nuevas:
+$-2{,}749$, con IC [$-4{,}069$; $-1{,}453$] y $p$ menor que 0,001
 (Figura~\ref{fig:forest}).
 % fuente: R/entrega3_confirmacion_ucb1/comparisons.csv (E1)
 
-E1 cumple la regla y mejora en 38 de 48 instancias, pero equivale a solo 0,92~\%
-de $f$. Además, depende del tamaño. Con 15, 20, 25 y 30 cirugías dio $+0{,}12$,
-$-2{,}96$, $-3{,}91$ y $-4{,}25$: con 15 no hay ventaja.
+E1 también cumple la regla por base (IC [$-4{,}335$; $-1{,}191$]; $p=0{,}005$).
+% fuente: S (E1)
+Mejora en 38 de 48 instancias, pero equivale a solo 0,92~\% de $f$. Con 15, 20, 25 y
+30 cirugías dio $+0{,}12$, $-2{,}96$, $-3{,}91$ y $-4{,}25$: con 15 no hay ventaja.
 % fuente: D (instances_better, relative_difference y difference_<tamaño>, E1)
 
 \begin{figure}[!ht]
@@ -102,11 +114,13 @@ Igual número de evaluaciones no significa igual cómputo. UCB1 repite más cand
 decodificó 10,1~\% más propuestas que Tabu uniforme y tardó 10,2~\% más (9,8~\%
 en E1). D-MAB tardó 4,0~\% más.
 % fuente: D (decoded_overhead, time_overhead)
+El sobrecosto de UCB1 cae de 12,1~\% con 15 cirugías a 7,2~\% con 30.
+% fuente: G (ucb_time_overhead_by_size)
 UCB1 también fue más variable entre semillas, con DE de 9,36 frente a 8,72. En E1
 se repitió el patrón: 9,89 frente a 8,90.
 % fuente: D (sd)
-La Figura~\ref{fig:distribucion} muestra que las distribuciones se superponen y que
-la ventaja media de UCB1 se mantiene hasta el final.
+En la Figura~\ref{fig:distribucion}, las distribuciones se superponen y la ventaja
+media de UCB1 persiste hasta el final.
 
 En el piloto a igual tiempo, D-MAB fue peor que Tabu uniforme en tres de los cuatro
 tamaños: $+0{,}21$, $-2{,}30$, $+2{,}70$ y $+6{,}00$. Son solo cinco semillas
@@ -127,7 +141,8 @@ de la congestión. UCB1
 menos uniforme dio $+1{,}182$; D-MAB menos uniforme, $+0{,}577$; y D-MAB menos
 UCB1, $-0{,}605$.
 % fuente: D (40-59)
-Con la configuración anterior (semillas 20--39, $c=1$, $\lambda=0{,}35$), esas diferencias fueron
+Con la configuración anterior (semillas 20--39: $c=1$, $\lambda=0{,}35$ y sin números
+aleatorios comunes), esas diferencias fueron
 $-0{,}455$, $-0{,}513$ y $-0{,}058$.
 % fuente: D (20-39)
 En las semillas 60--79, D-MAB dio $+0{,}108$ frente a uniforme. La cartera dio
@@ -137,35 +152,36 @@ Son descriptivos, con 12 instancias, y ninguno sustenta una superioridad.
 
 \subsection{Discusión: bajo congestión ayuda UCB1, no el reinicio}
 \label{subsec:discusion}
-Los resultados responden la pregunta solo bajo escasez de cirujanos e igual número
-de evaluaciones. Allí no identificamos una mejora concluyente de
-D-MAB, mientras que UCB1 sí mejora, sobre todo desde 20 cirugías. La evidencia
-señala al reinicio, con la configuración probada, como perjudicial en ese catálogo.
-No demuestra que toda detección de cambios lo sea.
+Con cirujanos escasos e igual número de evaluaciones, D-MAB no mejora de forma
+concluyente. UCB1 sí, sobre todo desde 20 cirugías, y solo esa ventaja se mantiene por base.
 
-Una explicación plausible es que el detector confunde el agotamiento normal de la
-búsqueda con un cambio entre operadores. Page--Hinkley detecta caídas de recompensa,
-y las mejoras escasean al estancarse la búsqueda. D-MAB reinició una mediana de 24
-veces por corrida, y cada reinicio borra sus estimaciones.
+Un diagnóstico exploratorio apunta a falsas alarmas del detector. En una muestra de
+cuatro semillas, la recompensa media baja al comienzo, cuando D-MAB reinicia más, y luego
+se estabiliza. Aun así,
+59,3~\% de los reinicios ocurre después del primer tercio.
+% fuente: M (mean_reward_by_third, restarts_after_first_third)
+Con recompensas simuladas que no cambian y cinco brazos idénticos, el detector reinicia 25 veces
+en mediana, frente a 24 en la búsqueda. Es decir, con $\lambda=1$ basta el ruido.
+% fuente: G (stationary_median_restarts, median_restarts)
+Además, el brazo líder causó 96,8~\% de los reinicios, que borran lo aprendido. Bajo
+selección uniforme, el cambio de sala de anestesia tuvo la mayor tasa de premios en los tres
+tercios en 47 de 48 instancias.
+% fuente: G (restarts_by_leader_share, instances_with_room_1_best_in_all_phases)
+
+La recompensa tampoco refleja bien el progreso: solo 8,5~\% de las propuestas
+recompensadas mejoró el mejor global.
+% fuente: G (rewarded_that_improve_best, uniforme)
+La reparación no basta como explicación, porque alteró candidatos de todos: 46,6~\%
+en uniforme, 44,0~\% en D-MAB y 40,1~\% en UCB1.
 % fuente: R/entrega3_descriptivos/descriptivos.csv
-La reparación no basta para explicarlo, porque afecta a todos. Alteró 46,6~\% de los
-candidatos en uniforme, 44,0~\% en D-MAB y 40,1~\% en UCB1.
-% fuente: R/entrega3_descriptivos/descriptivos.csv
-Como no medimos si cambia el mejor operador, el mecanismo sigue siendo una hipótesis.
+La desventaja del reinicio concuerda con \textcite{dacosta2008}: con recompensas binarias, su bandido sin
+reinicio superó a D-MAB. \textcite{dolatkhah2026} reinician con otra regla, por lo que
+no validan este detector. \textcite{yin2026} miden brechas frente a cotas, algo que
+nuestro RPD no permite.
 
-Este hallazgo concuerda con una parte de \textcite{dacosta2008}. En su escenario de
-recompensas binarias, de alta varianza, el bandido sin reinicio superó a D-MAB.
-Nuestra señal también es irregular: en el diagnóstico estándar, solo 3,9~\% de las
-propuestas recibió recompensa positiva.
-% fuente: R/entrega2_diagnostico_115_119/summary.csv
-\textcite{dolatkhah2026} reinician con otra regla, una brecha entre operadores, por
-lo que su resultado no valida este detector. \textcite{yin2026} miden brechas
-frente a cotas; nuestro RPD, en cambio, no mide la distancia al óptimo.
-
-E1 tampoco prueba que aprender sea la causa. UCB1 dedicó 39,1~\% de sus evaluaciones
-al cambio de sala de anestesia, frente a 19,6~\% del uniforme.
-% fuente: D (share_room_1)
-Una mezcla fija con ese sesgo podría igualarlo. Además, confirmar con semillas
-nuevas sobre las mismas instancias no mide generalización. Tampoco evaluamos
-una cartera con UCB1.%
+E1 tampoco prueba que aprender sea la causa. Allí, UCB1 dedicó 38,5~\% de sus
+evaluaciones al cambio de sala de anestesia, frente a 19,6~\% del uniforme.
+% fuente: D (share_room_1, semillas 120-139)
+Una mezcla fija con ese sesgo podría igualarlo. Además, E1 no mide generalización ni
+evalúa una cartera con UCB1.%
 \label{res-fin}

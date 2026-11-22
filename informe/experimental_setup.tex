@@ -29,8 +29,8 @@ estándar, aplica ruido lognormal con $\sigma=0{,}10$, redondea a 0,5 minutos y
 sortea la elegibilidad del personal. Una calibración previa evaluó 18 combinaciones
 de salas, cirujanos y espera máxima en cuatro instancias de desarrollo, excluidas
 del catálogo. La regla prerregistrada exigía más de 50~\% de soluciones con espera
-y eligió reducir los cirujanos al 40~\%, redondeando hacia arriba. No usó la
-diferencia entre métodos. ML aprende en línea, por lo que no requiere partición de
+y eligió reducir los cirujanos al 40~\%. El número se redondea hacia arriba, con un
+mínimo de tres. No usó la diferencia entre métodos. ML aprende en línea, por lo que no requiere partición de
 entrenamiento.
 % fuente: experiments/results/entrega2_calibracion_congestion_85_89/
 
@@ -48,7 +48,7 @@ que evalúa. C1 a C4 son las comparaciones confirmatorias.
   Control (evaluaciones) & Comparación & Explicación alternativa\\
   \midrule
   FIFO, SPT y LPT & Descriptiva & Una regla constructiva basta.\\
-  Tabu uniforme (3.030) & C1: D-MAB $-$ uniforme & La mejora es de Tabu y no de aprender.\\
+  Tabu uniforme (3.030) & C1: D-MAB $-$ uniforme & La mejora es de Tabu y no de la selección.\\
   Tabu prolongado (6.060) & C2: cartera $-$ prolongado & La cartera solo usa más evaluaciones.\\
   Dos Tabu (6.060) & C3: cartera $-$ dos Tabu & La cartera solo repite la búsqueda.\\
   UCB1 (3.030) & C4: D-MAB $-$ UCB1 & El efecto es de UCB1 y no del reinicio.\\
@@ -61,14 +61,19 @@ estándar (DE) entre semillas, y luego promediamos. La desviación relativa es
 $\mathrm{RPD}=100(f-f^*)/f^*$, con $f^*$ como el mejor valor de la instancia en
 nuestros dos estudios de congestión; no es un óptimo. También describimos
 $C_{\max}$, esperas, factibilidad, tiempo de pared, propuestas decodificadas y
-convergencia. Las métricas secundarias y los análisis por tamaño son descriptivos.
-Los que no estaban en el protocolo se calcularon después y no cambian decisiones.
+convergencia. Las métricas secundarias son descriptivas. Todo análisis fuera del
+protocolo, incluido el desglose por tamaño, es exploratorio: se calculó después y no
+cambia decisiones.
 
 \subsection{Implementación y calibración}
 \label{subsec:implementacion}
 El código usa Python~3.13.2, NumPy~2.2.3, SciPy~1.15.2 y PyYAML~6.0.3. Los estudios de
 congestión corrieron en un AMD Ryzen~7 8845HS de 8 núcleos, con 13,8~GiB de RAM y
 Windows~11. Usaron procesos concurrentes; por eso, los tiempos solo se comparan dentro de un estudio.
+Aparte, medimos el cómputo en las instancias estándar, en un solo proceso (semillas
+80--84). Una cartera tardó, en mediana, 4,12; 6,35; 9,25 y 13,09~s con 15, 20, 25 y 30
+cirugías. Es decir, pasar de 15 a 30 cirugías multiplicó el tiempo por 3,2.
+% fuente: experiments/results/entrega2_entorno_80_84/summary.csv
 
 \begin{table}[!ht]
  \centering\footnotesize
@@ -82,15 +87,16 @@ Windows~11. Usaron procesos concurrentes; por eso, los tiempos solo se comparan 
   Bandido & 5 brazos; $c=0{,}1$. Solo D-MAB: $\delta=0{,}01$ y $\lambda=1$.\\
   Cartera & Dos caminos de 3.030 evaluaciones; reparto 50/50; conserva el menor $f$.\\
   Conteo & Cuentan las iniciales y cada candidato distinto del lote, aun infactible. Los duplicados se decodifican, pero no cuentan. Tampoco la revalidación final.\\
-  Semillas & 0--5: calibración. 20--39, 40--59 y 60--79: catálogo estándar. 85--89: calibración de congestión. 90--109: C1--C4. 110--114: piloto a igual tiempo. 115--119: diagnóstico. 120--139: E1. El segundo Tabu suma 1.000.000 a la semilla.\\
+  Semillas & 0--19: exploración (0--5, también calibración). 20--39, 40--59 y 60--79: catálogo estándar. 80--84: tiempos. 85--89: calibración de congestión. 90--109: C1--C4. 110--114: piloto a igual tiempo. 115--119: diagnóstico. 120--139: E1. El segundo Tabu suma 1.000.000 a la semilla.\\
   \bottomrule
  \end{tabular}
 \end{table}
 
 La calibración comparó 14 variantes de política, memoria, $c$ y $\lambda$ en las
 semillas 0--5 de las 12 instancias estándar. Elegimos la variante de D-MAB con menor
-media frente a Tabu uniforme: $-0{,}224$, contra $-0{,}140$ de la siguiente, una
-brecha menor que el ruido. UCB1 heredó $c$ para que C4 solo quite el reinicio. Los
+media frente a Tabu uniforme: $-0{,}224$, contra $-0{,}140$ de la siguiente. Esa
+brecha es menor que la variación entre semillas. Con $\lambda=10$, D-MAB casi no
+reinició y empeoró a $+1{,}173$ frente a uniforme. UCB1 heredó $c$ para que C4 solo quite el reinicio. Los
 demás parámetros de Tabu y $\delta$ se fijaron sin calibrar, y nada se recalibró
 bajo congestión.
 % fuente: experiments/results/calibration_0_5/ y entrega3_revision/descriptivos.csv
@@ -98,7 +104,9 @@ bajo congestión.
 \subsection{Corridas y análisis estadístico}
 \label{subsec:estadistica}
 El diseño es pareado: cada método recibe las mismas 48 instancias y 20 semillas
-(90--109), es decir, 960 corridas. C1 es la hipótesis primaria. C1 y C4 usan 3.030
+(90--109), es decir, 960 corridas. La cartera y el Tabu prolongado reutilizan la
+trayectoria uniforme de su par, por lo que las alternativas de un par no son independientes.
+C1 es la hipótesis primaria. C1 y C4 usan 3.030
 evaluaciones; C2 y C3, 6.060. E1 compara UCB1 con Tabu uniforme en las semillas
 120--139. Cada diferencia es alternativa menos referencia, así que un valor negativo
 favorece a la alternativa.
@@ -107,15 +115,22 @@ La prueba de Wilcoxon bilateral \parencite{wilcoxon1945} opera sobre las medias 
 instancia, con $\alpha=0{,}05$, y Holm \parencite{holm1979} corrige C1--C4. En E1 hay una
 sola comparación, sin corrección. Los
 intervalos de 95~\% usan una adaptación jerárquica del bootstrap
-\parencite{efron1979}, que remuestrea instancias y semillas en 5.000 réplicas. Es
-conservadora, porque las medias por instancia ya contienen ruido de semillas. La
+\parencite{efron1979}, que remuestrea instancias y semillas en 5.000 réplicas. Frente
+al ruido de semillas es conservadora, porque las medias por instancia ya lo contienen.
+Sin embargo, no modela la dependencia entre instancias de una misma base. La
 regla exige $p<0{,}05$, intervalo bajo cero y media de a lo sumo $-0{,}25$.
 Este umbral mínimo es la resolución de un paso de espera en $f$, no un umbral de
 relevancia clínica.
 
+Por esa dependencia, después de ver los resultados repetimos C1--C4 y E1 con la base
+como unidad, es decir, 12 bases. Mantuvimos la prueba, la corrección, el remuestreo y la
+regla. Este reanálisis es exploratorio. No reemplaza las decisiones registradas y, con menos
+unidades, tiene menos potencia.
+% fuente: experiments/results/entrega3_sensibilidad_bases/
+
 \begin{table}[!ht]
  \centering\footnotesize
- \caption{Tamaños para potencia 0,80 y $\alpha=0{,}05$, según los 240 pares de las semillas 60--79. DE: de la diferencia. ED: efecto de diseño por agrupar en instancias, que multiplica los pares independientes.}
+ \caption{Tamaños para potencia 0,80 y $\alpha=0{,}05$, según los 240 pares de las semillas 60--79. DE: de la diferencia. ED: efecto de diseño por agrupar en instancias, que multiplica los pares independientes. El número de instancias usa además la distribución $t$.}
  \label{tab:potencia}
  \begin{tabular}{@{}lrrrrrr@{}}
   \toprule
@@ -139,10 +154,26 @@ resultado no significativo no prueba equivalencia.
 
 \subsection{Amenazas a la validez}
 \label{subsec:amenazas}
-Cuatro amenazas limitan el diseño. Primero, la calibración reutiliza las instancias
+Siete amenazas limitan el diseño. Primero, la calibración reutiliza las instancias
 estándar, ya conocidas al elegir la arquitectura. Segundo, el catálogo de congestión
-se diseñó después de ver los resultados del estándar. Además, hereda su perfil de
-duraciones y no es un dominio independiente. Tercero, igualar
-evaluaciones no iguala cómputo, porque los duplicados también se decodifican. Cuarto,
-la reparación puede asignar recompensa a un movimiento que no se aplicó tal cual.%
+se diseñó después de ver los resultados del estándar y hereda su perfil de duraciones.
+Además, sus 48 instancias derivan de las 12 estándar, cuatro de cada una. Wilcoxon y el
+bootstrap las tratan como independientes, por lo que sus valores $p$ e intervalos pueden
+ser optimistas. La sección~\ref{sec:resultados} mide esa sensibilidad.
+
+Tercero, los datos son sintéticos: semillas nuevas sobre el mismo catálogo no miden
+generalización a otros hospitales. Cuarto, los estudios de congestión se ejecutaron en
+una sola máquina. Además, igualar evaluaciones no iguala cómputo, porque los duplicados
+también se decodifican. Quinto, la potencia simulada supone un efecto homogéneo y
+extrapola desde 12 instancias. Para un efecto de 0,25 en C1 era apenas 0,24.
+% fuente: experiments/results/entrega2_potencia/simulacion.csv
+Sexto, la reparación puede asignar recompensa a un movimiento que no se aplicó tal cual.
+
+Séptimo, la regla de salas no es la del simulador estricto del repositorio docente. Su
+evaluador antiguo, en cambio, no retiene la sala hasta el final. Reimplementamos
+la regla estricta, sin ejecutar ese simulador: con ella,
+83,4~\% de nuestros 7.680 calendarios finales sería infactible. Nuestros
+valores no son comparables con los de ese simulador, y no evaluamos si las conclusiones
+se mantienen con su regla.%
+% fuente: experiments/results/entrega3_diagnostico_revision/summary.csv
 \label{set-fin}

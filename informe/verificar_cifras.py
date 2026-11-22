@@ -43,7 +43,6 @@ DESIGN = {
     "60": "semillas 60-79", "79": "semillas 60-79",
     "5": "percentiles 5-95 de la figura 2",
     "0,35": "lambda de la configuración de las semillas 20-39",
-    "10": "lambda = 10 de la calibración (ver comprobación)",
 }
 
 
@@ -136,11 +135,8 @@ def checks() -> list[tuple[str, str, str]]:
     replay = json.loads((RESULTS / "entrega3_confirmacion_ucb1/verification.json").read_text(encoding="utf-8"))
     assert replay["status"] == "passed" and replay["h1c_supported"]
 
-    diagnosis = [r for r in rows(RESULTS / "entrega2_diagnostico_115_119/summary.csv")
-                 if r["policy"] == "dmab"][0]
-    found.append(("recompensa positiva", plain(100 * float(diagnosis["positive_reward_share"]), 1),
-                  "entrega2_diagnostico_115_119/summary.csv"))
-    return found + revision_checks()
+    return (found + revision_checks() + diagnosis_checks() + reward_checks()
+            + sensitivity_checks())
 
 
 def revision_checks() -> list[tuple[str, str, str]]:
@@ -182,7 +178,14 @@ def revision_checks() -> list[tuple[str, str, str]]:
     add("tiempo UCB1 en E1", plain(value["120-139", "time_overhead", "ucb3030"], 1))
     for method in ("uniform3030", "ucb3030"):
         add(f"DE en E1 {method}", plain(value["120-139", "sd", method], 2))
-        add(f"cambio de sala de anestesia {method}", plain(value[study, "share_room_1", method], 1))
+        add(f"cambio de sala de anestesia en E1 {method}",
+            plain(value["120-139", "share_room_1", method], 1))
+    # The rules finish earlier and wait more than ten times as long as uniform Tabu.
+    for rule in ("fifo", "spt", "lpt"):
+        assert value[study, "makespan", rule] < value[study, "makespan", "uniform3030"]
+        assert value[study, "blocked", rule] > 10 * value[study, "blocked", "uniform3030"]
+    assert value[study, "blocked", "dmab3030"] < value[study, "blocked", "uniform3030"]
+    assert value[study, "makespan", "dmab3030"] >= value[study, "makespan", "uniform3030"]
     for origin in (study, "120-139"):
         assert value[origin, "sd", "ucb3030"] > value[origin, "sd", "uniform3030"]
     assert value[study, "difference_15", "C2"] > 0 and value[study, "difference_20", "C2"] > 0
@@ -206,10 +209,83 @@ def revision_checks() -> list[tuple[str, str, str]]:
     add("calibración elegida", tex(value["0-5", "difference", "chosen"]))
     add("calibración siguiente", tex(value["0-5", "difference", "runner_up"]))
     add("variantes calibradas", f"{value['0-5', 'variants', 'all']:.0f}")
+    add("calibración con lambda 10", tex(value["0-5", "difference", "lambda_10"], signed=True))
     without = [r for r in rows(RESULTS / "calibration_0_5/runs.csv")
                if r["variant"] == "dmab|solution|C=0.1|lambda=10.0"]
+    # "Almost removed": no restart in most runs and never more than one.
     assert sorted(int(r["dmab_restarts"]) for r in without)[len(without) // 2] == 0
+    assert max(int(r["dmab_restarts"]) for r in without) <= 1
     assert value["0-5", "difference", "lambda_10"] > value["0-5", "difference", "chosen"]
+    return found
+
+
+def diagnosis_checks() -> list[tuple[str, str, str]]:
+    """Figures of the post-hoc diagnosis and the restored figures of section 3."""
+    source = "entrega3_diagnostico_revision/summary.csv"
+    value = {(r["measure"], r["item"]): float(r["value"]) for r in rows(RESULTS / source)}
+    found = []
+
+    def add(claim: str, text: str, origin: str = source) -> None:
+        found.append((claim, text, origin))
+
+    # The text says the same move is the most rewarded one in the three thirds.
+    assert value["instances_with_room_1_best_in_all_phases", "uniform"] >= 40
+    add("mismo mejor operador", f"{value['instances_with_room_1_best_in_all_phases', 'uniform']:.0f} de 48")
+    add("reinicios sin cambios",
+        f"{value['stationary_median_restarts', 'identical_arms']:.0f} veces")
+    add("reinicios por el líder", plain(value["restarts_by_leader_share", "dmab"], 1))
+    add("recompensas que mejoran el global", plain(value["rewarded_that_improve_best", "uniform"], 1))
+    for size in ("15", "30"):
+        add(f"sobrecosto con {size} cirugías", plain(value["ucb_time_overhead_by_size", size], 1))
+    add("sección 3: infactibles con la regla docente",
+        plain(value["infeasible_with_repository_rule", "all"], 1))
+    add("sección 3: calendarios finales", thousands(int(value["final_schedules", "all"])))
+
+    origin = "entrega2_entorno_80_84/summary.csv"
+    seconds = {r["size"]: float(r["median_seconds"]) for r in rows(RESULTS / origin)}
+    for size, median in seconds.items():
+        add(f"sección 3: tiempo con {size} cirugías", plain(median, 2), origin)
+    add("sección 3: escalamiento del tiempo", plain(seconds["30"] / seconds["15"], 1), origin)
+    origin = "entrega2_potencia/simulacion.csv"
+    power = [r for r in rows(RESULTS / origin) if r["method"] == "dmab3030"
+             and r["effect"] == "0.25" and r["instances"] == "48"][0]
+    add("sección 3: potencia para 0,25", plain(float(power["rejection_alpha_05"]), 2), origin)
+    return found
+
+
+def reward_checks() -> list[tuple[str, str, str]]:
+    """The reward drops early and is then stable; most restarts come later."""
+    folder = RESULTS / "entrega3_diagnostico_recompensa"
+    source = "entrega3_diagnostico_recompensa/summary.csv"
+    value = {(r["measure"], r["item"]): float(r["value"]) for r in rows(folder / "summary.csv")}
+    manifest = json.loads((folder / "manifest.json").read_text(encoding="utf-8"))
+    assert len(manifest["seeds"]) == 4 and manifest["mismatches"] == 0
+    for policy in ("uniform", "dmab"):
+        first, second, third = (value["mean_reward_by_third", f"{policy}:{i}"] for i in (1, 2, 3))
+        assert first > 1.05 * second and abs(third / second - 1) < 0.05
+    later = value["restarts_after_first_third", "dmab"]
+    assert later > 50
+    return [("reinicios después del primer tercio", plain(later, 1), source)]
+
+
+def sensitivity_checks() -> list[tuple[str, str, str]]:
+    """Exploratory reanalysis with the base instance as the unit."""
+    source = "entrega3_sensibilidad_bases/comparisons.csv"
+    value = {r["comparison"]: r for r in rows(RESULTS / source)}
+    # Only E1 meets the rule; C2 and C4 lose significance; C1 still includes zero.
+    assert {code: r["criteria_by_base"] for code, r in value.items()} == {
+        "C1": "0", "C2": "0", "C3": "0", "C4": "0", "E1": "1"}
+    assert float(value["C2"]["holm_p"]) >= 0.05 and float(value["C4"]["holm_p"]) >= 0.05
+    assert float(value["C1"]["ci_low"]) < 0 < float(value["C1"]["ci_high"])
+    found = []
+    for code, row in value.items():
+        assert row["units"] == "12"
+        for side in ("low", "high"):
+            found.append((f"{code} por base, IC {side}",
+                          tex(float(row[f"ci_{side}"]), signed=True) if code != "E1"
+                          else tex(float(row[f"ci_{side}"])), source))
+        prefix = "p=" if code == "E1" else ""
+        found.append((f"{code} por base, p", prefix + plain(float(row["holm_p"]), 3), source))
     return found
 
 
@@ -245,7 +321,7 @@ def main() -> None:
     verified = set()
     for claim, text, source in checks():
         # Section 3 only holds the calibration figures; it has its own constants.
-        places = (setup,) if claim.startswith(("calibración", "variantes")) else (body, table, described)
+        places = (setup,) if claim.startswith(("calibración", "variantes", "sección 3")) else (body, table, described)
         present = any(text in place or text in place.replace("{,}", ",") for place in places)
         failures += not present
         verified |= numbers(text)

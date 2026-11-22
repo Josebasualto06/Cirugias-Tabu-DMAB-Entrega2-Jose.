@@ -72,8 +72,8 @@ En el catálogo de congestión, con 48 instancias y 960 pares por estudio:
 | Comparación (diferencia: alternativa − referencia) | Media | IC 95 % | Lectura |
 |---|---:|---|---|
 | C1: D-MAB − Tabu uniforme, 3.030 | −0,793 | [−1,850; +0,279] | No concluyente |
-| C4: D-MAB − UCB1 sin reinicio, 3.030 | +1,824 | [+0,566; +3,124] | Favorece a UCB1 sin reinicio |
-| C2: cartera − Tabu prolongado, 6.060 | −1,380 | [−2,405; −0,398] | Favorece a la cartera |
+| C4: D-MAB − UCB1 sin reinicio, 3.030 | +1,824 | [+0,566; +3,124] | Favorece a UCB1; frágil por base |
+| C2: cartera − Tabu prolongado, 6.060 | −1,380 | [−2,405; −0,398] | Favorece a la cartera; frágil por base |
 | C3: cartera − dos Tabu, 6.060 | −0,409 | [−1,126; +0,338] | No concluyente |
 
 Estas cuatro comparaciones usan las semillas 90–109
@@ -92,6 +92,16 @@ el catálogo estándar los signos no fueron consistentes entre estudios
 ([descriptivos](experiments/results/entrega3_revision/DESCRIPTIVOS.md)). Las
 semillas nuevas sobre el mismo catálogo sintético no miden generalización a
 otros hospitales.
+
+Las 48 instancias derivan de 12 bases. Un
+[reanálisis exploratorio](experiments/results/entrega3_sensibilidad_bases/SENSIBILIDAD.md),
+decidido después de ver los resultados, usa la base como unidad. Con él, C1 sigue
+sin cumplir la regla, C2 y C4 dejan de cumplirla y la confirmación de UCB1 la
+mantiene. No reemplaza las decisiones registradas.
+
+La regla de salas sigue la formulación de clase y difiere de la del simulador
+estricto del repositorio docente: los valores no son comparables con los de ese
+simulador (sección 3.5 del informe).
 
 ## Entrega 1
 

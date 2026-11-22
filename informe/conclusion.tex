@@ -11,12 +11,15 @@ no encontramos ese aporte separado del cómputo, la repetición y los operadores
 Nuestra respuesta es que no identificamos esa condición para D-MAB completo. Bajo
 congestión, su diferencia fue $-0{,}793$ (IC [$-1{,}850$; $+0{,}279$]), no concluyente.
 
-Sin embargo, el estudio deja tres hallazgos. Primero, la cartera superó al Tabu
-prolongado por 1,380 unidades de $f$. No se distinguió de dos Tabu independientes
-($-0{,}409$; IC [$-1{,}126$; $+0{,}338$]), por lo que no atribuimos su ganancia al
-aprendizaje. Segundo, UCB1 superó a D-MAB por 1,824 unidades: el reinicio no ayudó.
-Tercero, una confirmación prerregistrada mostró que UCB1 mejora a Tabu uniforme
-($-2{,}749$; IC [$-4{,}069$; $-1{,}453$]).
+Sin embargo, el estudio deja tres hallazgos. Primero, una confirmación prerregistrada
+mostró que UCB1 mejora a Tabu uniforme ($-2{,}749$; IC [$-4{,}069$; $-1{,}453$]). Es el
+único efecto que cumple la regla también en el reanálisis exploratorio por instancia
+base. Segundo, la cartera superó al Tabu prolongado por 1,380 unidades de $f$, pero esa
+ventaja perdió significación al reanalizar. Tampoco se distinguió de dos Tabu
+independientes ($-0{,}409$; IC [$-1{,}126$; $+0{,}338$]), por lo que no atribuimos su
+ganancia al aprendizaje. Tercero, UCB1 superó a D-MAB por 1,824 unidades, una ventaja
+igual de frágil. Un diagnóstico exploratorio sugiere que el reinicio reacciona al ruido
+y borra lo aprendido.
 
 En cuanto al objetivo, la calidad mejoró con UCB1 en 0,92~\% en la confirmación. El costo
 fue 9,8~\% más de tiempo y una mayor dispersión entre semillas. La ventaja no apareció con
@@ -28,19 +31,19 @@ del presupuesto, de la repetición y del reinicio. Además, dos protocolos fecha
 de ejecutar impidieron declarar un efecto que la regla no respaldaba. También dejamos
 un catálogo reproducible que tensiona la espera entre etapas.
 
-Tres limitaciones acotan estas conclusiones. Primero, los datos son sintéticos y las
-semillas nuevas no reemplazan instancias nuevas. Segundo, la comparación principal
-quedó subdimensionada. Tercero, igualamos evaluaciones y no cómputo.
+Tres limitaciones acotan estas conclusiones. Primero, los datos son sintéticos: las 48
+instancias salen de 12 bases y no representan otros hospitales. Segundo, nuestra regla
+de salas difiere de la del simulador estricto docente, por lo que los valores no son
+comparables. Tercero, la comparación principal quedó subdimensionada y solo igualó
+evaluaciones, no cómputo.
 
 El trabajo futuro debería seguir cinco pasos, en este orden. Primero, comparar UCB1
 con una mezcla fija de sus mismas frecuencias, para aislar el aprendizaje. Segundo,
-recalibrar $\lambda$ y $\delta$ bajo congestión. En el estándar, $\lambda=10$ eliminó
-los reinicios y empeoró el resultado, por lo que no basta con subir el umbral. Tercero,
-probar un crédito por valores extremos que premie el movimiento realmente aplicado.
-Cuarto, evaluar una cartera con UCB1 frente a dos Tabu, a igual tiempo y en instancias
-reservadas de 50 a 150 cirugías. Quinto, obtener cotas exactas con 15 cirugías para
-medir la distancia al óptimo.
-% fuente de lambda=10: experiments/results/calibration_0_5/CALIBRATION.md
+calibrar $\lambda$ y $\delta$ bajo congestión y con recompensas que no cambian, para
+controlar las falsas alarmas. Tercero, premiar las mejoras del mejor global y no las
+recuperaciones locales. Cuarto, evaluar una cartera con UCB1 frente a dos Tabu, a igual
+tiempo y en instancias de bases independientes, con 50 a 150 cirugías. Quinto, obtener
+cotas exactas con 15 cirugías para medir la distancia al óptimo.
 
 En este catálogo aportó el componente más simple. Queda por demostrar que lo hace
 por aprender y que lo hace también fuera de él.%

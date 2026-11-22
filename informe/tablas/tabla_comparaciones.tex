@@ -1,18 +1,19 @@
 % Generado por experiments/scripts/tabla_resultados.py. No editar a mano.
 % fuente: experiments/results/entrega2_congestion_90_109/comparisons.csv
 % fuente de las columnas por tamaño: experiments/results/entrega3_revision/descriptivos.csv
-\begin{tabular}{@{}llrcrrrrr@{}}
+% fuente de las columnas por base: experiments/results/entrega3_sensibilidad_bases/comparisons.csv
+\begin{tabular}{@{}llrcrcrrrrr@{}}
  \toprule
- & & & & & \multicolumn{4}{c}{Media por n.º de cirugías}\\
- \cmidrule(l){6-9}
- Id & Alternativa $-$ referencia & Media & IC 95~\% & $p$ Holm & 15 & 20 & 25 & 30\\
+ & & \multicolumn{3}{c}{Registrado: 48 instancias} & \multicolumn{2}{c}{Por base: 12 bases} & \multicolumn{4}{c}{Media por n.º de cirugías}\\
+ \cmidrule(lr){3-5}\cmidrule(lr){6-7}\cmidrule(l){8-11}
+ Id & Alternativa $-$ referencia & Media & IC 95~\% & $p$ Holm & IC 95~\% & $p$ Holm & 15 & 20 & 25 & 30\\
  \midrule
- \multicolumn{9}{@{}l}{\emph{3.030 evaluaciones por método}}\\
- C1 & D-MAB $-$ uniforme & $-0{,}793$ & [$-1{,}850$; $+0{,}279$] & $0{,}041$ & $-0{,}51$ & $-0{,}44$ & $-0{,}12$ & $-2{,}10$\\
- C4 & D-MAB $-$ UCB1 & $\mathbf{+1{,}824}$ & [$+0{,}566$; $+3{,}124$] & $0{,}005$ & $-0{,}98$ & $+1{,}40$ & $+4{,}95$ & $+1{,}93$\\
+ \multicolumn{11}{@{}l}{\emph{3.030 evaluaciones por método}}\\
+ C1 & D-MAB $-$ uniforme & $-0{,}793$ & [$-1{,}850$; $+0{,}279$] & $0{,}041$ & [$-1{,}786$; $+0{,}176$] & $0{,}010$ & $-0{,}51$ & $-0{,}44$ & $-0{,}12$ & $-2{,}10$\\
+ C4 & D-MAB $-$ UCB1 & $\mathbf{+1{,}824}$ & [$+0{,}566$; $+3{,}124$] & $0{,}005$ & [$+0{,}085$; $+3{,}566$] & $0{,}192$ & $-0{,}98$ & $+1{,}40$ & $+4{,}95$ & $+1{,}93$\\
  \midrule
- \multicolumn{9}{@{}l}{\emph{6.060 evaluaciones por método}}\\
- C2 & Cartera $-$ prolongado & $\mathbf{-1{,}380}$ & [$-2{,}405$; $-0{,}398$] & $0{,}008$ & $+0{,}70$ & $+0{,}19$ & $-1{,}98$ & $-4{,}43$\\
- C3 & Cartera $-$ dos Tabu & $-0{,}409$ & [$-1{,}126$; $+0{,}338$] & $0{,}057$ & $-0{,}12$ & $-0{,}31$ & $+0{,}37$ & $-1{,}58$\\
+ \multicolumn{11}{@{}l}{\emph{6.060 evaluaciones por método}}\\
+ C2 & Cartera $-$ prolongado & $\mathbf{-1{,}380}$ & [$-2{,}405$; $-0{,}398$] & $0{,}008$ & [$-2{,}844$; $+0{,}123$] & $0{,}192$ & $+0{,}70$ & $+0{,}19$ & $-1{,}98$ & $-4{,}43$\\
+ C3 & Cartera $-$ dos Tabu & $-0{,}409$ & [$-1{,}126$; $+0{,}338$] & $0{,}057$ & [$-1{,}124$; $+0{,}288$] & $0{,}204$ & $-0{,}12$ & $-0{,}31$ & $+0{,}37$ & $-1{,}58$\\
  \bottomrule
 \end{tabular}
