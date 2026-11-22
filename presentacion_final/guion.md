@@ -3,7 +3,7 @@
 Duración objetivo: 13:55, con margen de 1:05 sobre el máximo de 15 minutos.
 Los tiempos incluyen señalar cada figura y tabla. El texto leído sin pausas dura
 menos, así que hay que cronometrar un ensayo. El reparto de presentadores es una
-propuesta: la pauta no exige que presente todo el grupo. Las seis diapositivas
+propuesta: la pauta no exige que presente todo el grupo. Las ocho diapositivas
 del apéndice no se presentan; sirven para responder preguntas.
 
 Convención que hay que repetir al mostrar resultados: la diferencia es alternativa
@@ -28,8 +28,8 @@ y su anestesista, y ese bloqueo retrasa a los pacientes siguientes.
 ### 3. El calendario debe terminar antes sin exceder la espera máxima
 **Tiempo:** 0:45 · **Presenta:** [José]
 
-Decidimos el orden de los pacientes y sus salas; un planificador asigna al personal. La
-espera nunca puede superar el máximo permitido. Minimizamos `f`, que combina el fin de
+Decidimos el orden de los pacientes y sus salas; un planificador asigna al personal e inicia
+cada etapa lo antes posible. La espera nunca puede superar el máximo permitido. Minimizamos `f`, que combina el fin de
 la jornada, la espera total y la peor espera.
 
 ### 4. Faltaba separar el aporte de D-MAB en Tabu con espera estricta
@@ -127,13 +127,15 @@ generaliza a otros hospitales.
 sin reinicio ganaba. La reparación no basta como explicación: afectó a 44,0 % de los candidatos
 de D-MAB, pero también a los otros métodos. Y UCB1 no prueba que aprender sea la causa: prefirió
 el cambio de sala de anestesia, y una mezcla fija podría igualarlo. Además, UCB1 tardó 10,2 % más
-y varió más entre semillas. En el catálogo estándar, los signos cambian entre estudios.
+y varió más entre semillas. La conclusión vale solo con inicios lo antes posible. En el catálogo estándar,
+los signos cambian entre estudios, aunque allí la cartera supera a las reglas simples.
 
 ### 15. D-MAB completo no mejora de forma concluyente; aporta UCB1 sin reinicio
 **Tiempo:** 1:00 · **Presenta:** [José]
 
 Respondemos la pregunta así: no identificamos una condición en que D-MAB completo mejore
-de forma concluyente a Tabu uniforme. En el catálogo de congestión sí aporta UCB1 sin reinicio,
+de forma concluyente a Tabu uniforme. Bajo congestión y con inicios lo antes posible, sí aporta
+UCB1 sin reinicio,
 y es el único resultado que resiste el reanálisis por instancia base.
 Nuestro aporte es metodológico: controles a igual presupuesto y dos protocolos registrados
 antes de ejecutar. Queda separar aprendizaje de sesgo con una mezcla fija, recalibrar el
@@ -213,7 +215,9 @@ de 0,25. Además, la potencia aproximada fue 0,32.
 **¿Qué pasó con las 12 instancias oficiales?**
 Los signos no son consistentes. Con la configuración anterior (semillas 20–39), UCB1 menos
 uniforme dio −0,455; con la vigente (40–59), +1,182. Son descriptivos y ninguno sustenta una
-superioridad. Por eso la conclusión vale solo para el catálogo de congestión. Está en el apéndice.
+superioridad entre políticas. Por eso la conclusión vale solo para el catálogo de congestión.
+Frente a las reglas simples, en cambio, la cartera sí gana. Ambos resultados están en el
+apéndice.
 
 **¿Eligieron el catálogo de congestión para que ganara su método?**
 No. La celda se eligió por la proporción de soluciones con espera, con una regla previa y con
@@ -282,4 +286,24 @@ en los registros de desviaciones.
 
 **¿Por qué Tabu termina más tarde que FIFO?**
 Porque no minimizamos solo el makespan. Las reglas terminan antes, pero su espera total es más
-de diez veces la de Tabu, y el objetivo del curso penaliza la espera total y la máxima.
+de diez veces la de Tabu, y el objetivo del curso penaliza la espera total y la máxima. Esa
+espera depende de iniciar la anestesia lo antes posible.
+
+**¿Superan a FIFO, SPT y LPT?**
+En las 12 oficiales, sí: con las semillas 60–79 la cartera superó a la mejor de las tres en las 12,
+con 5,89 % menos del objetivo. En makespan, y también con la penalización de clase por
+desequilibrio, ganó en 10. Dos Tabu logran 5,90 %, así que no lo atribuimos al aprendizaje. Es
+exploratorio y usa nuestro planificador, no el simulador docente.
+
+**¿Por qué no retrasan la anestesia para que nadie espere?**
+Porque seguimos al simulador: el algoritmo entrega secuencia y salas, y los inicios se calculan
+lo antes posible. El modelo matemático de clase sí trata el inicio como variable. Lo revisamos de
+forma exploratoria: al retrasarla, la espera queda en cero y la mejor regla supera la media de cada
+método en las 48 instancias de congestión. La ventaja de UCB1 baja a 1,656 en E1 y a 0,093 en las
+semillas 90–109. No repetimos la búsqueda, así que nuestras conclusiones valen solo con la regla
+actual. Qué regla corresponde es una pregunta para el profesor.
+
+**¿Cuál es el tamaño de efecto?**
+Usamos r = Z/√n de Wilcoxon, con 48 instancias; negativo favorece a la alternativa. En C1 fue
+−0,33; en C2, −0,43; en C3, −0,28; en C4, +0,46; y en E1, −0,64. Es exploratorio: un r moderado
+en C1 no cambia que su intervalo incluya el cero.

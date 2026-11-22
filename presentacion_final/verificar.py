@@ -155,6 +155,26 @@ def figures() -> tuple[list[tuple[str, str, str]], list[tuple[str, str, str]]]:
     for code in ("C1", "C2"):
         script.append((f"{code} por base", comma(float(nested[code]["holm_p"])), source))
 
+    source = "entrega3_cierre/summary.csv"
+    closing = {(r["measure"], r["item"]): float(r["value"]) for r in rows(RESULTS / source)}
+    assert closing["schedules_waiting_after_delay", "all"] == 0
+    for method, name in (("fixed_portfolio6060", "cartera"), ("two_uniform6060", "dos Tabu")):
+        gain = comma(closing["official_mean_gain_percent", f"{method}:objective"], 2)
+        slides.append((f"reglas oficiales, {name}", f"{gain} \\%", source))
+        script.append((f"reglas oficiales, {name}", f"{gain} %", source))
+    for measure, label in (("objective", "$f$"), ("makespan", "\\emph{makespan}"),
+                           ("course_objective", "penalización por desequilibrio")):
+        cells = " & ".join(
+            f"{closing['official_instances_better_than_best_rule', f'{method}:{measure}']:.0f} de 12"
+            for method in ("fixed_portfolio6060", "two_uniform6060"))
+        slides.append((f"oficiales ganadas, {measure}", f"{label} & {cells}", source))
+    for study in ("entrega3_confirmacion_ucb1", "entrega2_congestion_90_109"):
+        delayed = comma(-closing["ucb_minus_uniform_delayed_objective", study])
+        for target in (slides, script):
+            target.append((f"UCB1 con retraso, {study}", delayed, source))
+    for code in ("C1", "C2", "C3", "C4", "E1"):
+        script.append((f"r de {code}", spoken(closing["effect_size_r", code], 2), source))
+
     exploratory = rows(RESULTS / "entrega2_exploratorio/contrastes.csv")[0]
     slides.append(("exploratorio", tex(float(exploratory["mean_difference"])), "contrastes.csv"))
     script.append(("exploratorio", spoken(float(exploratory["mean_difference"])), "contrastes.csv"))

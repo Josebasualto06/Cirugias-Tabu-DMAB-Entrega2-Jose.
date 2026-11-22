@@ -127,7 +127,7 @@
 \begin{frame}{El calendario debe terminar antes sin exceder la espera máxima}
   \begin{itemize}
     \item Cada paciente pasa por anestesia y luego por cirugía.
-    \item Salas y personal son compartidos; el planificador asigna profesionales elegibles.
+    \item El planificador asigna personal e inicia cada etapa lo antes posible.
     \item Restricción estricta: la espera nunca supera \texttt{max\_wait}.
     \item Minimizamos un objetivo combinado, sin penalizar desequilibrio de salas.
   \end{itemize}
@@ -351,7 +351,7 @@
       {\bfseries\color{azul} Qué limita la conclusión}
       \begin{itemize}
         \item UCB1 tardó 10,2 \% más y varió más.
-        \item En el catálogo estándar los signos cambian entre estudios.
+        \item Vale con inicios lo antes posible; en el estándar cambian los signos.
       \end{itemize}
     \end{column}
   \end{columns}
@@ -360,7 +360,7 @@
 \begin{frame}{D-MAB completo no mejora de forma concluyente; aporta UCB1 sin reinicio}
   \recuadro{Respuesta a la pregunta}{%
     No identificamos una condición en que D-MAB completo mejore de forma concluyente
-    a Tabu uniforme. En el catálogo de congestión sí aporta UCB1 sin reinicio.}
+    a Tabu uniforme. Bajo congestión y con inicios lo antes posible, sí aporta UCB1 sin reinicio.}
 
   \vspace{0.2cm}
   \begin{itemize}
@@ -488,6 +488,34 @@
 
   \bigskip
   {\scriptsize Descriptivo, 12 instancias. Son estudios distintos y no se combinan.}
+\end{frame}
+
+\begin{frame}{Apéndice: en las oficiales la cartera supera a las reglas}
+  \centering\footnotesize
+  Frente a la mejor de FIFO, SPT y LPT; semillas 60--79, 6.060 evaluaciones\par\smallskip
+  \begin{tabular}{@{}lcc@{}}
+    \toprule
+    Medida & Cartera & Dos Tabu\\
+    \midrule
+    Instancias ganadas en $f$ & 12 de 12 & 12 de 12\\
+    Reducción media de $f$ & 5,89 \% & 5,90 \%\\
+    Ganadas en \emph{makespan} & 10 de 12 & 10 de 12\\
+    Ganadas con penalización por desequilibrio & 10 de 12 & 10 de 12\\
+    \bottomrule
+  \end{tabular}
+
+  \bigskip
+  {\scriptsize Exploratorio. Dos Tabu logran lo mismo: no lo atribuimos al aprendizaje.}
+\end{frame}
+
+\begin{frame}{Apéndice: al retrasar la anestesia desaparece la espera}
+  \begin{itemize}
+    \item El planificador, como el simulador docente, inicia lo antes posible.
+    \item Retrasar solo la anestesia deja la espera en cero.
+    \item Entonces la mejor regla gana en las 48 instancias.
+    \item La ventaja de UCB1 baja a 1,656 (E1) y 0,093 (90--109).
+    \item Exploratorio: no repetimos la búsqueda con esa regla.
+  \end{itemize}
 \end{frame}
 
 \end{document}
