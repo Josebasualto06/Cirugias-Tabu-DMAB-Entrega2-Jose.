@@ -1,15 +1,18 @@
 % Generado por experiments/scripts/tabla_resultados.py. No editar a mano.
 % fuente: experiments/results/entrega2_congestion_90_109/comparisons.csv
-\begin{tabular}{@{}l>{\raggedright\arraybackslash}p{0.20\textwidth}>{\raggedright\arraybackslash}p{0.24\textwidth}rcr>{\raggedright\arraybackslash}p{0.14\textwidth}@{}}
+% fuente de las columnas por tamaño: experiments/results/entrega3_revision/descriptivos.csv
+\begin{tabular}{@{}llrcrrrrr@{}}
  \toprule
- Id & Alternativa $-$ referencia & Explicación alternativa que evalúa & Media & IC 95~\% & $p$ Holm & Lectura\\
+ & & & & & \multicolumn{4}{c}{Media por n.º de cirugías}\\
+ \cmidrule(l){6-9}
+ Id & Alternativa $-$ referencia & Media & IC 95~\% & $p$ Holm & 15 & 20 & 25 & 30\\
  \midrule
- \multicolumn{7}{@{}l}{\emph{3.030 evaluaciones por método}}\\
- C1 & D-MAB $-$ Tabu uniforme & La mejora proviene de Tabu y no de aprender & $-0{,}793$ & [$-1{,}850$; $+0{,}279$] & $0{,}041$ & No concluyente\\
- C4 & D-MAB $-$ UCB1 sin reinicio & El efecto proviene de UCB1 y no del reinicio & $+1{,}824$ & [$+0{,}566$; $+3{,}124$] & $0{,}005$ & Favorece a UCB1 sin reinicio\\
+ \multicolumn{9}{@{}l}{\emph{3.030 evaluaciones por método}}\\
+ C1 & D-MAB $-$ uniforme & $-0{,}793$ & [$-1{,}850$; $+0{,}279$] & $0{,}041$ & $-0{,}51$ & $-0{,}44$ & $-0{,}12$ & $-2{,}10$\\
+ C4 & D-MAB $-$ UCB1 & $\mathbf{+1{,}824}$ & [$+0{,}566$; $+3{,}124$] & $0{,}005$ & $-0{,}98$ & $+1{,}40$ & $+4{,}95$ & $+1{,}93$\\
  \midrule
- \multicolumn{7}{@{}l}{\emph{6.060 evaluaciones por método}}\\
- C2 & Cartera $-$ Tabu prolongado & La cartera mejora solo por consumir más evaluaciones & $-1{,}380$ & [$-2{,}405$; $-0{,}398$] & $0{,}008$ & Favorece a la cartera\\
- C3 & Cartera $-$ dos Tabu & La cartera mejora por repetir la búsqueda & $-0{,}409$ & [$-1{,}126$; $+0{,}338$] & $0{,}057$ & No concluyente\\
+ \multicolumn{9}{@{}l}{\emph{6.060 evaluaciones por método}}\\
+ C2 & Cartera $-$ prolongado & $\mathbf{-1{,}380}$ & [$-2{,}405$; $-0{,}398$] & $0{,}008$ & $+0{,}70$ & $+0{,}19$ & $-1{,}98$ & $-4{,}43$\\
+ C3 & Cartera $-$ dos Tabu & $-0{,}409$ & [$-1{,}126$; $+0{,}338$] & $0{,}057$ & $-0{,}12$ & $-0{,}31$ & $+0{,}37$ & $-1{,}58$\\
  \bottomrule
 \end{tabular}

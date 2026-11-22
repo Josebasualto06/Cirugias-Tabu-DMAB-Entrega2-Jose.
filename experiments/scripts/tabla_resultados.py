@@ -1,13 +1,14 @@
 """Build the LaTeX table of the pre-registered comparisons C1-C4.
 
-Reads experiments/results/entrega2_congestion_90_109/comparisons.csv and writes
-informe/tablas/tabla_comparaciones.tex, so no figure is typed by hand:
+Reads experiments/results/entrega2_congestion_90_109/comparisons.csv and the
+descriptive differences by size in experiments/results/entrega3_revision, and
+writes informe/tablas/tabla_comparaciones.tex, so no figure is typed by hand:
 
     python experiments/scripts/tabla_resultados.py
 
-The reading column applies the three criteria of the pre-registered C1 rule to
-every row: Holm p below 0.05, interval excluding zero and a mean of at least the
-practical threshold. The rule was binding for C1 only.
+A bold mean meets the three criteria of the pre-registered C1 rule: Holm p below
+0.05, interval excluding zero and a mean of at least the practical threshold.
+The rule was binding for C1 only. The columns by size are descriptive.
 """
 
 from __future__ import annotations
@@ -18,19 +19,17 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 SOURCE = ROOT / "experiments/results/entrega2_congestion_90_109/comparisons.csv"
+BY_SIZE = ROOT / "experiments/results/entrega3_revision/descriptivos.csv"
 OUTPUT = ROOT / "informe/tablas/tabla_comparaciones.tex"
 ALPHA = 0.05
 THRESHOLD = 0.25
+SIZES = (15, 20, 25, 30)
 # Order by budget so that each block compares methods with equal evaluations.
 ROWS = (
-    ("C1", "D-MAB $-$ Tabu uniforme", "La mejora proviene de Tabu y no de aprender",
-     "D-MAB", "Tabu uniforme"),
-    ("C4", "D-MAB $-$ UCB1 sin reinicio", "El efecto proviene de UCB1 y no del reinicio",
-     "D-MAB", "UCB1 sin reinicio"),
-    ("C2", "Cartera $-$ Tabu prolongado", "La cartera mejora solo por consumir más evaluaciones",
-     "la cartera", "Tabu prolongado"),
-    ("C3", "Cartera $-$ dos Tabu", "La cartera mejora por repetir la búsqueda",
-     "la cartera", "dos Tabu"),
+    ("C1", "D-MAB $-$ uniforme"),
+    ("C4", "D-MAB $-$ UCB1"),
+    ("C2", "Cartera $-$ prolongado"),
+    ("C3", "Cartera $-$ dos Tabu"),
 )
 BLOCKS = {3030: "3.030 evaluaciones por método", 6060: "6.060 evaluaciones por método"}
 
@@ -42,44 +41,49 @@ def number(value: float, digits: int = 3, signed: bool = False) -> str:
     return f"${sign}{text}$"
 
 
-def reading(row: dict, alternative: str, reference: str) -> str:
+def decisive(row: dict) -> bool:
     mean = float(row["mean_difference"])
     low, high = float(row["ci_low"]), float(row["ci_high"])
-    decisive = (float(row["holm_p"]) < ALPHA and (high < 0 or low > 0)
-                and abs(mean) >= THRESHOLD)
-    if not decisive:
-        return "No concluyente"
-    return f"Favorece a {alternative if mean < 0 else reference}"
+    return (float(row["holm_p"]) < ALPHA and (high < 0 or low > 0)
+            and abs(mean) >= THRESHOLD)
 
 
 def main() -> None:
     with SOURCE.open(newline="", encoding="utf-8") as stream:
         saved = {row["comparison"]: row for row in csv.DictReader(stream)}
+    with BY_SIZE.open(newline="", encoding="utf-8") as stream:
+        described = {(row["measure"], row["item"]): float(row["value"])
+                     for row in csv.DictReader(stream) if row["study"] == "90-109"}
     lines = [
         "% Generado por experiments/scripts/tabla_resultados.py. No editar a mano.",
         f"% fuente: {SOURCE.relative_to(ROOT).as_posix()}",
-        r"\begin{tabular}{@{}l>{\raggedright\arraybackslash}p{0.20\textwidth}"
-        r">{\raggedright\arraybackslash}p{0.24\textwidth}rcr"
-        r">{\raggedright\arraybackslash}p{0.14\textwidth}@{}}",
+        f"% fuente de las columnas por tamaño: {BY_SIZE.relative_to(ROOT).as_posix()}",
+        r"\begin{tabular}{@{}llrcrrrrr@{}}",
         r" \toprule",
-        r" Id & Alternativa $-$ referencia & Explicación alternativa que evalúa & Media & "
-        r"IC 95~\% & $p$ Holm & Lectura\\",
+        r" & & & & & \multicolumn{4}{c}{Media por n.º de cirugías}\\",
+        r" \cmidrule(l){6-9}",
+        r" Id & Alternativa $-$ referencia & Media & IC 95~\% & $p$ Holm & "
+        + " & ".join(str(size) for size in SIZES) + r"\\",
     ]
     budget = None
-    for code, label, explanation, alternative, reference in ROWS:
+    for code, label in ROWS:
         row = saved[code]
         if int(row["budget"]) != budget:
             budget = int(row["budget"])
-            lines += [r" \midrule", rf" \multicolumn{{7}}{{@{{}}l}}{{\emph{{{BLOCKS[budget]}}}}}\\"]
+            lines += [r" \midrule",
+                      rf" \multicolumn{{9}}{{@{{}}l}}{{\emph{{{BLOCKS[budget]}}}}}\\"]
+        mean = number(float(row["mean_difference"]), signed=True)
+        if decisive(row):
+            mean = rf"$\mathbf{{{mean.strip('$')}}}$"
         interval = (f"[{number(float(row['ci_low']), signed=True)}; "
                     f"{number(float(row['ci_high']), signed=True)}]")
-        lines.append(
-            f" {code} & {label} & {explanation} & {number(float(row['mean_difference']), signed=True)}"
-            f" & {interval} & {number(float(row['holm_p']))} & "
-            f"{reading(row, alternative, reference)}\\\\")
+        sizes = " & ".join(number(described[f"difference_{size}", code], 2, signed=True)
+                           for size in SIZES)
+        lines.append(f" {code} & {label} & {mean} & {interval} & "
+                     f"{number(float(row['holm_p']))} & {sizes}\\\\")
     lines += [r" \bottomrule", r"\end{tabular}", ""]
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
-    OUTPUT.write_text("\n".join(lines), encoding="utf-8")
+    OUTPUT.write_text("\n".join(lines), encoding="utf-8", newline="\n")
     print(OUTPUT.read_text(encoding="utf-8"))
 
 

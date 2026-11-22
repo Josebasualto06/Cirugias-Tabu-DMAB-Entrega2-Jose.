@@ -1,0 +1,23 @@
+% Generado por experiments/scripts/tabla_descriptiva.py. No editar a mano.
+% fuente: experiments/results/entrega3_revision/descriptivos.csv
+\begin{tabular}{@{}lrrrrrrrrr@{}}
+ \toprule
+ & \multicolumn{5}{c}{Objetivo $f$ (unidades)} & \multicolumn{3}{c}{Componentes (min)} & \\
+ \cmidrule(lr){2-6}\cmidrule(lr){7-9}
+ Método & Mejor & Media & Peor & DE & RPD (\%) & $C_{\max}$ & $\sum W$ & $\max W$ & $t$ (s)\\
+ \midrule
+ FIFO & -- & 358,94 & -- & -- & 33,24 & 266,46 & 105,18 & 28,49 & --\\
+ SPT & -- & 352,94 & -- & -- & 30,37 & 266,60 & 103,19 & 24,81 & --\\
+ LPT & -- & 364,31 & -- & -- & 36,26 & 272,34 & 94,82 & 31,82 & --\\
+ \midrule
+ \multicolumn{10}{@{}l}{\emph{3.030 evaluaciones}}\\
+ Uniforme & 280,31 & 297,20 & 312,80 & \textbf{8,72} & 9,75 & 287,56 & 9,31 & 3,55 & \textbf{6,17}\\
+ D-MAB & 279,32 & 296,40 & 312,88 & 8,85 & 9,46 & 287,79 & 8,29 & 3,19 & 6,51\\
+ UCB1 & \textbf{277,21} & \textbf{294,58} & \textbf{311,79} & 9,36 & \textbf{8,79} & \textbf{287,47} & \textbf{6,68} & \textbf{2,69} & 6,77\\
+ \midrule
+ \multicolumn{10}{@{}l}{\emph{6.060 evaluaciones}}\\
+ Prolongado & 277,81 & 293,23 & 307,97 & 7,95 & 8,25 & 286,10 & \textbf{6,83} & \textbf{2,64} & \textbf{12,43}\\
+ Dos Tabu & 277,87 & 292,26 & 305,89 & \textbf{7,29} & 7,89 & 284,74 & 7,16 & 2,81 & 12,59\\
+ Cartera & \textbf{277,15} & \textbf{291,85} & \textbf{304,91} & \textbf{7,29} & \textbf{7,76} & \textbf{284,45} & 6,99 & 2,78 & 12,87\\
+ \bottomrule
+\end{tabular}

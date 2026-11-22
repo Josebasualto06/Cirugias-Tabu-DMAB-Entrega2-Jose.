@@ -7,13 +7,17 @@ y corrige la coherencia de las anteriores:
 - [`conclusion.tex`](conclusion.tex): sección 5, Conclusión (1 página).
 - [`Entrega_3_Tabu_DMAB.pdf`](Entrega_3_Tabu_DMAB.pdf): PDF final, 14 páginas.
 
-La tabla y la figura se generan desde los resultados archivados. Ninguna cifra
-se escribe a mano:
+Las tablas y las figuras de la sección 4 se generan desde los resultados
+archivados. Ninguna de sus cifras se escribe a mano:
 
 ```bash
 python experiments/scripts/descriptivos_entrega3.py   # descriptivos de congestión
+python -X utf8 experiments/scripts/reejecutar_corridas.py     # auditoría; una sola vez
+python -X utf8 experiments/scripts/descriptivos_revision.py   # descriptivos de la revisión
+python experiments/scripts/tabla_descriptiva.py       # tablas/tabla_descriptiva.tex
 python experiments/scripts/tabla_resultados.py        # tablas/tabla_comparaciones.tex
 python experiments/scripts/forest_comparaciones.py    # figuras/forest_comparaciones.pdf
+python experiments/scripts/figura_distribucion.py     # figuras/distribucion_convergencia.pdf
 ```
 
 Dos verificadores de solo lectura acompañan al texto:

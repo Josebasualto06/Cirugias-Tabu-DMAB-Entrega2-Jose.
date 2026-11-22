@@ -46,7 +46,7 @@ BLUE, ORANGE, AQUA = "#2a78d6", "#eb6834", "#1baf7a"
 
 FAMILY_LABELS = {
     "C1": "C1  D-MAB − Tabu uniforme (3.030)",
-    "C4": "C4  D-MAB − UCB1 sin reinicio (3.030)",
+    "C4": "C4  D-MAB − UCB1 (3.030)",
     "C2": "C2  Cartera − Tabu prolongado (6.060)",
     "C3": "C3  Cartera − dos Tabu (6.060)",
 }
@@ -67,23 +67,23 @@ def groups() -> list[dict]:
     """Return the groups to draw, each with a header, a style and its rows."""
     family = {row["comparison"]: row for row in rows(FAMILY)}
     result = [{
-        "header": "Familia pre-registrada · semillas 90–109",
-        "legend": "Pre-registrada C1–C4", "color": BLUE, "marker": "o", "filled": True,
+        "header": "Familia prerregistrada · semillas 90–109",
+        "legend": "Prerregistrada C1–C4", "color": BLUE, "marker": "o", "filled": True,
         "rows": [(FAMILY_LABELS[code], family[code]) for code in ("C1", "C4", "C2", "C3")],
     }]
     exploratory = rows(EXPLORATORY)[0]
     result.append({
-        "header": "Exploratorio, no pre-registrado · semillas 90–109",
+        "header": "Exploratorio, no prerregistrado · semillas 90–109",
         "legend": "Exploratorio", "color": ORANGE, "marker": "D", "filled": False,
-        "rows": [("UCB1 sin reinicio − Tabu uniforme (3.030)", exploratory)],
+        "rows": [("UCB1 − Tabu uniforme (3.030)", exploratory)],
     })
     manifest = CONFIRMATION / "manifest.json"
     if manifest.exists() and json.loads(manifest.read_text(encoding="utf-8")).get("status") == "completed":
         confirmation = rows(CONFIRMATION / "comparisons.csv")[0]
         result.append({
-            "header": "Confirmación pre-registrada · semillas 120–139",
+            "header": "Confirmación prerregistrada · semillas 120–139",
             "legend": "Confirmación E1", "color": AQUA, "marker": "s", "filled": True,
-            "rows": [("E1  UCB1 sin reinicio − Tabu uniforme (3.030)", confirmation)],
+            "rows": [("E1  UCB1 − Tabu uniforme (3.030)", confirmation)],
         })
     return result
 
@@ -93,8 +93,8 @@ def main() -> None:
     parser.add_argument("--salida", type=Path,
                         default=ROOT / "informe/figuras/forest_comparaciones.pdf")
     parser.add_argument("--ancho", type=float, default=16.0, help="width in cm")
-    parser.add_argument("--alto", type=float, default=7.4, help="height in cm")
-    parser.add_argument("--cuerpo", type=float, default=9.0, help="font size in points")
+    parser.add_argument("--alto", type=float, default=4.7, help="height in cm")
+    parser.add_argument("--cuerpo", type=float, default=8.0, help="font size in points")
     parser.add_argument("--fuente", default="serif")
     parser.add_argument("--valores", action="store_true",
                         help="print mean and interval at the right of each row")
@@ -145,7 +145,7 @@ def main() -> None:
     dashes = (0, (3, 2.5))
     axis.axvline(THRESHOLD, color=INK_SECONDARY, linewidth=0.9, linestyle=dashes, zorder=2)
     handles.append(Line2D([0], [0], color=INK_SECONDARY, linewidth=0.9, linestyle=dashes,
-                          label="Umbral práctico −0,25"))
+                          label="Umbral mínimo −0,25"))
     axis.set_ylim(position + 0.4, 0.55)
     axis.set_yticks(ticks)
     axis.set_yticklabels(labels, color=INK)

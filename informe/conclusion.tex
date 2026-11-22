@@ -1,46 +1,47 @@
 % Sección (vi) Conclusión. Se inserta en main.tex después de Resultados y discusión:
 %   \clearpage
 %   \input{conclusion}
-% No introduce cifras de resultados ni referencias nuevas: resume la sección anterior.
+% No introduce cifras ni referencias nuevas: cada cifra ya aparece en la sección 4.
 \section{Conclusión}
 \label{sec:conclusion}\label{con-ini}
 
-Este proyecto preguntó en qué condiciones D-MAB mejora Tabu Search frente a la
-selección uniforme al programar cirugías en dos etapas. La literatura no había
-medido ese aporte en un Tabu con espera estricta y reparación. Nuestra respuesta
-es que no identificamos esa condición para D-MAB completo. Bajo congestión, el
-resultado es no concluyente, porque el intervalo de la diferencia incluye el cero.
+Este proyecto preguntó en qué condiciones D-MAB mejora a una búsqueda tabú frente a
+la selección uniforme, al programar cirugías en dos etapas. En los trabajos revisados
+no encontramos ese aporte separado del cómputo, la repetición y los operadores.
+Nuestra respuesta es que no identificamos esa condición para D-MAB completo. Bajo
+congestión, su diferencia fue $-0{,}793$ (IC [$-1{,}850$; $+0{,}279$]), no concluyente.
 
-Sin embargo, el estudio deja tres hallazgos. Primero, la cartera supera al Tabu
-prolongado con igual presupuesto. Segundo, esa ganancia es compatible con repetir
-la búsqueda, porque no distinguimos la cartera de dos Tabu independientes.
-Tercero, el reinicio Page--Hinkley no ayuda bajo congestión. De hecho, UCB1 sin
-reinicio supera a D-MAB y, en una confirmación pre-registrada con semillas
-nuevas, también a Tabu uniforme.
+Sin embargo, el estudio deja tres hallazgos. Primero, la cartera superó al Tabu
+prolongado por 1,380 unidades de $f$. No se distinguió de dos Tabu independientes
+($-0{,}409$; IC [$-1{,}126$; $+0{,}338$]), por lo que no atribuimos su ganancia al
+aprendizaje. Segundo, UCB1 superó a D-MAB por 1,824 unidades: el reinicio no ayudó.
+Tercero, una confirmación prerregistrada mostró que UCB1 mejora a Tabu uniforme
+($-2{,}749$; IC [$-4{,}069$; $-1{,}453$]).
 
-El aporte principal es metodológico. Diseñamos controles a igual presupuesto que
-separan el aprendizaje del cómputo y de la repetición de la búsqueda. Además, dos
-protocolos registrados antes de ejecutar restringieron nuestras decisiones. Así,
-no declaramos un efecto que el intervalo no respalda, y confirmamos una señal
-antes de afirmarla. Por último, generamos un catálogo de congestión que tensiona
-la espera entre etapas.
+En cuanto al objetivo, la calidad mejoró con UCB1 en 0,92~\% en la confirmación. El costo
+fue 9,8~\% más de tiempo y una mayor dispersión entre semillas. La ventaja no apareció con
+15 cirugías. En el catálogo estándar, además, los signos cambiaron entre estudios.
+Por tanto, la respuesta vale para el catálogo de congestión y no como regla general.
 
-Tres limitaciones acotan estas conclusiones. Primero, las semillas nuevas sobre
-un mismo catálogo sintético no miden generalización a otros hospitales. Segundo,
-la variabilidad observada dejó subdimensionada la comparación principal. Tercero,
-comparamos por evaluaciones y en una sola máquina, no por tiempo.
+El aporte principal es metodológico. Los controles separaron la selección adaptativa
+del presupuesto, de la repetición y del reinicio. Además, dos protocolos fechados antes
+de ejecutar impidieron declarar un efecto que la regla no respaldaba. También dejamos
+un catálogo reproducible que tensiona la espera entre etapas.
 
-Por tanto, el trabajo futuro debería contrastar cinco hipótesis. Primera: un
-umbral $\lambda$ mayor reduce los reinicios y acerca D-MAB a UCB1. Segunda: un
-crédito por rangos o por valores extremos entrega señal aunque las mejoras sean
-escasas. Tercera: recompensar el movimiento aplicado, y no el propuesto, corrige
-la distorsión de la reparación. Cuarta: reiniciar la búsqueda ante el
-estancamiento reproduce la ganancia de la cartera. Quinta: un modelo sustituto
-que prefiltre vecinos ahorra evaluaciones estrictas. Además, falta evaluar una
-cartera con UCB1 frente a dos Tabu independientes. También faltan instancias
-reservadas de 50 a 150 cirugías y una comparación a igual tiempo.
+Tres limitaciones acotan estas conclusiones. Primero, los datos son sintéticos y las
+semillas nuevas no reemplazan instancias nuevas. Segundo, la comparación principal
+quedó subdimensionada. Tercero, igualamos evaluaciones y no cómputo.
 
-En conjunto, el proyecto muestra que el valor de un híbrido no depende de sumar
-componentes de aprendizaje. Depende de comprobar, con controles, cuál de ellos
-aporta. En este caso, aportó el componente más simple.
+El trabajo futuro debería seguir cinco pasos, en este orden. Primero, comparar UCB1
+con una mezcla fija de sus mismas frecuencias, para aislar el aprendizaje. Segundo,
+recalibrar $\lambda$ y $\delta$ bajo congestión. En el estándar, $\lambda=10$ eliminó
+los reinicios y empeoró el resultado, por lo que no basta con subir el umbral. Tercero,
+probar un crédito por valores extremos que premie el movimiento realmente aplicado.
+Cuarto, evaluar una cartera con UCB1 frente a dos Tabu, a igual tiempo y en instancias
+reservadas de 50 a 150 cirugías. Quinto, obtener cotas exactas con 15 cirugías para
+medir la distancia al óptimo.
+% fuente de lambda=10: experiments/results/calibration_0_5/CALIBRATION.md
+
+En este catálogo aportó el componente más simple. Queda por demostrar que lo hace
+por aprender y que lo hace también fuera de él.%
 \label{con-fin}

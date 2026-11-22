@@ -1,7 +1,9 @@
-"""Check every figure of the results and conclusion sections against its source.
+"""Check every figure of the abstract, results and conclusion against its source.
 
 Recomputes each quoted value from the archived result files and checks that the
-LaTeX text contains it. Then it lists any number in the text that is neither a
+LaTeX text contains it, including the two generated tables and the calibration
+figures of section 3. It also asserts the qualitative claims that depend on a
+sign or an order. Then it lists any number in the text that is neither a
 verified result nor a declared design constant. It writes nothing:
 
     python informe/verificar_cifras.py
@@ -34,6 +36,14 @@ DESIGN = {
     "139": "semillas 120-139 (protocolo de la Entrega 3)",
     "150": "tamaños futuros declarados en la sección 2.5",
     "0,001": "cota de redacción para p (ver comprobación de E1)",
+    "12": "instancias por tamaño y del catálogo estándar",
+    "15": "tamaño de instancia", "20": "tamaño de instancia y semillas por instancia",
+    "25": "tamaño de instancia", "30": "tamaño de instancia",
+    "39": "semillas 20-39", "40": "semillas 40-59", "59": "semillas 40-59",
+    "60": "semillas 60-79", "79": "semillas 60-79",
+    "5": "percentiles 5-95 de la figura 2",
+    "0,35": "lambda de la configuración de las semillas 20-39",
+    "10": "lambda = 10 de la calibración (ver comprobación)",
 }
 
 
@@ -68,10 +78,8 @@ def checks() -> list[tuple[str, str, str]]:
         found.append((f"{code} IC superior", tex(float(row["ci_high"]), signed=True), source))
         found.append((f"{code} p Holm", plain(float(row["holm_p"]), 3), source))
     c1 = family["C1"]
-    found.append(("C1 pares a favor de D-MAB", c1["wins"], "comparisons.csv (wins)"))
-    found.append(("C1 pares a favor de Tabu uniforme", c1["losses"], "comparisons.csv (losses)"))
-    found.append(("C1 perjuicio descartado", plain(float(c1["ci_high"]), 2), "comparisons.csv (ci_high)"))
-    found.append(("C1 beneficio descartado", plain(-float(c1["ci_low"]), 2), "comparisons.csv (ci_low)"))
+    # The text says that the interval includes harm and benefit beyond the threshold.
+    assert float(c1["ci_low"]) < -0.25 and float(c1["ci_high"]) > 0.25
 
     audit = json.loads((RESULTS / "entrega2_congestion_90_109/verification.json").read_text(encoding="utf-8"))
     assert audit["status"] == "passed" and audit["failed_pairs"] == 0
@@ -90,6 +98,8 @@ def checks() -> list[tuple[str, str, str]]:
                 if r["effect"] == "0.65"][0]
     found.append(("potencia realizada", plain(float(realized["t_power_alpha_05"]), 2),
                   "potencia_realizada.csv"))
+    found.append(("DE observada", plain(float(realized["realized_sd"]), 2), "potencia_realizada.csv"))
+    found.append(("DE supuesta", plain(float(realized["assumed_sd"]), 2), "potencia_realizada.csv"))
 
     described = {r["method"]: r for r in rows(RESULTS / "entrega2_congestion_90_109/descriptive.csv")}
     source = "entrega2_congestion_90_109/descriptive.csv"
@@ -104,7 +114,8 @@ def checks() -> list[tuple[str, str, str]]:
     found.append(("Tabu prolongado sin mejoras", f"{extra['runs_without_improvement_after_3030', 'uniform6060']:.0f}", source))
     found.append(("proporción sin mejoras", plain(100 * extra["share_without_improvement_after_3030", "uniform6060"], 1), source))
     found.append(("mediana de reinicios", f"{extra['median_restarts', 'dmab3030']:.0f}", source))
-    found.append(("evaluaciones por reinicio", f"{extra['evaluations_per_median_restart', 'dmab3030']:.0f}", source))
+    for method in ("uniform3030", "ucb3030"):
+        found.append((f"reparación {method}", plain(100 * extra["mean_repaired_share", method], 1), source))
     found.append(("reparación D-MAB", plain(100 * extra["mean_repaired_share", "dmab3030"], 1), source))
 
     simulated = [r for r in rows(RESULTS / "entrega2_potencia/simulacion.csv")
@@ -124,12 +135,81 @@ def checks() -> list[tuple[str, str, str]]:
     found.append(("E1 IC superior", tex(float(confirmation["ci_high"]), signed=True), source))
     replay = json.loads((RESULTS / "entrega3_confirmacion_ucb1/verification.json").read_text(encoding="utf-8"))
     assert replay["status"] == "passed" and replay["h1c_supported"]
-    found.append(("E1 calendarios auditados", thousands(replay["schedules_replayed"]), "verification.json"))
 
     diagnosis = [r for r in rows(RESULTS / "entrega2_diagnostico_115_119/summary.csv")
                  if r["policy"] == "dmab"][0]
     found.append(("recompensa positiva", plain(100 * float(diagnosis["positive_reward_share"]), 1),
                   "entrega2_diagnostico_115_119/summary.csv"))
+    return found + revision_checks()
+
+
+def revision_checks() -> list[tuple[str, str, str]]:
+    """Figures and qualitative claims added by the final revision."""
+    source = "entrega3_revision/descriptivos.csv"
+    value = {(r["study"], r["measure"], r["item"]): float(r["value"])
+             for r in rows(RESULTS / source)}
+    found = []
+
+    def add(claim: str, text: str) -> None:
+        found.append((claim, text, source))
+
+    study = "90-109"
+    methods = ("uniform3030", "dmab3030", "ucb3030", "uniform6060", "two_uniform6060",
+               "fixed_portfolio6060")
+    for method in methods:
+        for measure in ("best", "objective", "worst", "sd", "rpd", "makespan", "blocked",
+                        "max_wait", "runtime"):
+            add(f"{measure} {method}", plain(value[study, measure, method], 2))
+    for rule in ("fifo", "spt", "lpt"):
+        for measure in ("objective", "rpd", "makespan", "blocked", "max_wait"):
+            add(f"{measure} {rule}", plain(value[study, measure, rule], 2))
+    for code in ("C1", "C2", "C3", "C4", "E1"):
+        origin = "120-139" if code == "E1" else study
+        for size in (15, 20, 25, 30):
+            add(f"{code} con {size} cirugías",
+                tex(value[origin, f"difference_{size}", code], 2, signed=True))
+
+    gain = {m: value[study, "improvement_over_best_rule", m] for m in ("uniform3030", "ucb3030")}
+    assert gain["ucb3030"] - gain["uniform3030"] < 1
+    for method, percent in gain.items():
+        add(f"mejora sobre la mejor regla {method}", plain(percent, 1))
+    add("razón de errores estándar C1", plain(value[study, "bootstrap_se_ratio", "C1"], 2))
+    add("E1 instancias a favor", f"{value['120-139', 'instances_better', 'E1']:.0f}")
+    add("E1 diferencia relativa", plain(-value["120-139", "relative_difference", "E1"], 2))
+    add("decodificación UCB1", plain(value[study, "decoded_overhead", "ucb3030"], 1))
+    add("tiempo UCB1", plain(value[study, "time_overhead", "ucb3030"], 1))
+    add("tiempo D-MAB", plain(value[study, "time_overhead", "dmab3030"], 1))
+    add("tiempo UCB1 en E1", plain(value["120-139", "time_overhead", "ucb3030"], 1))
+    for method in ("uniform3030", "ucb3030"):
+        add(f"DE en E1 {method}", plain(value["120-139", "sd", method], 2))
+        add(f"cambio de sala de anestesia {method}", plain(value[study, "share_room_1", method], 1))
+    for origin in (study, "120-139"):
+        assert value[origin, "sd", "ucb3030"] > value[origin, "sd", "uniform3030"]
+    assert value[study, "difference_15", "C2"] > 0 and value[study, "difference_20", "C2"] > 0
+    assert value[study, "difference_25", "C2"] < 0 and value[study, "difference_30", "C2"] < 0
+    assert value[study, "difference_15", "C4"] < 0
+    assert value[study, "instances_better_25", "C4"] == 0
+    assert value["120-139", "difference_15", "E1"] > 0
+
+    for origin in ("20-39", "40-59"):
+        for pair in ("ucb-uniform", "dmab-uniform", "dmab-ucb"):
+            add(f"estándar {origin} {pair}", tex(value[origin, "difference", pair], signed=True))
+    for pair in ("dmab3030-uniform3030", "fixed_portfolio6060-uniform6060",
+                 "fixed_portfolio6060-two_uniform6060"):
+        add(f"estándar 60-79 {pair}", tex(value["60-79", "difference", pair], signed=True))
+
+    pilot = [value["110-114", f"difference_{size}", "dmab-uniform"] for size in (15, 20, 25, 30)]
+    assert sum(difference > 0 for difference in pilot) == 3
+    for size, difference in zip((15, 20, 25, 30), pilot):
+        add(f"piloto con {size} cirugías", tex(difference, 2, signed=True))
+
+    add("calibración elegida", tex(value["0-5", "difference", "chosen"]))
+    add("calibración siguiente", tex(value["0-5", "difference", "runner_up"]))
+    add("variantes calibradas", f"{value['0-5', 'variants', 'all']:.0f}")
+    without = [r for r in rows(RESULTS / "calibration_0_5/runs.csv")
+               if r["variant"] == "dmab|solution|C=0.1|lambda=10.0"]
+    assert sorted(int(r["dmab_restarts"]) for r in without)[len(without) // 2] == 0
+    assert value["0-5", "difference", "lambda_10"] > value["0-5", "difference", "chosen"]
     return found
 
 
@@ -140,7 +220,10 @@ def visible(source: str) -> str:
                   r"|setlength\{\\tabcolsep\})\{[^}]*\}", "", text)
     # Layout markup: penalties, column counts and column widths are not results.
     text = re.sub(r"\\@?\w*penalty=\d+", "", text)
-    text = re.sub(r"\\multicolumn\{\d+\}", "", text)
+    text = re.sub(r"\\multicolumn\{\d+\}(\{c\})?", "", text)
+    text = re.sub(r"\\cmidrule(\(\w+\))?\{\d+-\d+\}", "", text)
+    text = re.sub(r"\$\\mathbf\{((?:[^{}]|\{,\})*)\}\$", r"$\1$", text)
+    text = re.sub(r"\\textbf\{([\d,]+)\}", r"\1", text)
     return re.sub(r"p\{[\d.]+\\textwidth\}", "", text)
 
 
@@ -153,18 +236,25 @@ def numbers(text: str) -> set[str]:
 def main() -> None:
     body = visible((HERE / "resultados.tex").read_text(encoding="utf-8"))
     table = visible((HERE / "tablas/tabla_comparaciones.tex").read_text(encoding="utf-8"))
+    described = visible((HERE / "tablas/tabla_descriptiva.tex").read_text(encoding="utf-8"))
+    setup = visible((HERE / "experimental_setup.tex").read_text(encoding="utf-8"))
     conclusion = visible((HERE / "conclusion.tex").read_text(encoding="utf-8"))
+    document = (HERE / "main.tex").read_text(encoding="utf-8")
+    abstract = visible(document[document.index("\\chapter*{Resumen}"):document.index("\\noindent\\textbf{Palabras")])
     failures = 0
     verified = set()
     for claim, text, source in checks():
-        present = text in body or text in table
+        # Section 3 only holds the calibration figures; it has its own constants.
+        places = (setup,) if claim.startswith(("calibración", "variantes")) else (body, table, described)
+        present = any(text in place or text in place.replace("{,}", ",") for place in places)
         failures += not present
         verified |= numbers(text)
         print(f"{'OK ' if present else 'NO '} {claim}: {text}  ({source})")
 
     # The section numbers of the cross-references are not results.
     allowed = verified | set(DESIGN) | {"1", "2", "4", "5"}
-    for name, text in (("resultados.tex", body), ("tabla_comparaciones.tex", table),
+    for name, text in (("resumen", abstract), ("resultados.tex", body),
+                       ("tabla_comparaciones.tex", table), ("tabla_descriptiva.tex", described),
                        ("conclusion.tex", conclusion)):
         unknown = sorted(numbers(text) - allowed, key=lambda item: (len(item), item))
         failures += len(unknown)

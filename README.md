@@ -87,8 +87,11 @@ IC 95 % [−4,069; −1,453]
 el cero. La cartera supera al Tabu prolongado, pero no se distingue de dos Tabu
 independientes, así que su ganancia es compatible con repetir la búsqueda. El
 reinicio Page–Hinkley no ayudó bajo congestión; UCB1 sin reinicio sí superó a
-Tabu uniforme. Las semillas nuevas sobre el mismo catálogo sintético no miden
-generalización a otros hospitales.
+Tabu uniforme, aunque no con 15 cirugías y con cerca de 10 % más de tiempo. En
+el catálogo estándar los signos no fueron consistentes entre estudios
+([descriptivos](experiments/results/entrega3_revision/DESCRIPTIVOS.md)). Las
+semillas nuevas sobre el mismo catálogo sintético no miden generalización a
+otros hospitales.
 
 ## Entrega 1
 
