@@ -1,0 +1,26 @@
+{
+  "status": "completed",
+  "kind": "replay of archived seeds; descriptive, not pre-registered",
+  "replayed_runs": 4800,
+  "mismatches": 0,
+  "sources_sha256": {
+    "experiments/results/entrega2_congestion_90_109/runs.csv": "a9bf9d1a1b315b613ca39306cb2d6cf1022ff0ffb5f29dd8814ced4c40e3b3d0",
+    "experiments/results/entrega3_confirmacion_ucb1/runs.csv": "47d03fab071c533fde941d7f4ebe2120df681ed6126218da1f92be8d3dd626a9"
+  },
+  "code_sha256": {
+    "src/surgery_optim/__init__.py": "edc423add241dc635c38113a92496d89c4800c008773d9e6908c21305b900a9a",
+    "src/surgery_optim/bandit.py": "82a5dd7eaa4fef68d0e74842c06b644ff4136c3d4418eab7f97cda117a9ec32b",
+    "src/surgery_optim/baselines.py": "07e2f0dba9df46a578b368187ce85bca025cc2f6073a6dc456b4b2ac69d81fd8",
+    "src/surgery_optim/encoding.py": "e20c3aee461c86bec8a6100444355677f6fb416c2c6b5e34164a6ea36128b68d",
+    "src/surgery_optim/instances.py": "aebc507ea4af68b38970069321b3b45349503fe781009bc1a7bd0d45ab7b3921",
+    "src/surgery_optim/model.py": "052d66de03256e770f9bc60a6b399c45bcc88d6a886716d78868876478ed8da1",
+    "src/surgery_optim/objective.py": "22fc51d23b31577abf78933e30bfdb71a44f855e35f401bdfc7055265f03ab61",
+    "src/surgery_optim/portfolio/__init__.py": "ec543110d3e9f21c059c87efffb1a6fe4239cf4fb9d039b99dc326e7ffc8b751",
+    "src/surgery_optim/portfolio/__main__.py": "3d2414802f0534bdf846a812d3345461e1d1744d7f3524de1ee0d2857a327018",
+    "src/surgery_optim/scheduler.py": "881d0f9468da90f0bc9f0fbe1209297f4527063ac44b48e5c000a5f7f2a198b4",
+    "src/surgery_optim/tabu.py": "1d81b2ea3e775065ea26dca397ac36024455425f9ab30bce37d52e4324032e3c"
+  },
+  "script": "experiments/scripts/reejecutar_corridas.py",
+  "script_sha256": "f81d4254c10235bdbc74002a50adb4f0bcceeda70d34367d6ac1694e6f08f31a",
+  "git_head": "0a50ce0184831b5c18ce210375e7c7d0b5bf402f"
+}

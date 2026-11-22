@@ -43,10 +43,14 @@ python -X utf8 -m experiments.explore_congestion      # exploratorio, no pre-reg
 python -X utf8 -m experiments.confirm_ucb1 --workers 12
 python -X utf8 -m experiments.verify_confirm_ucb1
 
-# Informe final: descriptivos, tabla y figura desde los resultados archivados
+# Informe final: descriptivos, tablas y figuras desde los resultados archivados
 python experiments/scripts/descriptivos_entrega3.py
+python -X utf8 experiments/scripts/reejecutar_corridas.py   # auditoría; una sola vez
+python -X utf8 experiments/scripts/descriptivos_revision.py
+python experiments/scripts/tabla_descriptiva.py
 python experiments/scripts/tabla_resultados.py
 python experiments/scripts/forest_comparaciones.py
+python experiments/scripts/figura_distribucion.py
 ```
 
 `-X utf8` evita un fallo de codificación al imprimir en la consola de Windows.
@@ -56,6 +60,9 @@ carpeta de salida. Los resultados están en
 [`results/entrega3_confirmacion_ucb1/`](results/entrega3_confirmacion_ucb1/) y
 [`results/entrega3_descriptivos/`](results/entrega3_descriptivos/). Los
 descriptivos no estaban pre-registrados: resumen columnas ya archivadas.
+La revisión final agrega [`results/entrega3_revision/`](results/entrega3_revision/) y
+[`results/entrega3_revision_reejecucion/`](results/entrega3_revision_reejecucion/), esta
+última con semillas archivadas que se repiten solo para auditar.
 
 Las semillas 0–139 y 1.000.060–1.000.109 están consumidas. Un estudio nuevo usa
 semillas desde la 140 y un protocolo propio.

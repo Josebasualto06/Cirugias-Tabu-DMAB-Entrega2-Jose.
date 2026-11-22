@@ -67,3 +67,10 @@ Confirmarlo requiere semillas nuevas. El rango reservado empieza en 120.
 fijó sobre instancias de desarrollo, donde la celda elegida alcanzó 55 %. En el
 catálogo final alcanza 51,8 %, con 995 de 1.920 soluciones de Tabu uniforme y D-MAB.
 El margen es estrecho: por tamaño va de 45,0 % a 57,5 %.
+
+**N5 (2026-11-22). Descriptivos de la revisión final.** Después de ver los resultados se
+calcularon, sobre las semillas 90–109 archivadas, la dispersión, el RPD, el efecto por tamaño,
+el sobrecosto y la razón entre el error estándar del bootstrap jerárquico y el de las medias
+por instancia. No estaban en el protocolo, no prueban hipótesis y no cambian C1–C4. El
+bootstrap resulta conservador, porque remuestrea semillas dentro de medias que ya contienen
+ese ruido; se mantiene porque se fijó antes. H1 sigue sin respaldo.

@@ -1,0 +1,18 @@
+{
+  "status": "completed",
+  "kind": "descriptive, not pre-registered, no hypothesis tested",
+  "sources_sha256": {
+    "experiments/results/entrega2_congestion_90_109/runs.csv": "a9bf9d1a1b315b613ca39306cb2d6cf1022ff0ffb5f29dd8814ced4c40e3b3d0",
+    "experiments/results/entrega3_confirmacion_ucb1/runs.csv": "47d03fab071c533fde941d7f4ebe2120df681ed6126218da1f92be8d3dd626a9",
+    "experiments/results/entrega2_congestion_90_109/baselines.csv": "8ab4fa115772a33e022ff68e11c09b5cc5c2cf1149373b0963bbe423722f766f",
+    "experiments/results/validation_20_39/runs.csv": "3d3de2a62cf7d6f46d1a8c6aa67c53df7377ae5983da7463aabaebff62ee8824",
+    "experiments/results/validation_40_59/runs.csv": "37793c79b9480a78e5c7de46ee3b0cff36bf7abd2284eb09e647b4cf4831b101",
+    "experiments/results/portfolios_60_79/runs.csv": "da46375665a3e1eb0334afb4a21759ee470c3a9f35f7a7bdcb214131ccc32ca1",
+    "experiments/results/calibration_0_5/runs.csv": "4689e93a707c77af2f32a1e6fa4180ad57c06f2bda67e78afeb9e3bdae120210",
+    "experiments/results/entrega2_tiempo_110_114/summary.csv": "c9ef2597bbfce9debcaeee6d5b5e8254bcbcd8a30ada4ffc04c7367ca8241e64",
+    "experiments/results/entrega2_tiempo_110_114/runs.csv": "efe5f1dec5951bf2702fb2e098a12d17a589495a65512f80380435d0e832425b",
+    "experiments/results/entrega3_revision_reejecucion/runs.csv": "288d8827b4b2ef275759f31b2507d94cfb5b760ffcdfeabe73defabf74e03f10"
+  },
+  "script": "experiments/scripts/descriptivos_revision.py",
+  "script_sha256": "527e0e71c73d20a3ef3e475e27ab77e28d7a46d43999fe730617010bdd0de56d"
+}

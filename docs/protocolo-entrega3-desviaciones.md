@@ -48,3 +48,24 @@ forma apreciable.
 El resultado confirma el contraste exploratorio de las semillas 90–109 en este
 catálogo. No mide generalización a otros hospitales ni evalúa una cartera con
 UCB1. Tampoco compara UCB1 con Tabu prolongado o con dos Tabu independientes.
+
+## Notas de la revisión final del informe
+
+**N5 (2026-11-22). Re-ejecución de auditoría.** `experiments/scripts/reejecutar_corridas.py`
+repitió las corridas archivadas de 3.030 evaluaciones de las semillas 90–109 y 120–139, para
+registrar propuestas decodificadas, movimientos y convergencia. No usó semillas, métodos ni
+parámetros nuevos, y solo guarda resultados si cada corrida reproduce su valor archivado.
+Sus medidas, en `experiments/results/entrega3_revision_reejecucion/`, son descriptivas.
+
+**N6 (2026-11-22). Descriptivos y alcance.** `experiments/scripts/descriptivos_revision.py`
+calculó, después de ver los resultados, el efecto de E1 por tamaño, su dispersión y su costo.
+También reúne los estudios previos del catálogo estándar, con cualquier signo. No prueban
+hipótesis ni cambian H1c. Acotan su lectura: E1 no muestra ventaja con 15 cirugías, no separa
+aprender de sesgar movimientos y no se extiende al catálogo estándar.
+
+**N7 (2026-11-22). Trazabilidad de los manifiestos de la revisión.** El `git_head` de la
+re-ejecución, `0a50ce0`, es un commit local que no se publicó: solo agregaba una guía interna
+sobre `ef60021`, sin cambios de código ni de datos. Para reproducirla sirve `ef60021` más el
+script, cuyo hash está en el manifiesto. Además, los hashes de los CSV de origen se tomaron
+de la copia de trabajo de Windows. En los CSV que allí usan CRLF, hay que convertir LF a CRLF
+antes de comparar el hash con un clon.
