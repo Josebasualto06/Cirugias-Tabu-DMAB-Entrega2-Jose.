@@ -3,7 +3,7 @@
 Duración objetivo: 13:55, con margen de 1:05 sobre el máximo de 15 minutos.
 Los tiempos incluyen señalar cada figura y tabla. El texto leído sin pausas dura
 menos, así que hay que cronometrar un ensayo. El reparto de presentadores es una
-propuesta: la pauta no exige que presente todo el grupo. Las cinco diapositivas
+propuesta: la pauta no exige que presente todo el grupo. Las seis diapositivas
 del apéndice no se presentan; sirven para responder preguntas.
 
 Convención que hay que repetir al mostrar resultados: la diferencia es alternativa
@@ -54,13 +54,14 @@ Cada movimiento es un brazo. UCB1 combina la recompensa media con un término de
 exploración. D-MAB agrega un detector, Page–Hinkley, que reinicia las estadísticas cuando
 la recompensa cae. Sin ese detector queda UCB1, que usamos como ablación.
 
-### 7. Cuatro comparaciones separan aprendizaje, cómputo y repetición de la búsqueda
+### 7. Cuatro comparaciones separan selección, cómputo y repetición de la búsqueda
 **Tiempo:** 1:05 · **Presenta:** [Cristopher]
 
-Cada comparación descarta una explicación alternativa. C1 aísla el aprendizaje, C2 el
-cómputo, C3 la repetición de la búsqueda y C4 el reinicio. Analizamos medias por
-instancia, porque las semillas de una instancia comparten datos. La hipótesis primaria,
-C1, solo queda respaldada si cumple tres condiciones fijadas antes de ejecutar.
+Cada comparación pone a prueba una explicación alternativa. C1 mide la política de selección,
+aunque no prueba que aprender sea la causa: una mezcla fija podría lograr lo mismo. C2 controla
+el cómputo, C3 la repetición de la búsqueda y C4 el reinicio. Analizamos medias por instancia,
+porque las semillas de una instancia comparten datos. La hipótesis primaria, C1, solo queda
+respaldada si cumple tres condiciones fijadas antes de ejecutar.
 
 ### 8. El catálogo de congestión tensiona la espera que el original no tensionaba
 **Tiempo:** 0:55 · **Presenta:** [Cristopher]
@@ -85,13 +86,15 @@ la izquierda del cero gana la alternativa. El escenario fue válido: 960 pares s
 y 5.760 calendarios auditados. En C1, D-MAB frente a Tabu uniforme, la media es −0,793 y
 el p de Holm es 0,041. Sin embargo, el intervalo cruza el cero. La regla exigía tres
 condiciones y C1 cumple dos. Por eso decimos no concluyente: no afirmamos que D-MAB
-mejore, ni que sea equivalente.
+mejore, ni que sea equivalente. Un reanálisis exploratorio con las 12 bases como unidad
+tampoco la respalda.
 
 ### 11. La ganancia de la cartera es compatible con repetir la búsqueda
 **Tiempo:** 1:05 · **Presenta:** [Carlos]
 
-La cartera sí superó al Tabu prolongado con el mismo presupuesto: es C2. Esa ventaja aparece
-con 25 y 30 cirugías; con 15 y 20 es peor en media. En cambio, frente a dos Tabu independientes
+La cartera sí superó al Tabu prolongado con el mismo presupuesto: es C2. Pero esa ventaja
+pierde significación si analizamos por instancia base, y solo aparece con 25 y 30 cirugías; con
+15 y 20 es peor en media. En cambio, frente a dos Tabu independientes
 el intervalo incluye el cero: es C3. Además, en 56,9 % de las corridas el Tabu prolongado no
 mejoró después de la evaluación 3.030. Por tanto, la ganancia es compatible con repetir la
 búsqueda, y no la atribuimos al aprendizaje.
@@ -100,10 +103,12 @@ búsqueda, y no la atribuimos al aprendizaje.
 **Tiempo:** 1:05 · **Presenta:** [Carlos]
 
 La ablación C4 muestra que D-MAB terminó peor que UCB1 sin reinicio, aunque con 15 cirugías
-fue mejor en media. D-MAB reinició sus estadísticas una mediana de 24 veces por corrida.
-Nuestra hipótesis es que el detector confunde el estancamiento normal con un cambio entre
-operadores: las mejoras escasean, la recompensa cae y el reinicio borra lo aprendido. No
-medimos ese mecanismo, así que lo presentamos como hipótesis.
+fue mejor en media, y por base la diferencia no es significativa. D-MAB reinició sus estadísticas
+una mediana de 24 veces por corrida. Un diagnóstico exploratorio apunta a falsas alarmas. La
+recompensa media baja al comienzo, donde reinicia algo más, y luego se estabiliza. Pero 59,3 %
+de los reinicios ocurre después del primer tercio. Y si simulamos recompensas que no cambian, el detector reinicia
+25 veces igual: basta el ruido. Además, el brazo líder dispara 96,8 % de los reinicios, así que
+el bandido borra lo que había aprendido.
 
 ### 13. Una confirmación prerregistrada respaldó a UCB1 frente a Tabu uniforme
 **Tiempo:** 1:05 · **Presenta:** [Carlos]
@@ -111,7 +116,7 @@ medimos ese mecanismo, así que lo presentamos como hipótesis.
 En el estudio anterior, UCB1 frente a Tabu uniforme era solo un contraste exploratorio.
 Para afirmarlo registramos un segundo protocolo, con una sola comparación y semillas
 nuevas, antes de ejecutar. El resultado fue −2,749, con un intervalo completo bajo cero,
-y cumple las tres condiciones. Es un efecto pequeño, 0,92 % del objetivo, y depende del
+y cumple las tres condiciones, también al reanalizar por base. Es un efecto pequeño, 0,92 % del objetivo, y depende del
 tamaño: con 15 cirugías no hay ventaja. Además, usa las mismas instancias, así que no
 generaliza a otros hospitales.
 
@@ -128,7 +133,8 @@ y varió más entre semillas. En el catálogo estándar, los signos cambian entr
 **Tiempo:** 1:00 · **Presenta:** [José]
 
 Respondemos la pregunta así: no identificamos una condición en que D-MAB completo mejore
-de forma concluyente a Tabu uniforme. En el catálogo de congestión sí aporta UCB1 sin reinicio.
+de forma concluyente a Tabu uniforme. En el catálogo de congestión sí aporta UCB1 sin reinicio,
+y es el único resultado que resiste el reanálisis por instancia base.
 Nuestro aporte es metodológico: controles a igual presupuesto y dos protocolos registrados
 antes de ejecutar. Queda separar aprendizaje de sesgo con una mezcla fija, recalibrar el
 detector y evaluar una cartera con UCB1 en instancias reservadas y a igual tiempo. Gracias.
@@ -141,7 +147,9 @@ confirmación con semillas 120–139. No se mezclan en una misma tabla.
 **¿Entonces el ML no sirve?**
 No es lo que mostramos. D-MAB completo quedó no concluyente frente a Tabu uniforme. En
 cambio, UCB1 sin reinicio sí lo superó en una confirmación prerregistrada: −2,749, con
-intervalo [−4,069; −1,453]. Lo que no ayudó fue el reinicio.
+intervalo [−4,069; −1,453]. Bajo congestión, quitar el reinicio ayudó en media, aunque esa
+ventaja sobre D-MAB es frágil al analizar por base. No probamos que
+la ventaja de UCB1 venga de aprender y no de favorecer un operador.
 
 **¿Por qué C1 no cuenta si p < 0,05?**
 La regla se fijó antes de ejecutar y exigía tres condiciones: p de Holm bajo 0,05,
@@ -154,13 +162,14 @@ el error tipo I. Por eso no tocamos las semillas 90–109. Para la pregunta nuev
 registramos otro protocolo, con semillas 120–139.
 
 **¿UCB1 es su nueva propuesta?**
-Es el componente que la evidencia respalda, no una propuesta completa. Confirmamos que
-supera a Tabu uniforme con 3.030 evaluaciones. Falta evaluar una cartera con UCB1 y
+Es la política que la evidencia favorece bajo congestión, no una propuesta completa. Confirmamos
+que supera a Tabu uniforme con 3.030 evaluaciones. Falta evaluar una cartera con UCB1 y
 compararla con dos Tabu independientes.
 
 **¿Por qué la cartera, si dos Tabu rinde parecido?**
 La elegimos en la primera entrega por simplicidad y porque conserva una referencia. Los
-datos muestran que supera a prolongar un Tabu, pero no la distinguimos de dos Tabu. Por
+datos muestran que supera a prolongar un Tabu, con una ventaja frágil por base, y no la
+distinguimos de dos Tabu. Por
 eso decimos que su ganancia es compatible con repetir la búsqueda.
 
 **¿Por qué comparar por evaluaciones y no por tiempo?**
@@ -174,15 +183,17 @@ generalización. Además, el catálogo de congestión es sintético y remuestrea
 estándar.
 
 **¿Qué harían con un semestre más?**
-Tres cosas. Primero, comparar UCB1 con una mezcla fija y recalibrar λ y δ bajo
-congestión; en el estándar, λ = 10 ya empeoró. Segundo, evaluar la cartera con UCB1 frente
-a dos Tabu. Tercero, usar instancias reservadas, de mayor
-tamaño, y comparar a igual tiempo.
+Tres cosas. Primero, comparar UCB1 con una mezcla fija, premiar mejoras del mejor global y
+calibrar λ con recompensas que no cambian; en el estándar, λ = 10 ya empeoró, así que hay que
+validarlo bajo congestión. Segundo, evaluar la cartera con UCB1 frente a dos Tabu. Tercero,
+usar instancias de bases nuevas, de mayor tamaño, y comparar a igual tiempo.
 
 **¿Cómo saben que el reinicio actúa por ruido?**
-No lo sabemos: es una hipótesis. Tenemos dos datos descriptivos: 24 reinicios por
-corrida en mediana y 3,9 % de recompensas positivas en el diagnóstico del catálogo
-estándar. Probarlo exige variar el umbral λ.
+Es un diagnóstico exploratorio, no una prueba causal. Alimentamos el mismo bandido con recompensas
+que no cambian y cinco brazos idénticos: reinició 25 veces en mediana, frente a 24 reales. Sí hay
+una caída inicial de la recompensa, y allí reinicia algo más. Pero 59,3 % de los reinicios ocurre
+después del primer tercio, con la media ya estable (muestra de las semillas 90–93). No descarta
+cambios breves: muestra que el ruido basta para producir tantos reinicios como los observados.
 
 **¿Confirmar UCB1 no es elegir al ganador después de mirar?**
 Ese es el riesgo, y por eso usamos semillas nuevas y un protocolo previo. El contraste
@@ -214,8 +225,10 @@ En E1, con 15, 20, 25 y 30 cirugías la diferencia fue +0,12; −2,96; −3,91 y
 hay ventaja. Una causa posible, que no medimos, es que un espacio menor deja menos que aprender.
 
 **¿Cómo saben que UCB1 aprende y no que hay un operador mejor?**
-No lo sabemos. UCB1 dedicó cerca del doble de evaluaciones que el uniforme al cambio de sala
-de anestesia. La ablación que falta es una mezcla fija con esas mismas frecuencias.
+No lo sabemos, y de hecho hay un operador destacado: el cambio de sala de anestesia lideró
+los premios en los tres tercios de la búsqueda en 47 de 48 instancias. En E1, UCB1 le dedicó 38,5 % de las
+evaluaciones, frente a 19,6 % del uniforme. La ablación que falta es una mezcla fija con esas
+mismas frecuencias.
 
 **¿Es justa la comparación si los duplicados no cuentan?**
 Es justa en evaluaciones, no del todo en cómputo. UCB1 decodificó 10,1 % más propuestas y
@@ -224,8 +237,8 @@ los cuatro tamaños, con solo cinco semillas por tamaño.
 
 **¿Por qué el p y el intervalo de C1 no coinciden?**
 El bootstrap remuestrea semillas dentro de medias que ya contienen ese ruido: su error
-estándar es 1,62 veces el de esas medias. Es conservador, pero se fijó antes. Cambiarlo
-después de ver el resultado sería elegir el análisis según la conclusión.
+estándar es 1,62 veces el de esas medias. Es conservador frente a ese ruido, pero se fijó antes.
+Reemplazarlo después de ver el resultado sería elegir el análisis según la conclusión.
 
 **¿Qué tan lejos están del óptimo?**
 No lo sabemos, porque no hay cotas para estas instancias. El RPD se mide contra el mejor valor
@@ -238,3 +251,35 @@ es reproducible en este catálogo, no que sea clínicamente relevante.
 **¿Cómo se puede comprobar que los protocolos son previos?**
 Están en los commits a0da669 y 05ca74a, y cada manifiesto guarda el hash del protocolo. Es un
 registro en Git, no en una plataforma externa, y lo reconocemos.
+
+**¿Por qué el aprendizaje mejora tan poco?**
+Tenemos tres indicios medidos, no una prueba causal. El detector reinicia incluso con puro ruido
+y borra lo aprendido. La recompensa está desalineada: solo 8,5 % de las propuestas recompensadas
+mejora el mejor global. Y el operador con más premios casi no cambia, así que podría bastar una
+preferencia fija. Además, la búsqueda se estanca, y elegir mejor el movimiento no asegura salir
+de ahí.
+
+**¿Su planificador es el del repositorio del profesor?**
+No es idéntico. Seguimos la formulación de clase: las etapas pueden usar salas distintas y la
+primera queda retenida hasta que la cirugía pueda comenzar. El simulador estricto del repositorio
+la retiene hasta el final de la cirugía; su evaluador antiguo, no. Reimplementamos la regla
+estricta, sin ejecutar ese simulador: con ella, 83,4 % de nuestros calendarios finales sería
+infactible, así que los valores no son comparables. No evaluamos si las conclusiones se mantienen
+al buscar con esa regla, y lo declaramos en las amenazas.
+
+**¿Las 48 instancias son independientes?**
+No. Derivan de las 12 oficiales, cuatro de cada una. Por eso repetimos el análisis, de forma
+exploratoria, con la base como unidad. C1 sigue sin cumplir: su p de Holm baja a 0,010, pero el
+intervalo incluye el cero. C2 y C4 pierden significación, ambas con p de Holm 0,192. E1 se
+mantiene. Con 12 unidades hay menos potencia, así que eso no prueba ausencia de efecto. A futuro
+hacen falta bases independientes o modelar esa agrupación en el protocolo.
+
+**¿Reanalizar después de ver los resultados no es elegir a conveniencia?**
+Lo sería si reemplazara la decisión registrada o mostráramos solo lo favorable. Cambiamos una
+sola cosa, la unidad, y lo informamos completo y como exploratorio: debilita dos de nuestros
+resultados y no respalda H1. Reconocemos que se decidió después de ver los datos, y está anotado
+en los registros de desviaciones.
+
+**¿Por qué Tabu termina más tarde que FIFO?**
+Porque no minimizamos solo el makespan. Las reglas terminan antes, pero su espera total es más
+de diez veces la de Tabu, y el objetivo del curso penaliza la espera total y la máxima.

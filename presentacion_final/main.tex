@@ -200,13 +200,13 @@
 
 % ---------- Configuración experimental ----------
 
-\begin{frame}{Cuatro comparaciones separan aprendizaje, cómputo y repetición de la búsqueda}
+\begin{frame}{Cuatro comparaciones separan selección, cómputo y repetición de la búsqueda}
   \centering\footnotesize
   \begin{tabular}{@{}lll@{}}
     \toprule
     Id & Comparación (evaluaciones) & Explicación alternativa que descarta\\
     \midrule
-    C1 & D-MAB $-$ Tabu uniforme (3.030) & La mejora viene de Tabu, no de aprender\\
+    C1 & D-MAB $-$ Tabu uniforme (3.030) & La mejora viene de Tabu, no de la selección\\
     C2 & Cartera $-$ Tabu prolongado (6.060) & La cartera mejora solo por más evaluaciones\\
     C3 & Cartera $-$ dos Tabu (6.060) & La cartera mejora por repetir la búsqueda\\
     C4 & D-MAB $-$ UCB1 sin reinicio (3.030) & El efecto viene de UCB1, no del reinicio\\
@@ -280,7 +280,7 @@
   \raggedright\small
   \begin{itemize}
     \item Validez: 960 pares sin fallos y 5.760 calendarios auditados.
-    \item C1 cumple dos de tres condiciones; es no concluyente.
+    \item C1 cumple dos de tres condiciones, también por base: no concluyente.
   \end{itemize}
 \end{frame}
 
@@ -293,7 +293,7 @@
   \vspace{0.4cm}
   \raggedright
   \begin{itemize}
-    \item Repartir en dos caminos rindió más que prolongar uno.
+    \item Superó al prolongado, pero por base pierde significación.
     \item La ventaja solo aparece con 25 y 30 cirugías.
     \item No distinguimos la cartera de dos Tabu uniformes.
     \item Por tanto, no atribuimos esa ganancia al aprendizaje.
@@ -305,16 +305,16 @@
   \centering
   \cifra{C4: D-MAB $-$ UCB1 sin reinicio}{$+1{,}824$}{IC [$+0{,}566$; $+3{,}124$]\\$p$ Holm 0,005}\hfill
   \cifra{Reinicios por corrida (mediana)}{24}{uno cada 126 evaluaciones\\(descriptivo)}\hfill
-  \cifra{Propuestas con recompensa positiva}{3,9 \%}{diagnóstico,\\catálogo estándar}
+  \cifra{Reinicios aunque nada cambie}{25}{simulación, brazos idénticos\\(diagnóstico exploratorio)}
 
   \vspace{0.4cm}
   \raggedright
   \begin{itemize}
-    \item D-MAB terminó peor que su ablación sin reinicio.
-    \item Con 15 cirugías, en cambio, fue mejor en media.
-    \item Hipótesis: confunde el estancamiento con un cambio de operador.
-    \item Cada reinicio borra lo que el bandido aprendió.
-    \item No medimos ese mecanismo; sigue siendo una hipótesis.
+    \item D-MAB perdió ante UCB1; por base, no es significativo.
+    \item Con 15 cirugías, en cambio, D-MAB fue mejor en media.
+    \item El 59,3 \% de los reinicios ocurre con recompensa ya estable.
+    \item Con $\lambda=1$, el ruido basta para disparar el detector.
+    \item El brazo líder causó 96,8 \% de los reinicios.
   \end{itemize}
 \end{frame}
 
@@ -329,7 +329,7 @@
   \begin{itemize}
     \item El contraste exploratorio previo, $-2{,}617$, era solo una hipótesis.
     \item Registramos protocolo, regla y tamaño antes de ejecutar.
-    \item E1 cumple las tres condiciones de la regla.
+    \item E1 cumple la regla, también al analizar por base.
     \item Con 15 cirugías no hay ventaja: $+0{,}12$.
     \item No evalúa una cartera con UCB1 ni otros hospitales.
   \end{itemize}
@@ -364,9 +364,9 @@
 
   \vspace{0.2cm}
   \begin{itemize}
-    \item La ganancia de la cartera es compatible con repetir.
+    \item Solo E1 resiste el reanálisis exploratorio por instancia base.
     \item Aporte: controles a igual presupuesto y dos protocolos prerregistrados.
-    \item Futuro: mezcla fija y recalibrar $\lambda$ bajo congestión.
+    \item Futuro: mezcla fija, recompensa global y $\lambda$ recalibrado.
     \item Futuro: cartera con UCB1 frente a dos Tabu independientes.
     \item Futuro: instancias reservadas, mayor tamaño y comparación a igual tiempo.
   \end{itemize}
@@ -398,6 +398,35 @@
     \item Realidad: DE observada 13,21 y potencia aproximada 0,32.
     \item Detectar 0,65 con esa DE pediría 3.246 pares.
   \end{itemize}
+\end{frame}
+
+\begin{frame}{Apéndice: por instancia base, solo E1 cumple la regla}
+  \centering\footnotesize
+  Semillas 90--109\par\smallskip
+  \begin{tabular}{@{}lcrl@{}}
+    \toprule
+    Comparación & IC 95 \% & $p$ Holm & Regla\\
+    \midrule
+    C1: D-MAB $-$ uniforme & [$-1{,}786$; $+0{,}176$] & 0,010 & No cumple\\
+    C2: cartera $-$ prolongado & [$-2{,}844$; $+0{,}123$] & 0,192 & No cumple\\
+    C3: cartera $-$ dos Tabu & [$-1{,}124$; $+0{,}288$] & 0,204 & No cumple\\
+    C4: D-MAB $-$ UCB1 & [$+0{,}085$; $+3{,}566$] & 0,192 & No cumple\\
+    \bottomrule
+  \end{tabular}
+
+  \bigskip
+  Semillas 120--139\par\smallskip
+  \begin{tabular}{@{}lcrl@{}}
+    \toprule
+    Comparación & IC 95 \% & $p$ & Regla\\
+    \midrule
+    E1: UCB1 $-$ uniforme & [$-4{,}335$; $-1{,}191$] & 0,005 & Cumple\\
+    \bottomrule
+  \end{tabular}
+
+  \bigskip
+  {\scriptsize Exploratorio, decidido tras ver los resultados: 12 bases como unidad.
+  No cambia las decisiones registradas.}
 \end{frame}
 
 \begin{frame}{Apéndice: el protocolo de la confirmación E1 se registró antes de correr}

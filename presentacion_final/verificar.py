@@ -124,10 +124,36 @@ def figures() -> tuple[list[tuple[str, str, str]], list[tuple[str, str, str]]]:
     slides.append(("reparación D-MAB", f"{repaired} \\%", source))
     script.append(("reparación D-MAB", f"{repaired} %", source))
 
-    diagnosis = [r for r in rows(RESULTS / "entrega2_diagnostico_115_119/summary.csv")
-                 if r["policy"] == "dmab"][0]
-    slides.append(("recompensa positiva", f"{comma(100 * float(diagnosis['positive_reward_share']), 1)} \\%",
-                   "entrega2_diagnostico_115_119/summary.csv"))
+    posterior = {(r["measure"], r["item"]): float(r["value"])
+                 for r in rows(RESULTS / "entrega3_diagnostico_revision/summary.csv")}
+    source = "entrega3_diagnostico_revision/summary.csv"
+    noise = f"{posterior['stationary_median_restarts', 'identical_arms']:.0f}"
+    slides.append(("reinicios sin cambios", f"{{{noise}}}", source))
+    script.append(("reinicios sin cambios", f"{noise} veces", source))
+    steady = f"{posterior['instances_with_room_1_best_in_all_phases', 'uniform']:.0f} de 48"
+    leading = comma(posterior["restarts_by_leader_share", "dmab"], 1)
+    slides.append(("reinicios por el líder", f"{leading} \\%", source))
+    script.append(("reinicios por el líder", f"{leading} %", source))
+    script.append(("mismo mejor operador", steady, source))
+    script.append(("recompensas que mejoran el global",
+                   f"{comma(posterior['rewarded_that_improve_best', 'uniform'], 1)} %", source))
+    script.append(("infactibles con la regla docente",
+                   f"{comma(posterior['infeasible_with_repository_rule', 'all'], 1)} %", source))
+
+    timing = {(r["measure"], r["item"]): float(r["value"])
+              for r in rows(RESULTS / "entrega3_diagnostico_recompensa/summary.csv")}
+    source = "entrega3_diagnostico_recompensa/summary.csv"
+    later = comma(timing["restarts_after_first_third", "dmab"], 1)
+    slides.append(("reinicios con recompensa estable", f"{later} \\%", source))
+    script.append(("reinicios con recompensa estable", f"{later} %", source))
+    source = "entrega3_sensibilidad_bases/comparisons.csv"
+    nested = {r["comparison"]: r for r in rows(RESULTS / source)}
+    assert [code for code, r in nested.items() if r["criteria_by_base"] == "1"] == ["E1"]
+    for code, row in nested.items():
+        interval = f"[{tex(float(row['ci_low']))}; {tex(float(row['ci_high']))}]"
+        slides.append((f"{code} por base", f"{interval} & {comma(float(row['holm_p']))}", source))
+    for code in ("C1", "C2"):
+        script.append((f"{code} por base", comma(float(nested[code]["holm_p"])), source))
 
     exploratory = rows(RESULTS / "entrega2_exploratorio/contrastes.csv")[0]
     slides.append(("exploratorio", tex(float(exploratory["mean_difference"])), "contrastes.csv"))
