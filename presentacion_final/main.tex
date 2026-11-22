@@ -141,12 +141,12 @@
   \]
 \end{frame}
 
-\begin{frame}{Faltaba medir si D-MAB aporta a Tabu con espera estricta}
+\begin{frame}{Faltaba separar el aporte de D-MAB en Tabu con espera estricta}
   \begin{itemize}
     \item Yu et al. (2024): Q-learning en programación quirúrgica.
     \item Dolatkhah et al. (2026, preprint): D-MAB dentro de un genético.
     \item Yin et al. (2026): Tabu multioperador entre hospitales.
-    \item Vacío: D-MAB en Tabu, dos etapas, espera estricta y reparación.
+    \item Vacío en lo revisado: separar selección, cómputo y repetición.
   \end{itemize}
   \vspace{0.25cm}
   \recuadro{Pregunta de investigación}{%
@@ -186,8 +186,8 @@
 
 \begin{frame}{D-MAB aprende en línea qué movimiento proponer a Tabu}
   \[
-    a_t=\arg\max_{a}\left[\bar r_a+C\sqrt{\frac{2\ln t}{n_a}}\right],
-    \qquad C=0{,}1
+    a_t=\arg\max_{a}\left[\bar r_a+c\sqrt{\frac{2\ln n}{n_a}}\right],
+    \qquad c=0{,}1
   \]
   \begin{itemize}
     \item Cinco brazos: \texttt{swap}, \texttt{insert}, \texttt{room\_1}, \texttt{room\_2}, \texttt{room\_pair}.
@@ -218,7 +218,7 @@
   \begin{itemize}
     \item Wilcoxon sobre medias por instancia, Holm sobre C1--C4, bootstrap jerárquico.
     \item Signo: alternativa $-$ referencia; negativo favorece a la alternativa.
-    \item Umbral práctico: 0,25 unidades de $f$.
+    \item Umbral mínimo: 0,25 de $f$, sin significado clínico.
     \item Regla para C1: $p$ Holm $<0{,}05$, IC bajo cero y media $\le -0{,}25$.
   \end{itemize}
 \end{frame}
@@ -294,6 +294,7 @@
   \raggedright
   \begin{itemize}
     \item Repartir en dos caminos rindió más que prolongar uno.
+    \item La ventaja solo aparece con 25 y 30 cirugías.
     \item No distinguimos la cartera de dos Tabu uniformes.
     \item Por tanto, no atribuimos esa ganancia al aprendizaje.
     \item Cautela: el error tipo I simulado de C2 fue 0,082.
@@ -310,13 +311,14 @@
   \raggedright
   \begin{itemize}
     \item D-MAB terminó peor que su ablación sin reinicio.
-    \item Hipótesis: con señal escasa, el detector reinicia por ruido.
+    \item Con 15 cirugías, en cambio, fue mejor en media.
+    \item Hipótesis: confunde el estancamiento con un cambio de operador.
     \item Cada reinicio borra lo que el bandido aprendió.
     \item No medimos ese mecanismo; sigue siendo una hipótesis.
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Una confirmación pre-registrada respaldó a UCB1 frente a Tabu uniforme}
+\begin{frame}{Una confirmación prerregistrada respaldó a UCB1 frente a Tabu uniforme}
   \centering
   \cifra{E1: UCB1 sin reinicio $-$ Tabu uniforme}{$-2{,}749$}{IC [$-4{,}069$; $-1{,}453$]\\$p<0{,}001$}\hfill
   \cifra{Semillas nuevas 120--139}{960 pares}{48 instancias de congestión,\\sin fallos}\hfill
@@ -328,27 +330,28 @@
     \item El contraste exploratorio previo, $-2{,}617$, era solo una hipótesis.
     \item Registramos protocolo, regla y tamaño antes de ejecutar.
     \item E1 cumple las tres condiciones de la regla.
+    \item Con 15 cirugías no hay ventaja: $+0{,}12$.
     \item No evalúa una cartera con UCB1 ni otros hospitales.
   \end{itemize}
 \end{frame}
 
 % ---------- Discusión y conclusión ----------
 
-\begin{frame}{Aporta la selección adaptativa, pero no el reinicio}
+\begin{frame}{Ayuda UCB1 bajo congestión, con costo y sin probar aprendizaje}
   \begin{columns}[t,onlytextwidth]
     \begin{column}{0.48\textwidth}
       {\bfseries\color{azul} Qué explica el resultado}
       \begin{itemize}
-        \item D-MAB se diseñó para operadores cuya calidad cambia.
-        \item Aquí la señal es escasa y la reparación la distorsiona.
-        \item En congestión se reparó 44,0 \% de los candidatos de D-MAB.
+        \item DaCosta et al.: sin reinicio ganó con recompensas binarias.
+        \item Reparación: afecta a todos; en D-MAB, 44,0 \%.
+        \item UCB1 pudo solo sesgar movimientos: falta mezcla fija.
       \end{itemize}
     \end{column}
     \begin{column}{0.48\textwidth}
       {\bfseries\color{azul} Qué limita la conclusión}
       \begin{itemize}
-        \item Mismo catálogo sintético: no mide generalización a otros hospitales.
-        \item Igualamos evaluaciones en una sola máquina, no tiempo.
+        \item UCB1 tardó 10,2 \% más y varió más.
+        \item En el catálogo estándar los signos cambian entre estudios.
       \end{itemize}
     \end{column}
   \end{columns}
@@ -357,13 +360,13 @@
 \begin{frame}{D-MAB completo no mejora de forma concluyente; aporta UCB1 sin reinicio}
   \recuadro{Respuesta a la pregunta}{%
     No identificamos una condición en que D-MAB completo mejore de forma concluyente
-    a Tabu uniforme. Bajo congestión sí aporta UCB1 sin reinicio.}
+    a Tabu uniforme. En el catálogo de congestión sí aporta UCB1 sin reinicio.}
 
   \vspace{0.2cm}
   \begin{itemize}
-    \item La cartera gana por repetir la búsqueda, no por aprender.
-    \item Aporte: controles a igual presupuesto y dos protocolos pre-registrados.
-    \item Futuro: sensibilidad de $\lambda$ y crédito por rangos.
+    \item La ganancia de la cartera es compatible con repetir.
+    \item Aporte: controles a igual presupuesto y dos protocolos prerregistrados.
+    \item Futuro: mezcla fija y recalibrar $\lambda$ bajo congestión.
     \item Futuro: cartera con UCB1 frente a dos Tabu independientes.
     \item Futuro: instancias reservadas, mayor tamaño y comparación a igual tiempo.
   \end{itemize}
@@ -378,7 +381,7 @@
     Componente & Configuración\\
     \midrule
     Tabu & 30 soluciones iniciales (FIFO, SPT, LPT y 27 aleatorias); lotes de 15 candidatos; memoria de 7 firmas de solución; aspiración por mejora global.\\
-    D-MAB & Cinco brazos; $C=0{,}1$; $\delta=0{,}01$; $\lambda=1$.\\
+    D-MAB & Cinco brazos; $c=0{,}1$; $\delta=0{,}01$; $\lambda=1$.\\
     Cartera & Dos caminos de 3.030 evaluaciones; reparto 50/50 fijo; conserva el menor $f$.\\
     Parada & Agotar el presupuesto de evaluaciones del camino.\\
     Conteo & Cuentan las 30 iniciales y cada candidato distinto del lote, aun infactible. No cuentan duplicados, reparación ni revalidación final.\\
@@ -412,6 +415,50 @@
     Registro & Protocolo en el commit \texttt{05ca74a}, anterior a la ejecución.\\
     \bottomrule
   \end{tabular}
+\end{frame}
+
+\begin{frame}{Apéndice: calidad absoluta, dispersión y tiempo en congestión}
+  \centering\footnotesize
+  \begin{tabular}{@{}lrrrrrr@{}}
+    \toprule
+    Método (evaluaciones) & Mejor & Media & Peor & DE & RPD (\%) & $t$ (s)\\
+    \midrule
+    Uniforme (3.030) & 280,31 & 297,20 & 312,80 & 8,72 & 9,75 & 6,17\\
+    D-MAB (3.030) & 279,32 & 296,40 & 312,88 & 8,85 & 9,46 & 6,51\\
+    UCB1 (3.030) & 277,21 & 294,58 & 311,79 & 9,36 & 8,79 & 6,77\\
+    Prolongado (6.060) & 277,81 & 293,23 & 307,97 & 7,95 & 8,25 & 12,43\\
+    Dos Tabu (6.060) & 277,87 & 292,26 & 305,89 & 7,29 & 7,89 & 12,59\\
+    Cartera (6.060) & 277,15 & 291,85 & 304,91 & 7,29 & 7,76 & 12,87\\
+    \bottomrule
+  \end{tabular}
+
+  \vspace{0.15cm}
+  {\scriptsize Semillas 90--109. RPD: respecto del mejor valor conocido, no del óptimo.}
+\end{frame}
+
+\begin{frame}{Apéndice: en el catálogo estándar los signos no son consistentes}
+  \centering\footnotesize
+  Semillas 20--39, configuración anterior\par\smallskip
+  \begin{tabular}{@{}ccc@{}}
+    \toprule
+    UCB1 $-$ uniforme & D-MAB $-$ uniforme & D-MAB $-$ UCB1\\
+    \midrule
+    $-0{,}455$ & $-0{,}513$ & $-0{,}058$\\
+    \bottomrule
+  \end{tabular}
+
+  \bigskip
+  Semillas 40--59, configuración vigente\par\smallskip
+  \begin{tabular}{@{}ccc@{}}
+    \toprule
+    UCB1 $-$ uniforme & D-MAB $-$ uniforme & D-MAB $-$ UCB1\\
+    \midrule
+    $+1{,}182$ & $+0{,}577$ & $-0{,}605$\\
+    \bottomrule
+  \end{tabular}
+
+  \bigskip
+  {\scriptsize Descriptivo, 12 instancias. Son estudios distintos y no se combinan.}
 \end{frame}
 
 \end{document}

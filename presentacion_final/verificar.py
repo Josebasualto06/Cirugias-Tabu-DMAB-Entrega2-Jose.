@@ -146,6 +146,33 @@ def figures() -> tuple[list[tuple[str, str, str]], list[tuple[str, str, str]]]:
     slides.append(("E1 calendarios auditados", thousands(replay["schedules_replayed"]), "verification.json"))
     manifest = json.loads((RESULTS / "entrega3_confirmacion_ucb1/manifest.json").read_text(encoding="utf-8"))
     slides.append(("commit del protocolo E1", manifest["protocol_commit"][:7], "manifest.json"))
+    revision = {(r["study"], r["measure"], r["item"]): float(r["value"])
+                for r in rows(RESULTS / "entrega3_revision/descriptivos.csv")}
+    source = "entrega3_revision/descriptivos.csv"
+    study = "90-109"
+    for method in ("uniform3030", "dmab3030", "ucb3030", "uniform6060", "two_uniform6060",
+                   "fixed_portfolio6060"):
+        cells = " & ".join(comma(revision[study, measure, method], 2)
+                           for measure in ("best", "objective", "worst", "sd", "rpd", "runtime"))
+        slides.append((f"descriptivos {method}", cells, source))
+    for origin in ("20-39", "40-59"):
+        cells = " & ".join(tex(revision[origin, "difference", pair])
+                           for pair in ("ucb-uniform", "dmab-uniform", "dmab-ucb"))
+        slides.append((f"estándar {origin}", cells, source))
+        script.append((f"estándar {origin}", spoken(revision[origin, "difference", "ucb-uniform"]), source))
+    slides.append(("E1 con 15 cirugías", tex(revision["120-139", "difference_15", "E1"], 2), source))
+    for size in (15, 20, 25, 30):
+        script.append((f"E1 con {size} cirugías",
+                       spoken(revision["120-139", f"difference_{size}", "E1"], 2), source))
+    cost = comma(revision[study, "time_overhead", "ucb3030"], 1)
+    slides.append(("tiempo UCB1", f"{cost} \\%", source))
+    script.append(("tiempo UCB1", f"{cost} %", source))
+    script.append(("decodificación UCB1",
+                   f"{comma(revision[study, 'decoded_overhead', 'ucb3030'], 1)} %", source))
+    script.append(("diferencia relativa de E1",
+                   f"{comma(-revision['120-139', 'relative_difference', 'E1'], 2)} %", source))
+    script.append(("razón de errores estándar",
+                   f"{comma(revision[study, 'bootstrap_se_ratio', 'C1'], 2)} veces", source))
     return slides, script
 
 
