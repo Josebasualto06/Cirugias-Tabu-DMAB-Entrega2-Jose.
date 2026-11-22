@@ -74,3 +74,18 @@ el sobrecosto y la razón entre el error estándar del bootstrap jerárquico y e
 por instancia. No estaban en el protocolo, no prueban hipótesis y no cambian C1–C4. El
 bootstrap resulta conservador, porque remuestrea semillas dentro de medias que ya contienen
 ese ruido; se mantiene porque se fijó antes. H1 sigue sin respaldo.
+
+**N6 (2026-11-22). Precisión de N5: dependencia entre instancias.** El bootstrap es conservador
+solo frente al ruido de semillas. Las 48 instancias derivan de las 12 estándar, cuatro de cada
+una, y tanto Wilcoxon como el bootstrap las tratan como independientes. Sus valores p e
+intervalos pueden ser optimistas por esa dependencia. El protocolo no la modeló. No se cambia
+ninguna decisión.
+
+**N7 (2026-11-22). Reanálisis exploratorio por instancia base.** El protocolo fija la
+instancia como unidad. Después de ver los resultados, incluido un cálculo informal de los
+valores p por base, se decidió repetir C1–C4 con la base como unidad y se fijó informarlos
+todos. No se cambió la prueba, la familia de Holm, el bootstrap ni la regla. Según
+`experiments/results/entrega3_sensibilidad_bases/`, C1 sigue sin cumplir la regla (p de Holm
+0,010; IC [−1,786; +0,176]) y C3 tampoco la cumple. C2 y C4 dejan de cumplirla (p de Holm
+0,192 en ambas). Con 12 unidades hay menos potencia: eso no prueba ausencia de efecto. Las
+decisiones registradas no cambian y no se agregaron corridas, semillas ni instancias.

@@ -69,3 +69,32 @@ sobre `ef60021`, sin cambios de código ni de datos. Para reproducirla sirve `ef
 script, cuyo hash está en el manifiesto. Además, los hashes de los CSV de origen se tomaron
 de la copia de trabajo de Windows. En los CSV que allí usan CRLF, hay que convertir LF a CRLF
 antes de comparar el hash con un clon.
+
+**N8 (2026-11-22). Diagnóstico exploratorio del reinicio.**
+`experiments/scripts/diagnostico_revision.py` repitió con observadores las corridas archivadas
+de Tabu uniforme y D-MAB de las semillas 90–109, sin discrepancias, y alimentó el bandido con
+recompensas estacionarias. Ese banco no programa cirugías ni usa semillas de búsqueda. Con cinco
+brazos idénticos dio una mediana de 25 reinicios, frente a 24 observados.
+`experiments/scripts/diagnostico_recompensa.py` repitió además una muestra, las semillas 90–93.
+Allí la recompensa media baja al comienzo y luego se estabiliza. D-MAB reinicia más al comienzo
+(40,7 % de los reinicios en el primer tercio), pero 59,3 % ocurre después, con la media estable.
+El informe publicado en `3eb2bc0` proponía, como explicación
+plausible, que el detector confundía el agotamiento de la búsqueda con un cambio. Era incompleta:
+existe una caída inicial, pero la mayoría de los reinicios ocurre después y el ruido basta para
+producir tantos como los observados. Es descriptivo: no prueba hipótesis ni cambia C1–C4 o E1.
+
+**N9 (2026-11-22). Regla de salas.** El planificador libera la sala de anestesia al comenzar la
+cirugía si las salas difieren, como dice la formulación de clase. El simulador estricto del
+repositorio docente (`ecd30e3`, función `schedule_instance_solution` de `simulation/scheduler.py`)
+la retiene hasta el final de la cirugía. Su evaluador antiguo, `_fitness_for_context`, no la
+retiene hasta el final, aunque difiere en otros aspectos. Esa diferencia no se había declarado.
+La regla estricta se reimplementó a partir de la lectura de ese código; el simulador docente no se
+ejecutó. Con esa regla, 83,4 % de los calendarios finales archivados sería infactible. No se
+evaluó si las conclusiones se mantienen al buscar con esa regla.
+
+**N10 (2026-11-22). Reanálisis exploratorio por instancia base.** El protocolo fija la instancia
+como unidad. Después de ver los resultados se repitió E1 con las 12 bases como unidad, sin
+cambiar la prueba, el bootstrap ni la regla, junto con C1–C4 (nota N7 de la Entrega 2). Según
+`experiments/results/entrega3_sensibilidad_bases/`, E1 sigue cumpliendo la regla: IC
+[−4,335; −1,191] y p = 0,005. No es una confirmación adicional, no mide generalización y no
+cambia la decisión registrada.
